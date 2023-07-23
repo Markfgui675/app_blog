@@ -1,3 +1,3 @@
 # app_blog
 
-A new Flutter project.
+Projeto Flutter de um aplicativo de blog.
