@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class FontManager{
 
-  static TextStyle alice = GoogleFonts.alice();
-  static TextStyle alexandria = GoogleFonts.alexandria();
+  static String alice = 'alice';
+  static String alexandria = 'alexandria';
 
 }

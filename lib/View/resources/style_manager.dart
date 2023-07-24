@@ -1,14 +1,22 @@
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'font_manager.dart';
 
-TextStyle _getTextStyle(double fontSize, TextStyle fontStyle,Color color, FontWeight fontWeight){
-  return TextStyle(
-    fontSize: fontSize,
-    fontFamily: fontStyle.toString(),
-    color: color,
-    fontWeight: fontWeight
-  );
+TextStyle _getTextStyle(double fontSize, String fontFamily,Color color, FontWeight fontWeight){
+  if(fontFamily == FontManager.alice){
+    return GoogleFonts.alice().copyWith(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+    );
+  } else {
+    return GoogleFonts.alexandria().copyWith(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+    );
+  }
 }
 
 dynamic getAliceStyle({double fontSize = AppSize.s12, required Color color}){
