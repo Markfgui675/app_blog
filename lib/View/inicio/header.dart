@@ -77,13 +77,13 @@ class _HeaderState extends State<Header> {
                     (){
                   return Row(
                     children: [
-                      InkWell(
+                      GestureDetector(
                         onTap: (){
                           navigationController.changeTab(AppStrings.populares);
                         },
                         child: _tabCell(AppStrings.populares, navigationController.tab.value == AppStrings.populares, context),
                       ),
-                      InkWell(
+                      GestureDetector(
                         onTap: (){
                           navigationController.changeTab(AppStrings.topicos);
                         },

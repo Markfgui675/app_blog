@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:advanced_icon/advanced_icon.dart';
 import 'package:line_icons/line_icon.dart';
 
-import '../../Model/Artigo.dart';
-import '../resources/routes_manager.dart';
+import '../../../Model/Artigo.dart';
+import '../../resources/routes_manager.dart';
 
 class PopularesPage extends StatefulWidget {
   const PopularesPage({super.key});
@@ -32,7 +32,6 @@ class _PopularesPageState extends State<PopularesPage> {
   }
 
   Artigo artigo1 = Artigo();
-
   List<Artigo> artigos = [];
 
   @override
@@ -54,7 +53,21 @@ class _PopularesPageState extends State<PopularesPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _iniciais(),
-        _populares()
+        _populares(
+          titulo: AppStrings.emAlta,
+          lista: artigos,
+          topico: 'Em Alta'
+        ),
+        _populares(
+          titulo: 'Esportes',
+          lista: artigos,
+          topico: 'Esportes'
+        ),
+        _populares(
+          titulo: 'Tecnologia',
+          lista: artigos,
+          topico: 'Tecnologia'
+        ),
       ],
     );
   }
@@ -125,15 +138,25 @@ class _PopularesPageState extends State<PopularesPage> {
     );
   }
   
-  Widget _populares(){
+  Widget _populares({required String titulo, required List<dynamic> lista, required String topico}){
     return Container(
       width: double.infinity,
+      margin: const EdgeInsets.only(bottom: AppMargin.m55),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(AppPadding.p12),
-            child: Text(AppStrings.emAlta, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(titulo, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, Routes.topicosSelecionados, arguments: topico),
+                  child: Text(AppStrings.verMais, style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s16),),
+                )
+              ],
+            ),
           ),
           const SizedBox(height: AppSize.s10,),
           SizedBox(
@@ -148,9 +171,9 @@ class _PopularesPageState extends State<PopularesPage> {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10
               ),
-              itemCount: artigos.length,
+              itemCount: lista.length,
               itemBuilder: (_, index){
-                Artigo artigo = artigos[index];
+                Artigo artigo = lista[index];
                 return GestureDetector(
                   onTap: () => Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
                   child: Container(
