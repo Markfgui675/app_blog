@@ -71,7 +71,7 @@ class _HeaderState extends State<Header> {
         children: [
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.only(top: AppMargin.m20,left: AppMargin.m20, right: AppMargin.m20),
+            margin: const EdgeInsets.only(left: AppMargin.m20, right: AppMargin.m20),
             height: AppSize.s60,
             child: Obx(
                     (){

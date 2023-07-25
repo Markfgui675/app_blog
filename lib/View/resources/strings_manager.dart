@@ -7,5 +7,6 @@ class AppStrings{
   static const String conta = 'Conta';
   static const String populares = 'Populares';
   static const String topicos = 'Tópicos';
+  static const String emAlta = 'Em Alta';
 
 }

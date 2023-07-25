@@ -18,21 +18,34 @@ class InicioPage extends StatefulWidget {
 }
 
 class _InicioPageState extends State<InicioPage> {
+
+  Future<void> _reloadList() async {
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
           backgroundColor: ColorManager.branco,
-          body: Column(
-            children: [
-              Header(),
-              Obx(
+          body: RefreshIndicator(
+            backgroundColor: ColorManager.marrom,
+            color: ColorManager.branco,
+            onRefresh: () => _reloadList(),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  const Header(),
+                  Obx(
                       (){
-                    return Get.find<NavigationController>().tab.value == 'Populares'
-                        ? PopularesPage() : TopicosPage();
-                  }
-              )
-            ],
+                        return Get.find<NavigationController>().tab.value == 'Populares'
+                            ? PopularesPage() : TopicosPage();
+                      }
+                  )
+                ],
+              ),
+            ),
           )
       )
     );
