@@ -1,4 +1,7 @@
+import 'package:app_blog/Model/models/Usuario.dart';
+import 'package:app_blog/Model/servicos/authentication_service.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
+import 'package:app_blog/ViewModel/login/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,6 +23,10 @@ class _EntrarPageState extends State<EntrarPage> {
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _senha = TextEditingController();
+
+  final LoginViewModel _viewModel = LoginViewModel(CreateUserWithEmailAndPassword());
+
+  Usuario usuario = Usuario();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +67,15 @@ class _EntrarPageState extends State<EntrarPage> {
                           border: OutlineInputBorder(),
                           labelText: 'Email'
                       ),
+                      validator: (value){
+                        if(!value!.contains('@') || !value.contains('.com')){
+                          return ErrorStrings.emailValido;
+                        } else if(value.isEmpty){
+                          return ErrorStrings.emailVazio;
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
                   ),
                   const SizedBox(height: AppSize.s20,),
@@ -68,15 +84,29 @@ class _EntrarPageState extends State<EntrarPage> {
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       controller: _senha,
+                      obscureText: true,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Senha'
                       ),
+                      validator: (value){
+                        if(value!.length < 6){
+                          return ErrorStrings.senhaCurta;
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
                   ),
                   const SizedBox(height: AppSize.s20,),
                   ElevatedButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        if(formKey.currentState!.validate()){
+                          usuario.email = _email.text;
+                          usuario.senha = _senha.text;
+                          _viewModel.entrar(usuario, context);
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                           elevation: 0,
                           backgroundColor: Colors.transparent

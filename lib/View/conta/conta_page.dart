@@ -1,3 +1,6 @@
+import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
+import 'package:app_blog/Model/servicos/acessardados_service.dart';
+import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:app_blog/ViewModel/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +18,22 @@ class ContaPage extends StatefulWidget {
 
 class _ContaPageState extends State<ContaPage> {
 
-  AuthController _authController = AuthController();
+  final AuthController _authController = AuthController();
+  final ContaViewModel _viewModel = ContaViewModel(AcessarDadosRepository());
+  List _infoUser = [];
+
+  _bind() async {
+    var _dado = await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario);
+    setState(() {
+      _infoUser.add(_dado);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bind();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +56,10 @@ class _ContaPageState extends State<ContaPage> {
   }
 
   Widget _contaWidget(){
-    return const Center(
-      child:Text('Usuário Logado')
+    return Column(
+      children: [
+        Text(_infoUser.toString())
+      ],
     );
   }
 

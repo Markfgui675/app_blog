@@ -20,6 +20,7 @@ dependencies:
   firebase_core: 
   cloud_firestore: ^4.8.4
   google_sign_in:
+  provider:
 
 dev_dependencies:
   flutter_test:

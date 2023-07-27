@@ -1,7 +1,6 @@
 import 'package:app_blog/Model/data/collections_names.dart';
 import 'package:app_blog/Model/models/Usuario.dart';
 import 'package:app_blog/Model/repository/database.dart';
-import 'package:app_blog/View/inicio/inicio_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,12 +24,13 @@ class AuthEmailAndPasswordRepository implements AuthenticationRepository, DataBa
         'user':user
       };
       salvarDados(map);
-      Navigator.pushAndRemoveUntil(
+      Navigator.pushNamedAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => InicioPage()),
+        Routes.initialRoute,
         (route) => false
       );
     }).catchError((error){
+      // TODO: fazer tratamento de erros
       print(error.toString());
     });
 
@@ -56,16 +56,24 @@ class AuthEmailAndPasswordRepository implements AuthenticationRepository, DataBa
 
 }
 
-class CreateUserWithEmailAndPassword implements AuthenticationRepository, DataBase{
+class CreateUserWithEmailAndPassword implements AuthenticationRepository{
 
   @override
   void authentication(Usuario usuario, BuildContext context) {
-
-  }
-
-  @override
-  void salvarDados(dynamic args) {
-    // TODO: implement salvarDados
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signInWithEmailAndPassword(
+      email: usuario.email,
+      password: usuario.senha
+    ).then((value){
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        Routes.initialRoute,
+        (route) => false
+      );
+    }).catchError((error){
+      // TODO: fazer tratamento de erros
+      print(error.toString());
+    });
   }
 
 }

@@ -59,8 +59,8 @@ class _HomePageState extends State<HomePage> {
             onTap: () => setState(() {
               _selectedItemPosition = 3;
             }),
-            child: Padding(
-              padding: const EdgeInsets.all(AppPadding.p12),
+            child: const Padding(
+              padding: EdgeInsets.all(AppPadding.p12),
               child: CircleAvatar(
                 backgroundColor: ColorManager.preto,
                 maxRadius: AppSize.s25,
@@ -89,15 +89,7 @@ class _HomePageState extends State<HomePage> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(AppSize.s70))
         ),
-        child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                Text('Teste')
-              ],
-            ),
-          ),
-        ),
+        child: Container(),
       ),
       body: _pages[_selectedItemPosition],
       bottomNavigationBar: SnakeNavigationBar.color(
