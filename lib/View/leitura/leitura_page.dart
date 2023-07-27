@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../Model/Artigo.dart';
+import '../../Model/models/Artigo.dart';
 
 class LeituraPage extends StatelessWidget {
   Artigo artigo;
@@ -18,7 +18,7 @@ class LeituraPage extends StatelessWidget {
           children: [
             Text(artigo.subTitulo),
             Text(artigo.texto),
-            Text(artigo.autor),
+            Text(artigo.autor.nome),
           ],
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:app_blog/View/inicio/populares/populares_page.dart';
 import 'package:app_blog/View/inicio/topicos/topicos_page.dart';
 import 'package:app_blog/View/resources/color_manager.dart';
-import 'package:app_blog/ViewModel/navigation_controller.dart';
+import 'package:app_blog/ViewModel/controller/navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';

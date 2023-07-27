@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'Usuario.dart';
+
 class Artigo{
   String? _titulo;
   String? _subTitulo;
   dynamic _texto;
-  String? _autor;
+  Usuario? _autor;
   String? _img;
   String? _topico;
 
@@ -26,11 +28,7 @@ class Artigo{
     _img = value;
   }
 
-  String get autor => _autor!;
-
-  set autor(String value) {
-    _autor = value;
-  }
+  Usuario get autor => _autor!;
 
   dynamic get texto => _texto;
 

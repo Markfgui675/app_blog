@@ -16,6 +16,10 @@ dependencies:
   advanced_icon: ^0.1.2
   line_icons: ^2.0.3
   get: ^4.2.0
+  firebase_auth: ^4.7.2
+  firebase_core: 
+  cloud_firestore: ^4.8.4
+  google_sign_in:
 
 dev_dependencies:
   flutter_test:

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:advanced_icon/advanced_icon.dart';
 import 'package:line_icons/line_icon.dart';
 
-import '../../../Model/Artigo.dart';
+import '../../../Model/models/Artigo.dart';
 import '../../resources/routes_manager.dart';
 
 class PopularesPage extends StatefulWidget {
@@ -40,7 +40,6 @@ class _PopularesPageState extends State<PopularesPage> {
     artigo1.titulo = 'titulo 1';
     artigo1.subTitulo = 'subitutulo 1';
     artigo1.texto = 'texto 1';
-    artigo1.autor = 'autor 1';
     artigo1.img = AssetsManager.image;
     artigo1.topico = 'Esportes';
     for(int i = 0; i < 4; i++){

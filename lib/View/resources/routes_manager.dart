@@ -2,8 +2,11 @@ import 'package:app_blog/View/home/home_page.dart';
 import 'package:app_blog/View/inicio/topicos/topicos_page.dart';
 import 'package:app_blog/View/inicio/topicos/topicos_selecionados_page.dart';
 import 'package:app_blog/View/leitura/leitura_page.dart';
+import 'package:app_blog/View/login/criarconta_page.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
+
+import '../login/entrar_page.dart';
 
 class Routes{
 
@@ -11,6 +14,8 @@ class Routes{
   static const String leituraPage = 'leiturapage';
   static const String topicos = 'topicos';
   static const String topicosSelecionados = 'topicosselecionados';
+  static const String loginCriarConta = 'logincriarconta';
+  static const String loginEntrar = 'loginentrar';
 
 }
 
@@ -29,6 +34,10 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => TopicosPage());
       case Routes.topicosSelecionados:
         return MaterialPageRoute(builder: (_) => TopicosSelecionadosPage(args));
+      case Routes.loginCriarConta:
+        return MaterialPageRoute(builder: (_) => CriarContaPage());
+      case Routes.loginEntrar:
+        return MaterialPageRoute(builder: (_) => EntrarPage());
       default:
         return unDefinedRoute();
     }
