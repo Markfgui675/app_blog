@@ -18,7 +18,6 @@ class LeituraPage extends StatelessWidget {
           children: [
             Text(artigo.subTitulo),
             Text(artigo.texto),
-            Text(artigo.autor.nome),
           ],
         ),
       ),
