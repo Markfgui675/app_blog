@@ -1,26 +1,30 @@
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/repository/acessardados.dart';
-import 'package:flutter/foundation.dart';
+import '../../Model/models/Usuario.dart';
 
-class ContaViewModel with ChangeNotifier{
+class ContaViewModel{
 
   late AcessarDados _acessarDados;
   TipoAcessoDataBase _tipo = TipoAcessoDataBase();
-  dynamic _dados;
+  Usuario _usuario = Usuario();
+  List<dynamic> _dados = [];
 
   ContaViewModel(AcessarDados acessarDados){
     _acessarDados = acessarDados;
   }
 
-  Future acessarDados(String tipoAcesso) async {
+  acessarDados(String tipoAcesso) async {
     _tipo.tipo = tipoAcesso;
-    _dados = await _acessarDados.acessarDados(_tipo);
-    print('Return da funacao acessar dados: '+_dados.toString());
-    notifyListeners();
+    _dados.add(await _acessarDados.acessarDados(_tipo));
+    print(_dados.toString());
+    _usuario.nome = _dados[0][0].toString();
+    _usuario.email = _dados[0][1].toString();
+    _usuario.profilePic = _dados[0][2].toString();
+    print('Resultado final: ${_usuario.nome}, ${_usuario.email}');
   }
 
   dynamic get dados{
-    return _dados;
+    return _usuario;
 }
 
 }

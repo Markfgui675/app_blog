@@ -6,7 +6,7 @@ import '../repository/acessardados.dart';
 
 class AcessarDadosRepository implements AcessarDados{
 
-  List _info = [];
+  List<String> _info = [];
 
   @override
   acessarDados(TipoAcessoDataBase tipoAcesso) {
@@ -14,7 +14,7 @@ class AcessarDadosRepository implements AcessarDados{
     switch(tipoAcesso.tipo){
 
       case TipoAcesso.acessarDadosUsuario:
-        _acessarDadosUsuario();
+        return _acessarDadosUsuario();
 
     }
 
