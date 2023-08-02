@@ -1,11 +1,10 @@
-import 'package:app_blog/Model/repository/database.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../models/Usuario.dart';
 
 abstract class AuthenticationRepository{
   authentication(Usuario usuario, BuildContext context);
 }
 
-abstract class SignOut{
+abstract class SignOutRepository{
   sair(BuildContext context);
 }

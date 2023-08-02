@@ -5,8 +5,6 @@ import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:advanced_icon/advanced_icon.dart';
-import 'package:line_icons/line_icon.dart';
-
 import '../../../Model/models/Artigo.dart';
 import '../../resources/routes_manager.dart';
 

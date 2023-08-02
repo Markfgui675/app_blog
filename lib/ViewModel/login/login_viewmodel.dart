@@ -1,7 +1,6 @@
+import 'package:app_blog/Model/models/Usuario.dart';
 import 'package:app_blog/Model/repository/authentication.dart';
 import 'package:flutter/cupertino.dart';
-import '../../Model/models/Usuario.dart';
-import '../../Model/repository/database.dart';
 
 class LoginViewModel{
 

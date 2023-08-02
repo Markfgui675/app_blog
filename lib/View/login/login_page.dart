@@ -16,49 +16,45 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: AppSize.s450,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(AppStrings.naoLogado,
-            style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),
-            textAlign: TextAlign.center,
-          ),
-          Column(
-            children: [
-              _botao(tituloBotao: AppStrings.criarConta, rota: Routes.loginCriarConta),
-              const SizedBox(height: AppSize.s8,),
-              _botao(tituloBotao: AppStrings.entrar, rota: Routes.loginEntrar),
-            ],
-          )
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(AppStrings.naoLogado,
+              style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),
+              textAlign: TextAlign.center,
+            ),
+            Column(
+              children: [
+                _botao(tituloBotao: AppStrings.criarConta, rota: Routes.loginCriarConta),
+                const SizedBox(height: AppSize.s8,),
+                _botao(tituloBotao: AppStrings.entrar, rota: Routes.loginEntrar),
+              ],
+            )
 
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 
   Widget _botao({required String tituloBotao, required String rota}){
-    return ElevatedButton(
-        onPressed: ()=>Navigator.pushNamed(context, rota),
-        style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: Colors.transparent
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, rota),
+      child: Container(
+        width: AppSize.s140,
+        height: AppSize.s60,
+        padding: const EdgeInsets.all(AppPadding.p16),
+        decoration: BoxDecoration(
+            color: ColorManager.marrom,
+            borderRadius: BorderRadius.circular(AppSize.s10)
         ),
-        child: Container(
-          width: AppSize.s140,
-          height: AppSize.s60,
-          padding: const EdgeInsets.all(AppPadding.p16),
-          decoration: BoxDecoration(
-              color: ColorManager.marrom,
-              borderRadius: BorderRadius.circular(AppSize.s10)
-          ),
-          child: Center(
-            child: Text(tituloBotao, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
-          ),
-        )
+        child: Center(
+          child: Text(tituloBotao, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+        ),
+      ),
     );
   }
 

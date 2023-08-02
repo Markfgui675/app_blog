@@ -1,11 +1,11 @@
 import 'package:app_blog/Model/data/collections_names.dart';
-import 'package:app_blog/Model/models/Usuario.dart';
 import 'package:app_blog/Model/repository/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../View/resources/routes_manager.dart';
+import '../models/Usuario.dart';
 import '../repository/authentication.dart';
 
 class AuthEmailAndPasswordRepository implements AuthenticationRepository, DataBase{
@@ -57,18 +57,17 @@ class AuthEmailAndPasswordRepository implements AuthenticationRepository, DataBa
 }
 
 class CreateUserWithEmailAndPassword implements AuthenticationRepository{
-
   @override
-  void authentication(Usuario usuario, BuildContext context) {
+  authentication(Usuario usuario, BuildContext context) {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.signInWithEmailAndPassword(
-      email: usuario.email,
-      password: usuario.senha
+        email: usuario.email,
+        password: usuario.senha
     ).then((value){
       Navigator.pushNamedAndRemoveUntil(
-        context,
-        Routes.initialRoute,
-        (route) => false
+          context,
+          Routes.initialRoute,
+              (route) => false
       );
     }).catchError((error){
       // TODO: fazer tratamento de erros

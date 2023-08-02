@@ -118,31 +118,27 @@ class _CriarContaPageState extends State<CriarContaPage> {
                   ),
                 ),
                 const SizedBox(height: AppSize.s20,),
-                ElevatedButton(
-                    onPressed: (){
-                      if(formKey.currentState!.validate()){
-                        usuario.nome = _nome.text;
-                        usuario.email = _email.text;
-                        usuario.senha = _senha.text;
-                        _viewModel.criarConta(usuario, context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent
+                GestureDetector(
+                  onTap: (){
+                    if(formKey.currentState!.validate()){
+                      usuario.nome = _nome.text;
+                      usuario.email = _email.text;
+                      usuario.senha = _senha.text;
+                      _viewModel.criarConta(usuario, context);
+                    }
+                  },
+                  child: Container(
+                    width: AppSize.s330,
+                    height: AppSize.s60,
+                    padding: const EdgeInsets.all(AppPadding.p16),
+                    decoration: BoxDecoration(
+                        color: ColorManager.marrom,
+                        borderRadius: BorderRadius.circular(AppSize.s10)
                     ),
-                    child: Container(
-                      width: AppSize.s330,
-                      height: AppSize.s60,
-                      padding: const EdgeInsets.all(AppPadding.p16),
-                      decoration: BoxDecoration(
-                          color: ColorManager.marrom,
-                          borderRadius: BorderRadius.circular(AppSize.s10)
-                      ),
-                      child: Center(
-                        child: Text(AppStrings.criarConta, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
-                      ),
-                    )
+                    child: Center(
+                      child: Text(AppStrings.criarConta, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                    ),
+                  )
                 )
               ],
             )

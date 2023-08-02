@@ -64,7 +64,7 @@ class _EntrarPageState extends State<EntrarPage> {
                       controller: _email,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Email'
+                          labelText: AppStrings.email
                       ),
                       validator: (value){
                         if(!value!.contains('@') || !value.contains('.com')){
@@ -86,7 +86,7 @@ class _EntrarPageState extends State<EntrarPage> {
                       obscureText: true,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Senha'
+                          labelText: AppStrings.senha
                       ),
                       validator: (value){
                         if(value!.length < 6){
@@ -97,31 +97,41 @@ class _EntrarPageState extends State<EntrarPage> {
                       },
                     ),
                   ),
-                  const SizedBox(height: AppSize.s20,),
-                  ElevatedButton(
-                      onPressed: (){
-                        if(formKey.currentState!.validate()){
-                          usuario.email = _email.text;
-                          usuario.senha = _senha.text;
-                          _viewModel.entrar(usuario, context);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: Colors.transparent
+                  const SizedBox(height: AppSize.s2,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(context, Routes.forgotPassword),
+                          child: Text('Esqueceu a Senha?', style: getAliceStyle(color: ColorManager.marrom, fontSize: AppSize.s16),),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSize.s16,),
+                  GestureDetector(
+                    onTap: (){
+                      if(formKey.currentState!.validate()){
+                        usuario.email = _email.text;
+                        usuario.senha = _senha.text;
+                        _viewModel.entrar(usuario, context);
+                      }
+                    },
+                    child: Container(
+                      width: AppSize.s330,
+                      height: AppSize.s60,
+                      padding: const EdgeInsets.all(AppPadding.p16),
+                      decoration: BoxDecoration(
+                          color: ColorManager.marrom,
+                          borderRadius: BorderRadius.circular(AppSize.s10)
                       ),
-                      child: Container(
-                        width: AppSize.s330,
-                        height: AppSize.s60,
-                        padding: const EdgeInsets.all(AppPadding.p16),
-                        decoration: BoxDecoration(
-                            color: ColorManager.marrom,
-                            borderRadius: BorderRadius.circular(AppSize.s10)
-                        ),
-                        child: Center(
-                          child: Text(AppStrings.criarConta, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
-                        ),
-                      )
+                      child: Center(
+                        child: Text(AppStrings.entrar, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                      ),
+                    )
                   )
                 ],
               )

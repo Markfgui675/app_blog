@@ -1,3 +1,4 @@
+import 'package:app_blog/Model/repository/acessardados.dart';
 import 'package:flutter/material.dart';
 import '../../Model/models/TipoAcessoDataBase.dart';
 import '../../Model/models/Usuario.dart';
@@ -13,7 +14,7 @@ class ContaInfoPage extends StatefulWidget {
 
 class _ContaInfoPageState extends State<ContaInfoPage> {
 
-  final ContaViewModel _viewModel = ContaViewModel(AcessarDadosRepository());
+  final ContaViewModel _viewModel = ContaViewModel(AcessarDadosRepository() as AcessarDados);
   Usuario usuario = Usuario();
 
   _bind() async {

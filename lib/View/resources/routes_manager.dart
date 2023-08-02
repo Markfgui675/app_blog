@@ -3,6 +3,7 @@ import 'package:app_blog/View/inicio/topicos/topicos_page.dart';
 import 'package:app_blog/View/inicio/topicos/topicos_selecionados_page.dart';
 import 'package:app_blog/View/leitura/leitura_page.dart';
 import 'package:app_blog/View/login/criarconta_page.dart';
+import 'package:app_blog/View/login/forgotpassword/forgotpassword_page.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,7 @@ class Routes{
   static const String topicosSelecionados = 'topicosselecionados';
   static const String loginCriarConta = 'logincriarconta';
   static const String loginEntrar = 'loginentrar';
+  static const String forgotPassword = 'forgotPassword';
 
 }
 
@@ -38,6 +40,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => CriarContaPage());
       case Routes.loginEntrar:
         return MaterialPageRoute(builder: (_) => EntrarPage());
+      case Routes.forgotPassword:
+        return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
       default:
         return unDefinedRoute();
     }
