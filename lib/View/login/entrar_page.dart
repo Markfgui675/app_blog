@@ -19,12 +19,9 @@ class EntrarPage extends StatefulWidget {
 class _EntrarPageState extends State<EntrarPage> {
 
   final formKey = GlobalKey<FormState>();
-
   final TextEditingController _email = TextEditingController();
   final TextEditingController _senha = TextEditingController();
-
-  final LoginViewModel _viewModel = LoginViewModel(CreateUserWithEmailAndPassword());
-
+  final LoginViewModel _viewModel = LoginViewModel(AuthUserWithEmailAndPassword());
   Usuario usuario = Usuario();
 
   @override
@@ -117,7 +114,8 @@ class _EntrarPageState extends State<EntrarPage> {
                       if(formKey.currentState!.validate()){
                         usuario.email = _email.text;
                         usuario.senha = _senha.text;
-                        _viewModel.entrar(usuario, context);
+                        var res = _viewModel.entrar(usuario, context);
+                        return res;
                       }
                     },
                     child: Container(

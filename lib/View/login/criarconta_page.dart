@@ -24,7 +24,7 @@ class _CriarContaPageState extends State<CriarContaPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _senha = TextEditingController();
 
-  final LoginViewModel _viewModel = LoginViewModel(AuthEmailAndPasswordRepository());
+  final LoginViewModel _viewModel = LoginViewModel(CreateUserWithEmailAndPassword());
 
   Usuario usuario = Usuario();
 
@@ -124,7 +124,8 @@ class _CriarContaPageState extends State<CriarContaPage> {
                       usuario.nome = _nome.text;
                       usuario.email = _email.text;
                       usuario.senha = _senha.text;
-                      _viewModel.criarConta(usuario, context);
+                      var res = _viewModel.criarConta(usuario, context);
+                      return res;
                     }
                   },
                   child: Container(

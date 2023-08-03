@@ -14,7 +14,7 @@ class LoginViewModel{
   }
 
   entrar(Usuario usuario, BuildContext context){
-    _repository.authentication(usuario, context);
+    return _repository.authentication(usuario, context);
   }
 
 }
