@@ -29,4 +29,12 @@ class ErrorStrings{
   static const String emailValido = 'Informe um email válido!';
   static const String emailVazio = 'Informe um email!';
   static const String senhaCurta = 'Digite uma senha de pelo menos 6 caracteres!';
+
+  static const String semConexao = 'Conecte-se à uma rede de internet e tente novamente!';
+  static const String erroLink = 'Não foi possível enviar o link, tente novamente mais tarde.';
+
+}
+
+class SuccessStrings{
+  static const String linkEnviado = 'Link enviado com sucesso!';
 }

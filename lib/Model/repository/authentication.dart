@@ -8,3 +8,7 @@ abstract class AuthenticationRepository{
 abstract class SignOutRepository{
   sair(BuildContext context);
 }
+
+abstract class ForgotPasswordRepository{
+  Future recuperarSenha(String email, BuildContext context);
+}

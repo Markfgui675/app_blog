@@ -1,15 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_blog/Model/repository/authentication.dart';
+import 'package:flutter/cupertino.dart';
 
 class ForgotPasswordViewModel{
 
-  recuperarSenha(String email)async{
+  late ForgotPasswordRepository _repository;
+  ForgotPasswordViewModel(ForgotPasswordRepository repository){
+    _repository = repository;
+  }
 
-    try{
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
-    } on FirebaseAuth catch (e){
-      // TODO: fazer tratamento de erro
-      print(e);
-    }
+  recuperarSenha(String email, BuildContext context)async{
+    return _repository.recuperarSenha(email, context);
   }
 
 }

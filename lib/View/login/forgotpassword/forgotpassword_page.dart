@@ -1,3 +1,4 @@
+import 'package:app_blog/Model/servicos/recuperarsenha_service.dart';
 import 'package:app_blog/View/resources/color_manager.dart';
 import 'package:app_blog/View/resources/routes_manager.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
@@ -20,7 +21,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   final TextEditingController _email = TextEditingController();
 
-  final ForgotPasswordViewModel _viewModel = ForgotPasswordViewModel();
+  final ForgotPasswordViewModel _viewModel = ForgotPasswordViewModel(ForgotPassword());
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     controller: _email,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: AppStrings.email
+                        labelText: AppStrings.email,
                     ),
                     validator: (value){
                       if(!value!.contains('@') || !value.contains('.com')){
@@ -81,7 +82,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 GestureDetector(
                     onTap: (){
                       if(formKey.currentState!.validate()){
-                        _viewModel.recuperarSenha(_email.text);
+                        var res = _viewModel.recuperarSenha(_email.text, context);
+                        return res;
                       }
                     },
                     child: Container(

@@ -8,5 +8,6 @@ class ColorManager {
   static const Color vermelho = Color(0xffD4353A);
   static const Color verde = Color(0xff03DD20);
   static Color cinza = Colors.grey;
+  static Color hintStyleColor = Colors.black12;
 
 }

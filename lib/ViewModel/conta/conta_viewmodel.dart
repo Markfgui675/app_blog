@@ -7,9 +7,9 @@ import '../../Model/models/Usuario.dart';
 class ContaViewModel{
 
   late AcessarDados _acessarDados;
-  TipoAcessoDataBase _tipo = TipoAcessoDataBase();
-  Usuario _usuario = Usuario();
-  LogOutRepository _logOut = LogOutRepository();
+  final TipoAcessoDataBase _tipo = TipoAcessoDataBase();
+  final Usuario _usuario = Usuario();
+  final LogOutRepository _logOut = LogOutRepository();
   List<dynamic> _dados = [];
 
   ContaViewModel(AcessarDados acessarDados){
