@@ -21,6 +21,8 @@ dependencies:
   cloud_firestore: ^4.8.4
   google_sign_in:
   provider:
+  mobx:
+  flutter_mobx:
 
 dev_dependencies:
   flutter_test:

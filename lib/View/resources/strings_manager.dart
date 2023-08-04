@@ -21,6 +21,7 @@ class AppStrings{
   static const String email = 'Email';
   static const String senha = 'Senha';
   static const String esqueceuSenha = 'Esqueceu a Senha?';
+  static const String editarPerfil = 'Editar Perfil';
 
 }
 

@@ -7,6 +7,7 @@ import 'package:app_blog/View/login/forgotpassword/forgotpassword_page.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
 
+import '../conta/editor_page.dart';
 import '../login/entrar_page.dart';
 
 class Routes{
@@ -18,6 +19,7 @@ class Routes{
   static const String loginCriarConta = 'logincriarconta';
   static const String loginEntrar = 'loginentrar';
   static const String forgotPassword = 'forgotPassword';
+  static const String editorPage = 'editorpage';
 
 }
 
@@ -42,6 +44,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => EntrarPage());
       case Routes.forgotPassword:
         return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
+      case Routes.editorPage:
+        return MaterialPageRoute(builder: (_) => EditorPage());
       default:
         return unDefinedRoute();
     }
