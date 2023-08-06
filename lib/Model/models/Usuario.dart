@@ -5,9 +5,9 @@ class Usuario{
   String? _nome;
   String? _email;
   String? _senha;
-  Usuario? _seguidores;
-  Usuario? _seguindo;
-  Artigo? _artigos;
+  List<dynamic>? _seguidores;
+  List<dynamic>? _seguindo;
+  List<dynamic>? _artigos;
   String _profilePic = '';
 
   String get idUsuario => _idUsuario!;
@@ -34,21 +34,21 @@ class Usuario{
     _nome = value;
   }
 
-  Artigo get artigos => _artigos!;
+  List<dynamic> get artigos => _artigos!;
 
-  set artigos(Artigo value) {
+  set artigos(List<dynamic> value) {
     _artigos = value;
   }
 
-  Usuario get seguindo => _seguindo!;
+  List<dynamic> get seguindo => _seguindo!;
 
-  set seguindo(Usuario value) {
+  set seguindo(List<dynamic> value) {
     _seguindo = value;
   }
 
-  Usuario get seguidores => _seguidores!;
+  List<dynamic> get seguidores => _seguidores!;
 
-  set seguidores(Usuario value) {
+  set seguidores(List<dynamic> value) {
     _seguidores = value;
   }
 

@@ -19,16 +19,10 @@ class ContaInfoPage extends StatefulWidget {
 
 class _ContaInfoPageState extends State<ContaInfoPage> {
 
-  final ContaViewModel _viewModel = ContaViewModel(AcessarDadosRepository());
-  List<Usuario> _dadosUsuario = [];
-  Usuario usuario = Usuario();
+  ContaViewModel _viewModel = ContaViewModel();
 
   _bind() async {
     await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario);
-    usuario = _viewModel.dados;
-    setState((){
-      _dadosUsuario.add(usuario);
-    });
   }
 
   @override
@@ -42,41 +36,50 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorManager.branco,
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(AppPadding.p20),
-                child: Center(
-                  child: CircleAvatar(
-                    maxRadius: 80,
-                    backgroundColor: ColorManager.preto,
-                    backgroundImage: usuario.profilePic == '' ? null : NetworkImage(usuario.profilePic),
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(AppPadding.p5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+        body: Observer(
+          builder: (_){
+            if(_viewModel.dadosUsuario.length == 0){
+              return const Center(child: CircularProgressIndicator(),);
+            } else {
+              List _dados = _viewModel.dadosUsuario;
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
                   children: [
-                    Text(usuario.nome, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppPadding.p20),
+                      child: const Center(
+                        child: CircleAvatar(
+                          maxRadius: 80,
+                          backgroundColor: ColorManager.preto,
+                          //backgroundImage: usuario.profilePic == '' ? null : NetworkImage(usuario.profilePic),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppPadding.p5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Marcos', style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),)
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppPadding.p5),
+                      child: Center(
+                        child: _buttonEditar(),
+                      ),
+                    )
                   ],
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(AppPadding.p5),
-                child: Center(
-                  child: _buttonEditar(),
-                ),
-              )
-            ],
-          ),
+              );
+            }
+          },
         )
       )
     );

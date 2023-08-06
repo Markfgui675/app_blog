@@ -1,37 +1,30 @@
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
-import 'package:app_blog/Model/repository/acessardados.dart';
-import 'package:app_blog/Model/servicos/logout_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_blog/Model/servicos/acessardados_service.dart';
+import 'package:mobx/mobx.dart';
+
 import '../../Model/models/Usuario.dart';
+part 'conta_viewmodel.g.dart';
 
-class ContaViewModel{
+class ContaViewModel = ContaViewModelMobx with _$ContaViewModel;
 
-  late AcessarDados _acessarDados;
+abstract class ContaViewModelMobx with Store{
+
+  final AcessarDadosRepository _repository = AcessarDadosRepository();
   final TipoAcessoDataBase _tipo = TipoAcessoDataBase();
-  final Usuario _usuario = Usuario();
-  final LogOutRepository _logOut = LogOutRepository();
-  List<dynamic> _dados = [];
 
-  ContaViewModel(AcessarDados acessarDados){
-    _acessarDados = acessarDados;
+  @observable
+  List<Usuario> _infoUser = [];
+
+  @computed
+  List<Usuario> get dadosUsuario{
+    return _infoUser;
   }
 
-  acessarDados(String tipoAcesso) async {
-    _tipo.tipo = tipoAcesso;
-    _dados.add(await _acessarDados.acessarDados(_tipo));
-    print(_dados.toString());
-    _usuario.nome = _dados[0][0].toString();
-    _usuario.email = _dados[0][1].toString();
-    _usuario.profilePic = _dados[0][2].toString();
-    print('Resultado final: ${_usuario.nome}, ${_usuario.email}');
-  }
-
-  sair(BuildContext context){
-    _logOut.sair(context);
-  }
-
-  dynamic get dados{
-    return _usuario;
+  @action
+  acessarDados(String tipo) async {
+    _tipo.tipo = tipo;
+    _infoUser = await _repository.acessarDados(_tipo);
+    print(_infoUser);
   }
 
 }
