@@ -37,8 +37,9 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
       AsyncAction('ContaViewModelMobx.acessarDados', context: context);
 
   @override
-  Future acessarDados(String tipo) {
-    return _$acessarDadosAsyncAction.run(() => super.acessarDados(tipo));
+  Future acessarDados(String tipo, BuildContext context) {
+    return _$acessarDadosAsyncAction
+        .run(() => super.acessarDados(tipo, context));
   }
 
   @override

@@ -22,7 +22,8 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
   ContaViewModel _viewModel = ContaViewModel();
 
   _bind() async {
-    await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario);
+    var res = await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    return res;
   }
 
   @override
@@ -38,25 +39,31 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
         backgroundColor: ColorManager.branco,
         body: Observer(
           builder: (_){
-            if(_viewModel.dadosUsuario.length == 0){
-              return const Center(child: CircularProgressIndicator(),);
+            if(_viewModel.dadosUsuario.isEmpty){
+              return const Center(child: CircularProgressIndicator(
+                color: ColorManager.marrom,
+              ),);
             } else {
-              List _dados = _viewModel.dadosUsuario;
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
+
+                    // Foto Usuário
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppPadding.p20),
-                      child: const Center(
+                      child: Center(
                         child: CircleAvatar(
                           maxRadius: 80,
                           backgroundColor: ColorManager.preto,
-                          //backgroundImage: usuario.profilePic == '' ? null : NetworkImage(usuario.profilePic),
+                          backgroundImage: _viewModel.dadosUsuario[0].profilePic == '' ? null : NetworkImage(_viewModel.dadosUsuario[0].profilePic),
                         ),
                       ),
                     ),
+
+
+                    // Nome Usuário
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppPadding.p5),
@@ -64,17 +71,92 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('Marcos', style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),)
+                          Text(_viewModel.dadosUsuario[0].nome,
+                            style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),)
                         ],
                       ),
                     ),
+
+
+                    // Info Usuário
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppPadding.p5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: AppSize.s100,
+                            width: AppSize.s100,
+                            decoration: BoxDecoration(
+                              color: ColorManager.marrom,
+                              borderRadius: BorderRadius.circular(AppSize.s20)
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(_viewModel.dadosUsuario[0].seguidores.length.toString(),
+                                    style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
+                                  Text(AppStrings.seguidores,
+                                    style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: AppSize.s10,),
+                          Container(
+                            height: AppSize.s100,
+                            width: AppSize.s100,
+                            decoration: BoxDecoration(
+                                color: ColorManager.marrom,
+                                borderRadius: BorderRadius.circular(AppSize.s20)
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(_viewModel.dadosUsuario[0].seguindo.length.toString(),
+                                    style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
+                                  Text(AppStrings.seguindo,
+                                    style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: AppSize.s10,),
+                          Container(
+                            height: AppSize.s100,
+                            width: AppSize.s100,
+                            decoration: BoxDecoration(
+                                color: ColorManager.marrom,
+                                borderRadius: BorderRadius.circular(AppSize.s20)
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(_viewModel.dadosUsuario[0].artigos.length.toString(),
+                                    style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
+                                  Text(AppStrings.artigos,
+                                    style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+
+                    // Botão editar
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppPadding.p5),
                       child: Center(
                         child: _buttonEditar(),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

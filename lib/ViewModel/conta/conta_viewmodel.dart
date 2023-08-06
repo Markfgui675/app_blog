@@ -1,5 +1,6 @@
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/servicos/acessardados_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../Model/models/Usuario.dart';
@@ -21,10 +22,9 @@ abstract class ContaViewModelMobx with Store{
   }
 
   @action
-  acessarDados(String tipo) async {
+  acessarDados(String tipo, BuildContext context) async {
     _tipo.tipo = tipo;
-    _infoUser = await _repository.acessarDados(_tipo);
-    print(_infoUser);
+    _infoUser = await _repository.acessarDados(_tipo, context);
   }
 
 }

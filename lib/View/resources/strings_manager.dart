@@ -11,6 +11,9 @@ class AppStrings{
   static const String verMais = 'Ver Mais';
   static const String entrar = 'Entrar';
   static const String criarConta = 'Criar Conta';
+  static const String seguidores = 'Seguidores';
+  static const String seguindo = 'Seguindo';
+  static const String artigos = 'Artigos';
 
   static const String naoLogado = 'Você não está logado, entre ou cadastre-se no app.';
   static const String jaTemConta = 'Já tem conta? ';

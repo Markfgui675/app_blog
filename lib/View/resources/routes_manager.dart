@@ -1,3 +1,4 @@
+import 'package:app_blog/View/conta/seguir_seguindo_page.dart';
 import 'package:app_blog/View/home/home_page.dart';
 import 'package:app_blog/View/inicio/topicos/topicos_page.dart';
 import 'package:app_blog/View/inicio/topicos/topicos_selecionados_page.dart';
@@ -20,6 +21,7 @@ class Routes{
   static const String loginEntrar = 'loginentrar';
   static const String forgotPassword = 'forgotPassword';
   static const String editorPage = 'editorpage';
+  static const String seguirSeguindoPage = 'seguirseguindopage';
 
 }
 
@@ -46,6 +48,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
       case Routes.editorPage:
         return MaterialPageRoute(builder: (_) => EditorPage());
+      case Routes.seguirSeguindoPage:
+        return MaterialPageRoute(builder: (_)=>SeguirSeguindoPage(title: args));
       default:
         return unDefinedRoute();
     }
