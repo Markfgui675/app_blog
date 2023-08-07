@@ -4,6 +4,7 @@ import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:app_blog/View/salvos/salvo_page.dart';
+import 'package:app_blog/View/search/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     InicioPage(),
+    SearchPage(),
     SalvoPage(),
     NotificationPage(),
     ContaPage()
@@ -56,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           GestureDetector(
             onTap: () => setState(() {
-              _selectedItemPosition = 3;
+              _selectedItemPosition = 4;
             }),
             child: const Padding(
               padding: EdgeInsets.all(AppPadding.p12),
@@ -116,8 +118,12 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) => setState(() => _selectedItemPosition = index),
         items: const [
           BottomNavigationBarItem(
-            icon: LineIcon.home(),
-            label: AppStrings.inicio
+              icon: LineIcon.home(),
+              label: AppStrings.inicio
+          ),
+          BottomNavigationBarItem(
+              icon: LineIcon.search(),
+              label: AppStrings.inicio
           ),
           BottomNavigationBarItem(
             icon: LineIcon.bookmarkAlt(),

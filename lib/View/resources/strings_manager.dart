@@ -25,6 +25,9 @@ class AppStrings{
   static const String senha = 'Senha';
   static const String esqueceuSenha = 'Esqueceu a Senha?';
   static const String editarPerfil = 'Editar Perfil';
+  static const String sobre = 'Sobre';
+  static const String camera = 'Câmera';
+  static const String galeria = 'Galeria';
 
 }
 

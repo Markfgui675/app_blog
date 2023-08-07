@@ -1,12 +1,21 @@
 import 'Usuario.dart';
 
 class Artigo{
+  String? _id;
+  String? _idAutor;
   String? _titulo;
   String? _subTitulo;
   dynamic _texto;
   Usuario? _autor;
   String? _img;
   String? _topico;
+
+
+  String get id => _id!;
+
+  set id(String value) {
+    _id = value;
+  }
 
   String get titulo => _titulo!;
 
@@ -38,5 +47,11 @@ class Artigo{
 
   set topico(String value) {
     _topico = value;
+  }
+
+  String get idAutor => _idAutor!;
+
+  set idAutor(String value) {
+    _idAutor = value;
   }
 }

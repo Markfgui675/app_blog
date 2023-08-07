@@ -23,6 +23,8 @@ dependencies:
   provider:
   mobx:
   flutter_mobx:
+  image_picker: ^1.0.2
+  path_provider: ^2.0.15
 
 dev_dependencies:
   flutter_test:
