@@ -27,4 +27,9 @@ abstract class ContaViewModelMobx with Store{
     _infoUser = await _repository.acessarDados(_tipo, context);
   }
 
+  @action
+  setPhoto(String url){
+    _infoUser[0].profilePic = url;
+  }
+
 }

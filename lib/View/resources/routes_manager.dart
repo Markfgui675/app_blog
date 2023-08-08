@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 
 import '../conta/editor_page.dart';
 import '../login/entrar_page.dart';
+import '../settings/settings_page.dart';
 import 'color_manager.dart';
 
 class Routes{
@@ -28,6 +29,7 @@ class Routes{
   static const String editorPage = 'editorpage';
   static const String seguirSeguindoPage = 'seguirseguindopage';
   static const String artigosPage = 'artigospages';
+  static const String settings = 'configuracoes';
 
 }
 
@@ -58,6 +60,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_)=> SeguirSeguindoPage(title: args));
       case Routes.artigosPage:
         return MaterialPageRoute(builder: (_)=> ArtigosPage());
+      case Routes.settings:
+        return MaterialPageRoute(builder: (_)=> SettingsPage());
       default:
         return unDefinedRoute();
     }

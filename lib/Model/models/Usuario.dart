@@ -1,5 +1,3 @@
-import 'Artigo.dart';
-
 class Usuario{
   String? _idUsuario;
   String? _nome;
@@ -9,7 +7,7 @@ class Usuario{
   List<dynamic>? _seguidores;
   List<dynamic>? _seguindo;
   List<dynamic>? _artigos;
-  String _profilePic = '';
+  String? _profilePic;
 
 
   String get sobre => _sobre;
@@ -26,7 +24,7 @@ class Usuario{
 
   String get nome => _nome!;
 
-  String get profilePic => _profilePic;
+  String get profilePic => _profilePic!;
 
   set profilePic(String value) {
     _profilePic = value;

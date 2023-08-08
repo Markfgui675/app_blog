@@ -63,7 +63,7 @@ class CreateUserWithEmailAndPassword implements AuthenticationRepository, DataBa
         'seguidores':[],
         'seguindo':[],
         'artigos':[],
-        'profilePic':''
+        'profilePic':'https://cdn-icons-png.flaticon.com/128/61/61205.png'
       }
     );
   }

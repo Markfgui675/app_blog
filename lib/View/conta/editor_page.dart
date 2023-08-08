@@ -1,3 +1,4 @@
+import 'package:app_blog/View/common/gerador_id.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,13 @@ class _EditorPageState extends State<EditorPage> {
     await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
   }
 
-  Future _getImage()async{
+  Future _getImageCamera()async{
     final image = await imagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = File(image!.path);
-    });
+  }
+
+  Future _getImageGallery()async{
+    final image = await imagePicker.pickImage(source: ImageSource.gallery);
+    print('IMAGEM SELECIONADA DA GALERIA: '+image!.path);
   }
 
   @override
@@ -81,9 +84,8 @@ class _EditorPageState extends State<EditorPage> {
                     child: Center(
                       child: CircleAvatar(
                         maxRadius: 80,
-                        backgroundColor: ColorManager.preto,
-                        backgroundImage: _viewModel.dadosUsuario[0].profilePic == ''
-                            ? FileImage(_image) as ImageProvider : NetworkImage(_viewModel.dadosUsuario[0].profilePic),
+                        backgroundColor: Colors.white,
+                        backgroundImage: NetworkImage(_viewModel.dadosUsuario[0].profilePic),
                       ),
                     ),
                   ),
@@ -101,6 +103,30 @@ class _EditorPageState extends State<EditorPage> {
               );
             }
           },
+        ),
+        bottomSheet: Container(
+          height: AppSize.s85,
+          width: double.infinity,
+          color: Colors.transparent,
+          padding: const EdgeInsets.all(AppPadding.p12),
+          child: Center(
+            child: GestureDetector(
+              onTap: (){
+                print(GeradorId.gerarId());
+              },
+              child: Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: ColorManager.marrom,
+                  borderRadius: BorderRadius.circular(AppSize.s10)
+                ),
+                child: Center(
+                  child: Text(AppStrings.salvarMudancas, style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s18),),
+                ),
+              ),
+            ),
+          ),
         ),
       )
     );
@@ -148,7 +174,7 @@ class _EditorPageState extends State<EditorPage> {
                         ),
                         child: Center(
                           child: IconButton(
-                              onPressed: _getImage,
+                              onPressed: _getImageCamera,
                               icon: const Icon(Icons.camera_alt_outlined, color: ColorManager.marrom,)
                           ),
                         ),
@@ -167,7 +193,7 @@ class _EditorPageState extends State<EditorPage> {
                         ),
                         child: Center(
                           child: IconButton(
-                              onPressed: (){},
+                              onPressed: ()=>_getImageGallery(),
                               icon: const Icon(Icons.photo, color: ColorManager.marrom,)
                           ),
                         ),

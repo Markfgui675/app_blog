@@ -10,5 +10,6 @@ class AssetsManager{
   static const String notification = "$ICONS_PATH/notification-icon.png";
 
   static const String image = "$IMAGE_PATH/image.jpg";
+  static const String defaultAccount = "$IMAGE_PATH/default_account.png";
 
 }

@@ -28,6 +28,8 @@ class AppStrings{
   static const String sobre = 'Sobre';
   static const String camera = 'Câmera';
   static const String galeria = 'Galeria';
+  static const String settings = 'Configurações';
+  static const String salvarMudancas = 'Salvar Mudanças';
 
 }
 

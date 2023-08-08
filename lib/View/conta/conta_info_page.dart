@@ -20,8 +20,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
   final ContaViewModel _viewModel = ContaViewModel();
 
   _bind() async {
-    var res = await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
-    return res;
+    await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
   }
 
   @override
@@ -54,8 +53,8 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                       child: Center(
                         child: CircleAvatar(
                           maxRadius: 80,
-                          backgroundColor: ColorManager.preto,
-                          backgroundImage: _viewModel.dadosUsuario[0].profilePic == '' ? null : NetworkImage(_viewModel.dadosUsuario[0].profilePic),
+                          backgroundColor: ColorManager.branco,
+                          backgroundImage: NetworkImage(_viewModel.dadosUsuario[0].profilePic),
                         ),
                       ),
                     ),
@@ -65,7 +64,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppPadding.p5),
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -162,12 +161,21 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                     ),
 
 
-                    // Botão editar
+                    // Botão editar e configurações
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppPadding.p5),
-                      child: Center(
-                        child: _buttonEditar(),
+                      margin: const EdgeInsets.only(top: AppMargin.m6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buttonEditar(),
+                          const SizedBox(width: AppSize.s8,),
+                          IconButton(
+                            onPressed: () => Navigator.pushNamed(context, Routes.settings),
+                            icon: const Icon(Icons.settings, size: 30, color: ColorManager.preto,)
+                          )
+                        ],
                       ),
                     ),
 
