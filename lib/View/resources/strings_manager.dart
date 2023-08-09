@@ -43,6 +43,7 @@ class ErrorStrings{
   static const String erroLink = 'Não foi possível enviar o link, tente novamente mais tarde.';
   static const String usuarioNaoExiste = 'Usuário não encontrado.';
   static const String naoLogin = 'Não foi possível fazer o login, verique e-mail e senha e tente novamente.';
+  static const String dadosNaoAlterados = 'Não foi possível salvar as mudanças.';
 
 }
 
@@ -50,4 +51,5 @@ class SuccessStrings{
   static const String linkEnviado = 'Link enviado com sucesso!';
   static const String login = 'Login feito com sucesso!';
   static const String contaCriada = 'Conta criada com sucesso!';
+  static const String dadosAlterados= 'Dados alterados com sucesso!';
 }

@@ -1,4 +1,4 @@
-import 'package:app_blog/View/common/gerador_id.dart';
+import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +27,8 @@ class _EditorPageState extends State<EditorPage> {
 
   _bind() async{
     await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    _nome.text = _viewModel.dadosUsuario[0].nome;
+    _sobre.text = _viewModel.dadosUsuario[0].sobre;
   }
 
   Future _getImageCamera()async{
@@ -35,8 +37,12 @@ class _EditorPageState extends State<EditorPage> {
 
   Future _getImageGallery()async{
     final image = await imagePicker.pickImage(source: ImageSource.gallery);
-    print('IMAGEM SELECIONADA DA GALERIA: '+image!.path);
   }
+
+  final TextEditingController _nome = TextEditingController();
+  final TextEditingController _sobre = TextEditingController();
+
+  var formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -53,12 +59,12 @@ class _EditorPageState extends State<EditorPage> {
           title: Text(AppStrings.editarPerfil, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
           backgroundColor: ColorManager.branco,
           leading: Builder(
-            builder: (context){
-              return IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
-              );
-            }
+              builder: (context){
+                return IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
+                );
+              }
           ),
           elevation: 0,
           systemOverlayStyle: const SystemUiOverlayStyle(
@@ -74,59 +80,115 @@ class _EditorPageState extends State<EditorPage> {
                 color: ColorManager.marrom,
               ),);
             } else {
-              return Column(
-                children: [
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
 
-                  // Foto Usuário
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(AppPadding.p2),
-                    child: Center(
-                      child: CircleAvatar(
-                        maxRadius: 80,
-                        backgroundColor: Colors.white,
-                        backgroundImage: NetworkImage(_viewModel.dadosUsuario[0].profilePic),
+                    // Foto Usuário
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppPadding.p2),
+                      child: Center(
+                        child: CircleAvatar(
+                          maxRadius: 80,
+                          backgroundColor: Colors.white,
+                          backgroundImage: NetworkImage(_viewModel.dadosUsuario[0].profilePic),
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: _modalCamera,
-                        icon: const Icon(Icons.add_a_photo_outlined, color: ColorManager.marrom, size: AppSize.s30,)
-                      )
-                    ],
-                  )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: _modalCamera,
+                            icon: const Icon(Icons.add_a_photo_outlined, color: ColorManager.marrom, size: AppSize.s30,)
+                        )
+                      ],
+                    ),
 
-                ],
+
+                    Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+                            child: TextFormField(
+                              cursorColor: ColorManager.marrom,
+                              keyboardType: TextInputType.emailAddress,
+                              controller: _nome,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: AppStrings.nome
+                              ),
+                              validator: (value){
+                                if(value!.isEmpty || value.length < 2){
+                                  return ErrorStrings.nomeValido;
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: AppSize.s20,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+                            child: TextFormField(
+                              cursorColor: ColorManager.marrom,
+                              textInputAction: TextInputAction.newline,
+                              maxLines: null,
+                              keyboardType: TextInputType.multiline,
+                              controller: _sobre,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: AppStrings.sobre
+                              ),
+                              validator: (value){
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: AppSize.s85,
+                      width: double.infinity,
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.all(AppPadding.p12),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: (){
+                            if(formKey.currentState!.validate()){
+                              var res = _viewModel.salvarDados(
+                                  TipoSalvar.salvarDadosUsuario, context,
+                                  nome: _nome.text,
+                                  sobre: _sobre.text
+                              );
+                              return res;
+                            }
+                          },
+                          child: Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: ColorManager.marrom,
+                                borderRadius: BorderRadius.circular(AppSize.s10)
+                            ),
+                            child: Center(
+                              child: Text(AppStrings.salvarMudancas, style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s18),),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+
+                  ],
+                ),
               );
             }
           },
-        ),
-        bottomSheet: Container(
-          height: AppSize.s85,
-          width: double.infinity,
-          color: Colors.transparent,
-          padding: const EdgeInsets.all(AppPadding.p12),
-          child: Center(
-            child: GestureDetector(
-              onTap: (){
-                print(GeradorId.gerarId());
-              },
-              child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: ColorManager.marrom,
-                  borderRadius: BorderRadius.circular(AppSize.s10)
-                ),
-                child: Center(
-                  child: Text(AppStrings.salvarMudancas, style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s18),),
-                ),
-              ),
-            ),
-          ),
         ),
       )
     );

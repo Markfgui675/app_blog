@@ -3,14 +3,14 @@ class Usuario{
   String? _nome;
   String? _email;
   String? _senha;
-  String _sobre = '';
+  String? _sobre;
   List<dynamic>? _seguidores;
   List<dynamic>? _seguindo;
   List<dynamic>? _artigos;
   String? _profilePic;
 
 
-  String get sobre => _sobre;
+  String get sobre => _sobre!;
 
   set sobre(String value) {
     _sobre = value;

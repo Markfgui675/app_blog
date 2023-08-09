@@ -1,4 +1,5 @@
 import 'package:app_blog/Model/data/collections_names.dart';
+import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
 import 'package:app_blog/Model/repository/database.dart';
 import 'package:app_blog/View/common/mensagens.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +17,7 @@ class CreateUserWithEmailAndPassword implements AuthenticationRepository, DataBa
   authentication(Usuario usuario, BuildContext context) async {
     Mensagens _mensagem = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
+    final TipoSalvarDataBase tipoSalvar = TipoSalvarDataBase();
     User? user;
     try{
       await auth.createUserWithEmailAndPassword(
@@ -27,7 +29,12 @@ class CreateUserWithEmailAndPassword implements AuthenticationRepository, DataBa
           'usuario':usuario,
           'user':user
         };
-        salvarDados(map);
+        tipoSalvar.tipo = TipoSalvar.salvarPrimeiraVezDadosUsuario;
+        salvarDados(
+          tipoSalvar,
+          context,
+          args: map
+        );
         Navigator.pushNamedAndRemoveUntil(
           context,
           Routes.initialRoute,
@@ -51,7 +58,7 @@ class CreateUserWithEmailAndPassword implements AuthenticationRepository, DataBa
   }
 
   @override
-  void salvarDados(dynamic args) {
+  salvarDados(TipoSalvarDataBase tipoSalvar, BuildContext context, {dynamic args}) {
     FirebaseFirestore dbUsers = FirebaseFirestore.instance;
     User user = args['user'];
     Usuario usuario = args['usuario'];
@@ -60,6 +67,7 @@ class CreateUserWithEmailAndPassword implements AuthenticationRepository, DataBa
         'id':user.uid,
         'nome':usuario.nome,
         'email':usuario.email,
+        'sobre':'',
         'seguidores':[],
         'seguindo':[],
         'artigos':[],

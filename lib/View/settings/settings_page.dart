@@ -1,3 +1,5 @@
+import 'package:app_blog/Model/servicos/logout_service.dart';
+import 'package:app_blog/ViewModel/settings/settings_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../resources/color_manager.dart';
@@ -13,6 +15,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  final SettingsViewModel _viewModel = SettingsViewModel(LogOutRepository());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,7 +41,17 @@ class _SettingsPageState extends State<SettingsPage> {
             statusBarIconBrightness: Brightness.dark,
           ),
         ),
-        body: Column()
+        body: Column(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.logout_outlined, color: ColorManager.preto, size: 30,),
+              onPressed: (){
+                var res = _viewModel.sair(context);
+                return res;
+              },
+            )
+          ],
+        )
       ),
     );
   }

@@ -10,8 +10,6 @@ import '../repository/acessardados.dart';
 
 class AcessarDadosRepository implements AcessarDados{
 
-  Mensagens _mensagens = Mensagens();
-
   @override
   acessarDados(TipoAcessoDataBase tipoAcesso, BuildContext context) {
 
@@ -25,6 +23,7 @@ class AcessarDadosRepository implements AcessarDados{
   }
 
   _acessarDadosUsuario(BuildContext context) async {
+    final Mensagens _mensagens = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbUsers = FirebaseFirestore.instance;
     User? user = await auth.currentUser;
@@ -38,6 +37,7 @@ class AcessarDadosRepository implements AcessarDados{
         Usuario _usuario = Usuario();
         _usuario.nome = dados['nome'];
         _usuario.email = dados['email'];
+        _usuario.sobre = dados['sobre'];
         _usuario.profilePic = dados['profilePic'];
         _usuario.artigos = dados['artigos'];
         _usuario.seguindo = dados['seguindo'];
