@@ -1,6 +1,7 @@
 class AppStrings{
 
   static const String routeNotFound = 'Rota não encontrada';
+  static const String appBlog = 'AppBlog';
   static const String inicio= 'Inícios';
   static const String salvos = 'Salvos';
   static const String notificacoes = 'Notificações';

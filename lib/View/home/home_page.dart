@@ -1,3 +1,4 @@
+import 'package:app_blog/View/common/logo.dart';
 import 'package:app_blog/View/inicio/inicio_page.dart';
 import 'package:app_blog/View/notificacao/notifica_page.dart';
 import 'package:app_blog/View/resources/assets_manager.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:line_icons/line_icon.dart';
 import '../conta/conta_page.dart';
 import '../resources/color_manager.dart';
+import 'drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,6 +57,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: ColorManager.branco,
         elevation: 0,
         toolbarHeight: AppSize.s85,
+        title: LogoApp(fontSize: AppSize.s18,),
+        centerTitle: true,
         actions: [
           GestureDetector(
             onTap: () => setState(() {
@@ -63,8 +67,9 @@ class _HomePageState extends State<HomePage> {
             child: const Padding(
               padding: EdgeInsets.all(AppPadding.p12),
               child: CircleAvatar(
-                backgroundColor: ColorManager.preto,
+                backgroundColor: ColorManager.branco,
                 maxRadius: AppSize.s25,
+                backgroundImage: AssetImage(AssetsManager.defaultAccount),
               ),
             ),
           )
@@ -90,7 +95,7 @@ class _HomePageState extends State<HomePage> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(AppSize.s70))
         ),
-        child: Container(),
+        child: DrawerWidget(),
       ),
       body: _pages[_selectedItemPosition],
       bottomNavigationBar: SnakeNavigationBar.color(
