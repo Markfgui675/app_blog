@@ -6,10 +6,14 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:app_blog/View/salvos/salvo_page.dart';
 import 'package:app_blog/View/search/search_page.dart';
+import 'package:app_blog/ViewModel/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:line_icons/line_icon.dart';
+import '../../Model/models/Frase.dart';
+import '../../Model/models/TipoAcessoDataBase.dart';
+import '../../Model/servicos/acessardados_service.dart';
 import '../conta/conta_page.dart';
 import '../resources/color_manager.dart';
 import 'drawer.dart';
@@ -23,20 +27,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  ShapeBorder? bottomBarShape = const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(25))
-  );
-
+  final HomeViewModel _viewModel = HomeViewModel(AcessarDadosRepository());
   var scaffoldKey = GlobalKey<ScaffoldState>();
-
   SnakeShape snakeShape = SnakeShape.circle;
-
-  SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
-
-  bool showSelectedLabels = false;
-  bool showUnselectedLabes = false;
-
   int _selectedItemPosition = 0;
+  Frase frase = Frase();
 
   final List<Widget> _pages = [
     InicioPage(),
@@ -45,6 +40,16 @@ class _HomePageState extends State<HomePage> {
     NotificationPage(),
     ContaPage()
   ];
+
+  _bind()async{
+    await _viewModel.sortearFrase(TipoAcesso.acessarDadosFrases, context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bind();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +100,16 @@ class _HomePageState extends State<HomePage> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(AppSize.s70))
         ),
-        child: DrawerWidget(),
+        child: DrawerWidget(frase),
       ),
       body: _pages[_selectedItemPosition],
       bottomNavigationBar: SnakeNavigationBar.color(
         //height: 80,
-        behaviour: snakeBarStyle,
+        behaviour: SnakeBarBehaviour.floating,
         snakeShape: snakeShape,
-        shape: bottomBarShape,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(25))
+        ),
         padding: const EdgeInsets.all(AppPadding.p12),
         backgroundColor: ColorManager.preto,
 
@@ -116,8 +123,8 @@ class _HomePageState extends State<HomePage> {
         // selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
         // unselectedItemGradient: unselectedGradient,
 
-        showSelectedLabels: showSelectedLabels,
-        showUnselectedLabels: showUnselectedLabes,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
 
         currentIndex: _selectedItemPosition,
         onTap: (index) => setState(() => _selectedItemPosition = index),

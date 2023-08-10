@@ -15,6 +15,7 @@ class AppStrings{
   static const String seguidores = 'Seguidores';
   static const String seguindo = 'Seguindo';
   static const String artigos = 'Artigos';
+  static const String criarArtgio = 'Criar Artigo';
 
   static const String naoLogado = 'Você não está logado, entre ou cadastre-se no app.';
   static const String jaTemConta = 'Já tem conta? ';
@@ -45,6 +46,8 @@ class ErrorStrings{
   static const String usuarioNaoExiste = 'Usuário não encontrado.';
   static const String naoLogin = 'Não foi possível fazer o login, verique e-mail e senha e tente novamente.';
   static const String dadosNaoAlterados = 'Não foi possível salvar as mudanças.';
+
+  static const String naoFoiPossivelAcessarDado = 'Não foi possível acessar o dado.';
 
 }
 

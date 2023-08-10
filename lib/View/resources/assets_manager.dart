@@ -1,5 +1,6 @@
 const String ICONS_PATH = 'assets/icons';
 const String IMAGE_PATH = 'assets/images';
+const String JSON_PATH = 'assets/json';
 
 class AssetsManager{
 
@@ -11,5 +12,11 @@ class AssetsManager{
 
   static const String image = "$IMAGE_PATH/image.jpg";
   static const String defaultAccount = "$IMAGE_PATH/default_account.png";
+
+}
+
+class JsonManager{
+
+  static const String writting = "$JSON_PATH/writting.json";
 
 }

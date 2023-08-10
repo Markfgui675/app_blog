@@ -5,8 +5,10 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import '../models/Frase.dart';
 import '../models/Usuario.dart';
 import '../repository/acessardados.dart';
+import 'dart:math';
 
 class AcessarDadosRepository implements AcessarDados{
 
@@ -17,7 +19,10 @@ class AcessarDadosRepository implements AcessarDados{
 
       case TipoAcesso.acessarDadosUsuario:
         return _acessarDadosUsuario(context);
-
+      case TipoAcesso.acessarDadosFrases:
+        return _acessarDadosFrases(context);
+      default:
+        return _error(context);
     }
 
   }
@@ -54,6 +59,31 @@ class AcessarDadosRepository implements AcessarDados{
       _mensagens.state = false;
       return _mensagens.scaffoldMessege(context);
     }
+  }
+
+  _acessarDadosFrases(BuildContext context)async{
+    final Mensagens _mensagens = Mensagens();
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseFirestore dbFrases = FirebaseFirestore.instance;
+    List<Frase> _frases = [];
+    final docRef = await dbFrases.collection(CollectionsNames.frases);
+    await docRef.get().then((querySnapshot){
+      for(var docSnapshot in querySnapshot.docs){
+        Frase _frase = Frase();
+        _frase.frase = docSnapshot.data()['frase'];
+        _frase.autor = docSnapshot.data()['autor'];
+        _frases.add(_frase);
+      }
+      return(_frases[Random().nextInt(_frases.length)]);
+    });
+  }
+
+  _error(BuildContext context){
+    final Mensagens _mensagens = Mensagens();
+    print(ErrorStrings.naoFoiPossivelAcessarDado);
+    _mensagens.mensagemError = ErrorStrings.naoFoiPossivelAcessarDado;
+    _mensagens.state = false;
+    return _mensagens.scaffoldMessege(context);
   }
 
 }
