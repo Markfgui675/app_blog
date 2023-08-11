@@ -7,12 +7,14 @@ import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../Model/models/Frase.dart';
 
 class DrawerWidget extends StatelessWidget {
-  Frase _frase;
-  DrawerWidget(this._frase, {super.key});
+  Frase? frase;
+  DrawerWidget({this.frase});
+
+  String _frasePadrao = 'A vantagem de ter péssima memória é divertir-se muitas vezes com as mesmas coisas boas como se fosse a primeira vez.';
+  String _autorFrasePadrao = 'Friedrich Nietzsche';
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,23 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSize.s10,),
-            Lottie.asset(JsonManager.writting),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset(JsonManager.writting, height: AppSize.s100)
+              ],
+            ),
+            const SizedBox(height: AppSize.s10,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(frase?.frase == null ? _frasePadrao : frase!.frase,
+                  style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),),
+                const SizedBox(height: AppSize.s8),
+                Text(frase?.autor == null ? _autorFrasePadrao : frase!.autor,
+                  style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s18),),
+              ],
+            ),
             const Spacer(),
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, Routes.settings),

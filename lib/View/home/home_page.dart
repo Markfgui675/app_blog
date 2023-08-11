@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(AppSize.s70))
         ),
-        child: DrawerWidget(frase),
+        child: DrawerWidget(),
       ),
       body: _pages[_selectedItemPosition],
       bottomNavigationBar: SnakeNavigationBar.color(

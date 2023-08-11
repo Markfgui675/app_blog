@@ -12,10 +12,10 @@ class HomeViewModel{
     _repository = repository;
   }
 
-  sortearFrase(String tipoAcesso, BuildContext context)async{
+  sortearFrase(String tipoAcesso, BuildContext context){
     _tipoAcesso.tipo = tipoAcesso;
-    _frase = await _repository.acessarDados(_tipoAcesso, context);
-    print('Frase aqui na viewmodel: '+_frase.frase);
+    var _dado = _repository.acessarDados(_tipoAcesso, context);
+    print('Frase aqui na viewmodel: '+_dado.toString());
   }
 
 }

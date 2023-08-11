@@ -65,17 +65,20 @@ class AcessarDadosRepository implements AcessarDados{
     final Mensagens _mensagens = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbFrases = FirebaseFirestore.instance;
-    List<Frase> _frases = [];
+    List<Map<String, String>> _frases = [];
     final docRef = await dbFrases.collection(CollectionsNames.frases);
     await docRef.get().then((querySnapshot){
       for(var docSnapshot in querySnapshot.docs){
-        Frase _frase = Frase();
-        _frase.frase = docSnapshot.data()['frase'];
-        _frase.autor = docSnapshot.data()['autor'];
-        _frases.add(_frase);
+        String frase = docSnapshot.data()['frase'];
+        String autor = docSnapshot.data()['autor'];
+        _frases.add({
+          'frase':frase,
+          'autor':autor
+        });
       }
-      return(_frases[Random().nextInt(_frases.length)]);
+      print(_frases);
     });
+    return 'Opa, ó qu aqui ó';
   }
 
   _error(BuildContext context){
