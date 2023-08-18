@@ -1,3 +1,5 @@
+import 'package:app_blog/View/artigo/criar_artigo_page.dart';
+import 'package:app_blog/View/artigo/verify.dart';
 import 'package:app_blog/View/conta/artigos_page.dart';
 import 'package:app_blog/View/conta/seguir_seguindo_page.dart';
 import 'package:app_blog/View/home/home_page.dart';
@@ -11,7 +13,6 @@ import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../conta/editor_page.dart';
 import '../login/entrar_page.dart';
 import '../settings/settings_page.dart';
@@ -30,6 +31,8 @@ sealed class Routes{
   static const String seguirSeguindoPage = 'seguirseguindopage';
   static const String artigosPage = 'artigospages';
   static const String settings = 'configuracoes';
+  static const String criarArtigoPage = 'criarArtigoPage';
+  static const String verify = 'verify';
 
 }
 
@@ -57,11 +60,15 @@ sealed class RouteGenerator{
       case Routes.editorPage:
         return MaterialPageRoute(builder: (_) => EditorPage());
       case Routes.seguirSeguindoPage:
-        return MaterialPageRoute(builder: (_)=> SeguirSeguindoPage(title: args));
+        return MaterialPageRoute(builder: (_) => SeguirSeguindoPage(title: args));
       case Routes.artigosPage:
-        return MaterialPageRoute(builder: (_)=> ArtigosPage());
+        return MaterialPageRoute(builder: (_) => ArtigosPage());
       case Routes.settings:
-        return MaterialPageRoute(builder: (_)=> SettingsPage());
+        return MaterialPageRoute(builder: (_) => SettingsPage());
+      case Routes.criarArtigoPage:
+        return MaterialPageRoute(builder: (_) => CriarArtigoPage());
+      case Routes.verify:
+        return MaterialPageRoute(builder: (_) => VerifyPage());
       default:
         return unDefinedRoute();
     }

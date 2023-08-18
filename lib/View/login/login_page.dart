@@ -6,7 +6,8 @@ import '../resources/routes_manager.dart';
 import '../resources/values_manager.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  String? mensagem;
+  LoginPage({super.key, this.mensagem = AppStrings.naoLogado});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(AppStrings.naoLogado,
+            Text(widget.mensagem!,
               style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),
               textAlign: TextAlign.center,
             ),

@@ -11,10 +11,10 @@ import '../../Model/models/Frase.dart';
 
 class DrawerWidget extends StatelessWidget {
   Frase? frase;
-  DrawerWidget({this.frase});
+  DrawerWidget({super.key, this.frase});
 
-  String _frasePadrao = 'A vantagem de ter péssima memória é divertir-se muitas vezes com as mesmas coisas boas como se fosse a primeira vez.';
-  String _autorFrasePadrao = 'Friedrich Nietzsche';
+  final String _frasePadrao = 'A vantagem de ter péssima memória é divertir-se muitas vezes com as mesmas coisas boas como se fosse a primeira vez.';
+  final String _autorFrasePadrao = 'Friedrich Nietzsche';
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,9 @@ class DrawerWidget extends StatelessWidget {
             LogoApp(fontSize: AppSize.s48, center: false),
             const SizedBox(height: AppSize.s25,),
             GestureDetector(
-              onTap: (){},
+              onTap: (){
+                Navigator.pushNamed(context, Routes.verify);
+              },
               child: Container(
                 width: double.infinity,
                 height: AppSize.s60,

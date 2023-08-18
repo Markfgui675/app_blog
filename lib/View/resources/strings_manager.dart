@@ -33,6 +33,8 @@ sealed class AppStrings{
   static const String settings = 'Configurações';
   static const String salvarMudancas = 'Salvar Mudanças';
 
+  static const String antesCriarArtigo = 'Antes de criar o seu artigo, crie uma conta ou entre na sua.';
+
 }
 
 sealed class ErrorStrings{
