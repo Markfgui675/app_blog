@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ColorManager {
+sealed class ColorManager {
 
   static const Color marrom = Color(0xff564439);
   static const Color preto= Color(0xff030412);

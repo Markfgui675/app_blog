@@ -28,6 +28,8 @@ class _CriarContaPageState extends State<CriarContaPage> {
 
   Usuario usuario = Usuario();
 
+  bool _senhaObscura = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +63,10 @@ class _CriarContaPageState extends State<CriarContaPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
                   child: TextFormField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
+                    cursorColor: ColorManager.marrom,
                     controller: _nome,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -80,7 +85,10 @@ class _CriarContaPageState extends State<CriarContaPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
                   child: TextFormField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
+                    cursorColor: ColorManager.marrom,
                     controller: _email,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -101,12 +109,24 @@ class _CriarContaPageState extends State<CriarContaPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
                   child: TextFormField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
+                    cursorColor: ColorManager.marrom,
                     controller: _senha,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: AppStrings.senha
+                    obscureText: _senhaObscura,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: AppStrings.senha,
+                      suffixIcon: IconButton(
+                        icon: _senhaObscura ? const Icon(Icons.remove_red_eye) : const Icon(Icons.remove_red_eye_outlined),
+                        color: ColorManager.marrom,
+                        onPressed: (){
+                          setState(() {
+                            _senhaObscura = !_senhaObscura;
+                          });
+                        },
+                      ),
                     ),
                     validator: (value){
                       if(value!.length < 6){

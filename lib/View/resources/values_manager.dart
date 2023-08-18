@@ -1,4 +1,4 @@
-class AppPadding{
+sealed class AppPadding{
 
   static const double p1 = 1.0;
   static const double p2 = 2.0;
@@ -12,7 +12,7 @@ class AppPadding{
 
 }
 
-class AppMargin{
+sealed class AppMargin{
 
   static const double m2 = 2.0;
   static const double m6 = 6.0;
@@ -27,7 +27,7 @@ class AppMargin{
 
 }
 
-class AppSize{
+sealed class AppSize{
 
   static const double s1 = 1.0;
   static const double s2 = 2.0;

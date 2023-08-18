@@ -2,7 +2,7 @@ const String ICONS_PATH = 'assets/icons';
 const String IMAGE_PATH = 'assets/images';
 const String JSON_PATH = 'assets/json';
 
-class AssetsManager{
+sealed class AssetsManager{
 
   static const String menu = "$ICONS_PATH/menu-icon.png";
   static const String home = "$ICONS_PATH/home-icon.png";
@@ -15,7 +15,7 @@ class AssetsManager{
 
 }
 
-class JsonManager{
+sealed class JsonManager{
 
   static const String writting = "$JSON_PATH/writting.json";
 

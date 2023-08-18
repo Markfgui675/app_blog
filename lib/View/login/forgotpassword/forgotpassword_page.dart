@@ -1,6 +1,5 @@
 import 'package:app_blog/Model/servicos/recuperarsenha_service.dart';
 import 'package:app_blog/View/resources/color_manager.dart';
-import 'package:app_blog/View/resources/routes_manager.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
@@ -61,6 +60,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
                   child: TextFormField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    cursorColor: ColorManager.marrom,
                     keyboardType: TextInputType.emailAddress,
                     controller: _email,
                     decoration: const InputDecoration(

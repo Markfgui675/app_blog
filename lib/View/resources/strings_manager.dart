@@ -1,4 +1,4 @@
-class AppStrings{
+sealed class AppStrings{
 
   static const String routeNotFound = 'Rota não encontrada';
   static const String appBlog = 'AppBlog';
@@ -35,7 +35,7 @@ class AppStrings{
 
 }
 
-class ErrorStrings{
+sealed class ErrorStrings{
   static const String nomeValido = 'Informe um nome válido!';
   static const String emailValido = 'Informe um email válido!';
   static const String emailVazio = 'Informe um email!';
@@ -51,7 +51,7 @@ class ErrorStrings{
 
 }
 
-class SuccessStrings{
+sealed class SuccessStrings{
   static const String linkEnviado = 'Link enviado com sucesso!';
   static const String login = 'Login feito com sucesso!';
   static const String contaCriada = 'Conta criada com sucesso!';

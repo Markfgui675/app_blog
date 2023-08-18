@@ -17,7 +17,7 @@ import '../login/entrar_page.dart';
 import '../settings/settings_page.dart';
 import 'color_manager.dart';
 
-class Routes{
+sealed class Routes{
 
   static const String initialRoute = '/';
   static const String leituraPage = 'leiturapage';
@@ -33,7 +33,7 @@ class Routes{
 
 }
 
-class RouteGenerator{
+sealed class RouteGenerator{
 
   static Route<dynamic> getRoute(RouteSettings routeSettings){
 
