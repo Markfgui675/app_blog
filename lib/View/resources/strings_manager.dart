@@ -41,6 +41,7 @@ sealed class AppStrings{
   static const String salvarMudancas = 'Salvar Mudanças';
 
   static const String antesCriarArtigo = 'Antes de criar o seu artigo, crie uma conta ou entre na sua.';
+  static const String preView = 'Pré-visualização';
 
 }
 
@@ -51,6 +52,7 @@ sealed class ErrorStrings{
   static const String senhaCurta = 'Digite uma senha de pelo menos 6 caracteres!';
   static const String tituloVazio = 'Informe um título!';
   static const String subtituloVazio = 'Informe um subtítulo';
+  static const String textoCurto = 'Digite o seu texto!';
   static const String subtituloCurto = 'O subtítulo deve conter pelo menos 10 caracteres';
 
   static const String semConexao = 'Conecte-se à uma rede de internet e tente novamente!';

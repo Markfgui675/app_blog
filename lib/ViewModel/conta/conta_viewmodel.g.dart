@@ -42,6 +42,16 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
         .run(() => super.acessarDados(tipo, context));
   }
 
+  late final _$salvarDadosAsyncAction =
+      AsyncAction('ContaViewModelMobx.salvarDados', context: context);
+
+  @override
+  Future salvarDados(String tipo, BuildContext context,
+      {String? nome, dynamic sobre}) {
+    return _$salvarDadosAsyncAction
+        .run(() => super.salvarDados(tipo, context, nome: nome, sobre: sobre));
+  }
+
   @override
   String toString() {
     return '''

@@ -161,7 +161,7 @@ class _EditorPageState extends State<EditorPage> {
                         child: GestureDetector(
                           onTap: (){
                             if(formKey.currentState!.validate()){
-                              var res = _viewModel.salvarDados(
+                              dynamic res = _viewModel.salvarDados(
                                   TipoSalvar.salvarDadosUsuario, context,
                                   nome: _nome.text,
                                   sobre: _sobre.text

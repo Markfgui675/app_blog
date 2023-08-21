@@ -1,6 +1,8 @@
+import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
+import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import '../resources/color_manager.dart';
 import '../resources/strings_manager.dart';
 import '../resources/style_manager.dart';
@@ -22,10 +24,21 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   final TextEditingController _subTituloController = TextEditingController();
   final TextEditingController _textoController = TextEditingController();
 
-  PageController _pageController = PageController(
+  final PageController _pageController = PageController(
     initialPage: 0
   );
   int _pageChanged = 0;
+
+  final ContaViewModel _viewModel = ContaViewModel();
+  _bind(){
+    _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bind();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +79,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Spacer(),
+                  const SizedBox(height: AppSize.s48),
                   Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
                   const SizedBox(height: AppSize.s48,),
                   Padding(
@@ -77,8 +90,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                       cursorColor: ColorManager.marrom,
                       controller: _tituloController,
                       decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: AppStrings.titulo
+                        border: OutlineInputBorder(),
+                        labelText: AppStrings.titulo
                       ),
                       validator: (value){
                         if(value!.isEmpty){
@@ -98,8 +111,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                       cursorColor: ColorManager.marrom,
                       controller: _subTituloController,
                       decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: AppStrings.subTitulo
+                        border: OutlineInputBorder(),
+                        labelText: AppStrings.subTitulo
                       ),
                       validator: (value){
                         if(value!.isEmpty){
@@ -112,13 +125,13 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                       },
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: AppSize.s48),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       _button(
-                          toNext: true,
-                          formKey: _formKey1
+                        toNext: true,
+                        formKey: _formKey1
                       )
                     ],
                   )
@@ -129,15 +142,17 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
 
 
           // texto do artigo
-          Container(
-              height: MediaQuery.of(context).size.height,
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Form(
                 key: _formKey2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Spacer(),
+                    const SizedBox(height: AppSize.s48),
                     Text(AppStrings.textoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
                     const SizedBox(height: AppSize.s48,),
                     Padding(
@@ -148,19 +163,19 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                         cursorColor: ColorManager.marrom,
                         controller: _textoController,
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: AppStrings.titulo
+                          border: OutlineInputBorder(),
+                          labelText: AppStrings.texto
                         ),
                         validator: (value){
-                          if(value!.isEmpty || value.length < 10){
-                            return ErrorStrings.tituloVazio;
+                          if(value!.isEmpty || value.length < 2){
+                            return ErrorStrings.textoCurto;
                           } else {
                             return null;
                           }
                         },
                       ),
                     ),
-                    const Spacer(),
+                    const SizedBox(height: AppSize.s48),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -170,7 +185,72 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                     )
                   ],
                 ),
+              ),
+            )
+          ),
+
+
+          // Pré-visualização
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(left: AppPadding.p10, right: AppPadding.p10),
+              child: Observer(
+                builder: (_){
+                  return Column(
+                    children: [
+                      const SizedBox(height: AppSize.s48),
+                      Text(AppStrings.preView, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                      const SizedBox(height: AppSize.s48),
+
+                      // Pré-visualização de fato
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s18),
+                          border: Border.all(
+                              color: ColorManager.preto,
+                              width: 1.5
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(AppPadding.p5),
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(AppSize.s18),
+                                color: Colors.black,
+                              ),
+                              height: 160,
+                              width: double.infinity,
+                            ),
+                            const SizedBox(height: AppSize.s18,),
+                            Text(_tituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s25), textAlign: TextAlign.start,),
+                            const SizedBox(height: AppSize.s18,),
+                            Text(_subTituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18), textAlign: TextAlign.start,),
+                            const SizedBox(height: AppSize.s18,),
+                            Text(_textoController.text, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s12), textAlign: TextAlign.start,),
+                            const SizedBox(height: AppSize.s20,),
+                            Text('Por ${_viewModel.dadosUsuario[0].nome}', style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s12), textAlign: TextAlign.start,),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: AppSize.s48),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _button(toNext: false),
+                          _button(toNext: true)
+                        ],
+                      )
+                    ],
+                  );
+                },
               )
+            ),
           )
         ],
       ),
@@ -179,9 +259,9 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   
   Widget _button({required bool toNext, GlobalKey<FormState>? formKey}){
     _toNext(){
-      if(_pageChanged==1){
+      if(_pageChanged==2){
         _pageController.animateToPage(
-          1,
+          2,
           duration: Duration(milliseconds: AppSize.s250.toInt()),
           curve: Curves.easeInOut
         );
