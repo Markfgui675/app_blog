@@ -180,7 +180,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _button(toNext: false),
-                        _button(toNext: true)
+                        _button(toNext: true, formKey: _formKey2)
                       ],
                     )
                   ],
@@ -256,7 +256,19 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
       ),
     );
   }
-  
+
+
+  /// Método responsável por implementar o botão de *próximo* ou *anterior*, a depender do parâmentro **toNext**.
+  ///
+  /// Exemplo de uso:
+  ///
+  ///  - Se o parâmetro **toNext** for **True** , o botão será setado como *próximo* e executará sua respectiva função.
+  ///
+  ///  - Se o parâmetro **toNext** for **False** , o botão será setado como *anterior* e executará sua respectiva função.
+  ///
+  /// Observação:
+  ///
+  /// É possível setar a **formKey**. Sua função é indicar a chave global, para que seja possível verificar e validar os campos daquela respectiva chave.
   Widget _button({required bool toNext, GlobalKey<FormState>? formKey}){
     _toNext(){
       if(_pageChanged==2){
