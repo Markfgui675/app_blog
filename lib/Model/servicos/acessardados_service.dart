@@ -5,10 +5,8 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import '../models/Frase.dart';
 import '../models/Usuario.dart';
 import '../repository/acessardados.dart';
-import 'dart:math';
 
 class AcessarDadosRepository implements AcessarDados{
 

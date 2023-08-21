@@ -22,10 +22,10 @@ class _VerifyPageState extends State<VerifyPage> {
     return Scaffold(
       backgroundColor: ColorManager.branco,
       body: Obx(
-          (){
+              (){
             return _authController.user.value == null ?
-              LoginPage(mensagem: AppStrings.antesCriarArtigo,) :
-              CriarArtigoPage();
+            LoginPage(mensagem: AppStrings.antesCriarArtigo) :
+            CriarArtigoPage();
           }
       ),
     );

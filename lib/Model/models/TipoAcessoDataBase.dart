@@ -6,7 +6,7 @@ class TipoAcessoDataBase{
 
 }
 
-class TipoAcesso{
+sealed class TipoAcesso{
   static const String acessarDadosUsuario = 'acessarDadosUsuario';
   static const String acessarDadosFrases = 'acessarDadosFrases';
 }

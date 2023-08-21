@@ -48,6 +48,7 @@ sealed class AppSize{
   static const double s140 = 140.0;
   static const double s150 = 150.0;
   static const double s180 = 180.0;
+  static const double s250 = 250.0;
   static const double s300 = 300.0;
   static const double s320 = 320.0;
   static const double s330 = 330.0;

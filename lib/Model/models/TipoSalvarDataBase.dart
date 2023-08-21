@@ -6,7 +6,7 @@ class TipoSalvarDataBase{
 
 }
 
-class TipoSalvar{
+sealed class TipoSalvar{
   static const String salvarDadosUsuario = 'salvarDadosUsuario';
   static const String salvarPrimeiraVezDadosUsuario = 'salvarPrimeiraVezDadosUsuario';
 }

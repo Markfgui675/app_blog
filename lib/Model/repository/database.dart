@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../models/TipoSalvarDataBase.dart';
 
 abstract class DataBase{
