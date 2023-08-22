@@ -30,7 +30,8 @@ class SalvarDados implements DataBase{
     FirebaseFirestore dbUser = FirebaseFirestore.instance;
     Map<String, String> _dadosAtualizar = {
       'nome':args!.nome,
-      'sobre':args.sobre
+      'sobre':args.sobre,
+      'profilePic':args.profilePic
     };
     try{
       dbUser.collection(CollectionsNames.usuarios).doc(user!.uid).update(_dadosAtualizar)

@@ -6,10 +6,14 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:app_blog/View/salvos/salvo_page.dart';
 import 'package:app_blog/View/search/search_page.dart';
+import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
+import 'package:app_blog/ViewModel/controller/auth_controller.dart';
 import 'package:app_blog/ViewModel/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 import '../../Model/models/Frase.dart';
 import '../../Model/models/TipoAcessoDataBase.dart';
@@ -28,6 +32,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   final HomeViewModel _viewModel = HomeViewModel(AcessarDadosRepository());
+  final AuthController _authController = AuthController();
+  final ContaViewModel _contaViewModel = ContaViewModel();
   var scaffoldKey = GlobalKey<ScaffoldState>();
   SnakeShape snakeShape = SnakeShape.circle;
   int _selectedItemPosition = 0;
@@ -43,6 +49,7 @@ class _HomePageState extends State<HomePage> {
 
   _bind()async{
     await _viewModel.sortearFrase(TipoAcesso.acessarDadosFrases, context);
+    await _contaViewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
   }
 
   @override
@@ -53,6 +60,28 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return Obx(
+        (){
+          return _authController.user.value == null ?
+          _scaffold():
+          Observer(
+            builder: (_){
+              if(_contaViewModel.dadosUsuario.isEmpty){
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorManager.marrom,
+                  ),
+                );
+              } else {
+                return _scaffold(urlProfilePic: _contaViewModel.dadosUsuario[0].profilePic);
+              }
+            }
+          );
+        }
+    );
+  }
+
+  Widget _scaffold({String? urlProfilePic}){
     return Scaffold(
       key: scaffoldKey,
       extendBodyBehindAppBar: true,
@@ -69,12 +98,19 @@ class _HomePageState extends State<HomePage> {
             onTap: () => setState(() {
               _selectedItemPosition = 4;
             }),
-            child: const Padding(
-              padding: EdgeInsets.all(AppPadding.p12),
+            child: urlProfilePic == null ? const Padding(
+                padding: EdgeInsets.all(AppPadding.p12),
+                child: CircleAvatar(
+                  backgroundColor: ColorManager.branco,
+                  maxRadius: AppSize.s25,
+                  backgroundImage: AssetImage(AssetsManager.defaultAccount),
+                )
+            ) : Padding(
+              padding: const EdgeInsets.all(AppPadding.p12),
               child: CircleAvatar(
                 backgroundColor: ColorManager.branco,
                 maxRadius: AppSize.s25,
-                backgroundImage: AssetImage(AssetsManager.defaultAccount),
+                backgroundImage: NetworkImage(urlProfilePic),
               ),
             ),
           )
@@ -113,12 +149,12 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(AppPadding.p12),
         backgroundColor: ColorManager.preto,
 
-        ///configuration for SnakeNavigationBar.color
+        //configuration for SnakeNavigationBar.color
         snakeViewColor: ColorManager.branco,
         selectedItemColor: snakeShape == SnakeShape.indicator ? null : ColorManager.marrom,
         unselectedItemColor: ColorManager.branco,
 
-        ///configuration for SnakeNavigationBar.gradient
+        //configuration for SnakeNavigationBar.gradient
         // snakeViewGradient: selectedGradient,
         // selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
         // unselectedItemGradient: unselectedGradient,
@@ -138,16 +174,16 @@ class _HomePageState extends State<HomePage> {
               label: AppStrings.inicio
           ),
           BottomNavigationBarItem(
-            icon: LineIcon.bookmarkAlt(),
-            label: AppStrings.salvos
+              icon: LineIcon.bookmarkAlt(),
+              label: AppStrings.salvos
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: AppStrings.notificacoes
+              icon: Icon(Icons.notifications),
+              label: AppStrings.notificacoes
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: AppStrings.conta
+              icon: Icon(Icons.account_circle_outlined),
+              label: AppStrings.conta
           ),
         ],
 

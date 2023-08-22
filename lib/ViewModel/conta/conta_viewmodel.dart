@@ -33,10 +33,11 @@ abstract class ContaViewModelMobx with Store{
   }
 
   @action
-  salvarDados(String tipo, BuildContext context, {String? nome, sobre}) async {
+  salvarDados(String tipo, BuildContext context, {String? nome, sobre, profilePic}) async {
     _tipoSalvar.tipo = tipo;
     _usuario.nome = nome!;
     _usuario.sobre = sobre!;
+    _usuario.profilePic = profilePic!;
     _repositorySalvar.salvarDados(_tipoSalvar, context, args: _usuario);
     _tipoAcesso.tipo = TipoAcesso.acessarDadosUsuario;
     _infoUser = await _repositoryAcessar.acessarDados(_tipoAcesso, context);

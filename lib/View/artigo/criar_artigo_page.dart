@@ -46,10 +46,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
     _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
   }
 
-  String filex = '';
   bool uploading = false;
   bool loading = true;
-  double total = 0;
   dynamic arquivo;
 
   Future<XFile?> getImage() async{
@@ -66,13 +64,11 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
         if(snapshot.state == TaskState.running){
           setState(() {
             uploading = true;
-            total = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
           });
         } else if(snapshot.state == TaskState.success){
           arquivo = await snapshot.ref.getDownloadURL();
           setState(() {
             uploading = false;
-            filex = file.path;
           });
         }
       });

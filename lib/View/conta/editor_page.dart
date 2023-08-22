@@ -1,7 +1,7 @@
 import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
-import 'package:app_blog/View/common/gerador_id.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -21,10 +21,17 @@ class EditorPage extends StatefulWidget {
 
 class _EditorPageState extends State<EditorPage> {
 
+  final TextEditingController _nome = TextEditingController();
+  final TextEditingController _sobre = TextEditingController();
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  var formKey = GlobalKey<FormState>();
 
   final ContaViewModel _viewModel = ContaViewModel();
   late File _image;
   final imagePicker = ImagePicker();
+  bool uploading = false;
+  bool loading = true;
+  dynamic arquivo;
 
   _bind() async{
     await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
@@ -32,18 +39,63 @@ class _EditorPageState extends State<EditorPage> {
     _sobre.text = _viewModel.dadosUsuario[0].sobre;
   }
 
-  Future _getImageCamera()async{
-    final image = await imagePicker.pickImage(source: ImageSource.camera);
+  Future<XFile?> getImageGallery()async{
+    XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
+    return image;
   }
 
-  Future _getImageGallery()async{
-    final image = await imagePicker.pickImage(source: ImageSource.gallery);
+  Future<XFile?> _getImageCamera()async{
+    XFile? image = await imagePicker.pickImage(source: ImageSource.camera);
+    return image;
   }
 
-  final TextEditingController _nome = TextEditingController();
-  final TextEditingController _sobre = TextEditingController();
+  pickAndUploadImageFromGallery()async{
+    XFile? file = await getImageGallery();
+    if(file != null){
+      UploadTask task = await upload(file.path);
+      task.snapshotEvents.listen((TaskSnapshot snapshot)async{
+        if(snapshot.state == TaskState.running){
+          setState(() {
+            uploading = true;
+          });
+        } else if(snapshot.state == TaskState.success){
+          arquivo = await snapshot.ref.getDownloadURL();
+          setState(() {
+            uploading = false;
+          });
+        }
+      });
+    }
+  }
 
-  var formKey = GlobalKey<FormState>();
+  pickAndUploadImageFromCamera()async{
+    XFile? file = await _getImageCamera();
+    if(file != null){
+      UploadTask task = await upload(file.path);
+      task.snapshotEvents.listen((TaskSnapshot snapshot)async{
+        if(snapshot.state == TaskState.running){
+          setState(() {
+            uploading = true;
+          });
+        } else if(snapshot.state == TaskState.success){
+          arquivo = await snapshot.ref.getDownloadURL();
+          setState(() {
+            uploading = false;
+          });
+        }
+      });
+    }
+  }
+
+  Future<UploadTask> upload(String path)async{
+    File file = File(path);
+    try{
+      String ref = 'accounts/img-${DateTime.now().toString()}.jpg';
+      return storage.ref(ref).putFile(file);
+    } on FirebaseException catch(e){
+      throw Exception('Erro no upload: ${e.code}');
+    }
+  }
 
   @override
   void initState() {
@@ -88,13 +140,32 @@ class _EditorPageState extends State<EditorPage> {
 
                     // Foto Usuário
                     Container(
-                      width: double.infinity,
+                      width: AppSize.s180,
+                      height: AppSize.s180,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(AppSize.s180),
+                      ),
                       padding: const EdgeInsets.all(AppPadding.p2),
-                      child: Center(
-                        child: CircleAvatar(
-                          maxRadius: 80,
-                          backgroundColor: Colors.white,
-                          backgroundImage: NetworkImage(_viewModel.dadosUsuario[0].profilePic),
+                      child: uploading ? const Center(
+                        child: CircularProgressIndicator(color: ColorManager.marrom,),
+                      ) : arquivo == null ? Container(
+                        width: AppSize.s180,
+                        height: AppSize.s180,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s180),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(_viewModel.dadosUsuario[0].profilePic, scale: 1)
+                          )
+                        ),
+                      ) : Container(
+                        width: AppSize.s180,
+                        height: AppSize.s180,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s180),
+                          image: DecorationImage(
+                            image: NetworkImage(arquivo)
+                          )
                         ),
                       ),
                     ),
@@ -102,8 +173,8 @@ class _EditorPageState extends State<EditorPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                            onPressed: _modalCamera,
-                            icon: const Icon(Icons.add_a_photo_outlined, color: ColorManager.marrom, size: AppSize.s30,)
+                          onPressed: _modalCamera,
+                          icon: const Icon(Icons.add_a_photo_outlined, color: ColorManager.marrom, size: AppSize.s30,)
                         )
                       ],
                     ),
@@ -163,9 +234,10 @@ class _EditorPageState extends State<EditorPage> {
                           onTap: (){
                             if(formKey.currentState!.validate()){
                               dynamic res = _viewModel.salvarDados(
-                                  TipoSalvar.salvarDadosUsuario, context,
-                                  nome: _nome.text,
-                                  sobre: _sobre.text
+                                TipoSalvar.salvarDadosUsuario, context,
+                                nome: _nome.text,
+                                sobre: _sobre.text,
+                                profilePic: arquivo
                               );
                               return res;
                             }
@@ -237,7 +309,10 @@ class _EditorPageState extends State<EditorPage> {
                         ),
                         child: Center(
                           child: IconButton(
-                              onPressed: _getImageCamera,
+                              onPressed: (){
+                                pickAndUploadImageFromCamera();
+                                Navigator.pop(context);
+                              },
                               icon: const Icon(Icons.camera_alt_outlined, color: ColorManager.marrom,)
                           ),
                         ),
@@ -256,7 +331,10 @@ class _EditorPageState extends State<EditorPage> {
                         ),
                         child: Center(
                           child: IconButton(
-                              onPressed: ()=>GeradorId.gerarId(),
+                              onPressed: (){
+                                pickAndUploadImageFromGallery();
+                                Navigator.pop(context);
+                              },
                               icon: const Icon(Icons.photo, color: ColorManager.marrom,)
                           ),
                         ),
