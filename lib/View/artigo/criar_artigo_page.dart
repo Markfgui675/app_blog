@@ -1,12 +1,17 @@
 import 'dart:io';
+import 'package:app_blog/Model/data/collections_names.dart';
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
+import 'package:app_blog/View/common/gerador_id.dart';
 import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../Model/models/Artigo.dart';
 import '../resources/color_manager.dart';
 import '../resources/strings_manager.dart';
 import '../resources/style_manager.dart';
@@ -82,6 +87,26 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
     } on FirebaseException catch(e){
       throw Exception('Erro no upload: ${e.code}');
     }
+  }
+
+  _criarArtigo()async{
+    Artigo artigo = Artigo();
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = await auth.currentUser;
+    String _idArtigo = GeradorId.gerarId();
+    db.collection(CollectionsNames.artigos).doc(_idArtigo).set(
+      {
+        'id':_idArtigo,
+        'idAutor':user!.uid,
+        'titulo':_tituloController.text,
+        'subTitulo':_subTituloController.text,
+        'texto':_textoController.text,
+        'autor':_viewModel.dadosUsuario[0].nome,
+        'img':arquivo,
+        'topico':''
+      }
+    );
   }
 
   @override
@@ -373,6 +398,40 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                 },
               )
             ),
+          ),
+
+
+          // confirmação
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Confirma a publicação do artigo?', style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _button(toNext: false, text: 'Não'),
+                  GestureDetector(
+                    onTap: _criarArtigo,
+                    child: Container(
+                      width: AppSize.s140,
+                      height: AppSize.s60,
+                      padding: const EdgeInsets.all(AppPadding.p16),
+                      decoration: BoxDecoration(
+                          color: ColorManager.marrom,
+                          borderRadius: BorderRadius.circular(AppSize.s10)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('Sim', style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
           )
         ],
       ),
@@ -391,11 +450,11 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   /// Observação:
   ///
   /// É possível setar a **formKey**. Sua função é indicar a chave global, para que seja possível verificar e validar os campos daquela respectiva chave.
-  Widget _button({required bool toNext, GlobalKey<FormState>? formKey}){
+  Widget _button({required bool toNext, GlobalKey<FormState>? formKey, String? text}){
     _toNext(){
-      if(_pageChanged==3){
+      if(_pageChanged==4){
         _pageController.animateToPage(
-          3,
+          4,
           duration: Duration(milliseconds: AppSize.s250.toInt()),
           curve: Curves.easeInOut
         );
@@ -447,11 +506,11 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: toNext ? [
-              Text(AppStrings.next, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+              Text(text ?? AppStrings.next, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
               const Icon(Icons.arrow_forward_ios_rounded, color: ColorManager.branco,)
             ] : [
               const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.branco,),
-              Text(AppStrings.back, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
+              Text(text ?? AppStrings.back, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
             ],
           ),
         ),

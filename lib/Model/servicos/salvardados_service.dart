@@ -6,8 +6,6 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:line_icons/line_icon.dart';
-
 import '../models/Usuario.dart';
 
 class SalvarDados implements DataBase{
