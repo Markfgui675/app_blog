@@ -41,6 +41,8 @@ sealed class AppStrings{
   static const String salvarMudancas = 'Salvar Mudanças';
 
   static const String antesCriarArtigo = 'Antes de criar o seu artigo, crie uma conta ou entre na sua.';
+  static const String algoErradoArtigo = 'Se algo não estiver da forma que deseja, volte aos campos anteriores e os altere.';
+  static const String imagemPrincipalArtigo = 'Imagem Principal do Artigo';
   static const String preView = 'Pré-visualização';
 
 }

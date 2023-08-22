@@ -1,4 +1,5 @@
 import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
+import 'package:app_blog/View/common/gerador_id.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -255,7 +256,7 @@ class _EditorPageState extends State<EditorPage> {
                         ),
                         child: Center(
                           child: IconButton(
-                              onPressed: ()=>_getImageGallery(),
+                              onPressed: ()=>GeradorId.gerarId(),
                               icon: const Icon(Icons.photo, color: ColorManager.marrom,)
                           ),
                         ),

@@ -1,8 +1,12 @@
+import 'dart:io';
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
+import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:image_picker/image_picker.dart';
 import '../resources/color_manager.dart';
 import '../resources/strings_manager.dart';
 import '../resources/style_manager.dart';
@@ -17,8 +21,11 @@ class CriarArtigoPage extends StatefulWidget {
 
 class _CriarArtigoPageState extends State<CriarArtigoPage> {
 
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
   final _formKey1 = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
+  final _formKey3 = GlobalKey<FormState>();
 
   final TextEditingController _tituloController = TextEditingController();
   final TextEditingController _subTituloController = TextEditingController();
@@ -32,6 +39,49 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   final ContaViewModel _viewModel = ContaViewModel();
   _bind(){
     _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+  }
+
+  String filex = '';
+  bool uploading = false;
+  bool loading = true;
+  double total = 0;
+  dynamic arquivo;
+
+  Future<XFile?> getImage() async{
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+  pickAndUploadImage() async {
+    XFile? file = await getImage();
+    if(file != null){
+      UploadTask task = await upload(file.path);
+      task.snapshotEvents.listen((TaskSnapshot snapshot) async{
+        if(snapshot.state == TaskState.running){
+          setState(() {
+            uploading = true;
+            total = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+          });
+        } else if(snapshot.state == TaskState.success){
+          arquivo = await snapshot.ref.getDownloadURL();
+          setState(() {
+            uploading = false;
+            filex = file.path;
+          });
+        }
+      });
+    }
+  }
+
+  Future<UploadTask> upload(String path) async{
+    File file = File(path);
+    try{
+      String ref = 'images/img-${DateTime.now().toString()}.jpg';
+      return storage.ref(ref).putFile(file);
+    } on FirebaseException catch(e){
+      throw Exception('Erro no upload: ${e.code}');
+    }
   }
 
   @override
@@ -72,71 +122,136 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
         },
         children: [
           // titulo e subtitulo
-          Container(
-            child: Form(
-              key: _formKey1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: AppSize.s48),
-                  Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
-                  const SizedBox(height: AppSize.s48,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
-                    child: TextFormField(
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      maxLines: null,
-                      cursorColor: ColorManager.marrom,
-                      controller: _tituloController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: AppStrings.titulo
-                      ),
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return ErrorStrings.tituloVazio;
-                        } else {
-                          return null;
-                        }
-                      },
+          Form(
+            key: _formKey1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: AppSize.s48),
+                Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                const SizedBox(height: AppSize.s48,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+                  child: TextFormField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    maxLines: null,
+                    cursorColor: ColorManager.marrom,
+                    controller: _tituloController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: AppStrings.titulo
+                    ),
+                    validator: (value){
+                      if(value!.isEmpty){
+                        return ErrorStrings.tituloVazio;
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: AppSize.s20,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+                  child: TextFormField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    maxLines: null,
+                    cursorColor: ColorManager.marrom,
+                    controller: _subTituloController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: AppStrings.subTitulo
+                    ),
+                    validator: (value){
+                      if(value!.isEmpty){
+                        return ErrorStrings.subtituloVazio;
+                      } else if(value.length < 10) {
+                        return ErrorStrings.subtituloCurto;
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: AppSize.s48),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _button(
+                      toNext: true,
+                      formKey: _formKey1
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+
+
+          // imagem principal
+          Form(
+            key: _formKey2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: AppSize.s48),
+                Text(AppStrings.imagemPrincipalArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                const SizedBox(height: AppSize.s48,),
+                Text('Recomenda-se uma imagem de 1200x626 px', style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),),
+                const SizedBox(height: AppSize.s10,),
+                Container(
+                  margin: const EdgeInsets.only(right: AppMargin.m12, left: AppMargin.m12),
+                  width: double.infinity,
+                  height: 180,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: ColorManager.preto,
+                      width: 1.5
                     ),
                   ),
-                  const SizedBox(height: AppSize.s20,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
-                    child: TextFormField(
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      maxLines: null,
-                      cursorColor: ColorManager.marrom,
-                      controller: _subTituloController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: AppStrings.subTitulo
-                      ),
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return ErrorStrings.subtituloVazio;
-                        } else if(value.length < 10) {
-                          return ErrorStrings.subtituloCurto;
-                        } else {
-                          return null;
-                        }
-                      },
+                  child: uploading ? const Center(
+                    child: CircularProgressIndicator(color: ColorManager.marrom,),
+                  ) : arquivo == null ? Center(child: Image.asset(AssetsManager.withoutImage),)
+                      :
+                    SizedBox(
+                      width: double.infinity,
+                      height: 180,
+                      child: Image.network(arquivo, fit: BoxFit.cover, ),
+                    ),
+                ),
+                const SizedBox(height: AppSize.s10,),
+                GestureDetector(
+                  onTap: pickAndUploadImage,
+                  child: Container(
+                    width: AppSize.s140,
+                    height: AppSize.s60,
+                    padding: const EdgeInsets.all(AppPadding.p16),
+                    decoration: BoxDecoration(
+                        color: ColorManager.marrom,
+                        borderRadius: BorderRadius.circular(AppSize.s10)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: uploading ? [const CircularProgressIndicator(color: ColorManager.branco)]:[
+                        Text('Upload', style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                        const Icon(Icons.upload, color: ColorManager.branco,)
+                      ],
                     ),
                   ),
-                  const SizedBox(height: AppSize.s48),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      _button(
-                        toNext: true,
-                        formKey: _formKey1
-                      )
-                    ],
-                  )
-                ],
-              ),
+                ),
+                const SizedBox(height: AppSize.s48),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _button(toNext: false),
+                    _button(
+                      toNext: true,
+                    )
+                  ],
+                )
+              ],
             ),
           ),
 
@@ -147,7 +262,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Form(
-                key: _formKey2,
+                key: _formKey3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -180,7 +295,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _button(toNext: false),
-                        _button(toNext: true, formKey: _formKey2)
+                        _button(toNext: true, formKey: _formKey3)
                       ],
                     )
                   ],
@@ -225,6 +340,12 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                               ),
                               height: 160,
                               width: double.infinity,
+                              child: arquivo == null ? Image.asset(AssetsManager.withoutImage, fit: BoxFit.cover,) :
+                              SizedBox(
+                                width: double.infinity,
+                                height: 180,
+                                child: Image.network(arquivo, fit: BoxFit.cover, ),
+                              ),
                             ),
                             const SizedBox(height: AppSize.s18,),
                             Text(_tituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s25), textAlign: TextAlign.start,),
@@ -237,7 +358,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           ],
                         ),
                       ),
-
+                      const SizedBox(height: AppSize.s48),
+                      Text(AppStrings.algoErradoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18), textAlign: TextAlign.center,),
                       const SizedBox(height: AppSize.s48),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -271,9 +393,9 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   /// É possível setar a **formKey**. Sua função é indicar a chave global, para que seja possível verificar e validar os campos daquela respectiva chave.
   Widget _button({required bool toNext, GlobalKey<FormState>? formKey}){
     _toNext(){
-      if(_pageChanged==2){
+      if(_pageChanged==3){
         _pageController.animateToPage(
-          2,
+          3,
           duration: Duration(milliseconds: AppSize.s250.toInt()),
           curve: Curves.easeInOut
         );

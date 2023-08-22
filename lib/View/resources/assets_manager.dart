@@ -12,6 +12,7 @@ sealed class AssetsManager{
 
   static const String image = "$IMAGE_PATH/image.jpg";
   static const String defaultAccount = "$IMAGE_PATH/default_account.png";
+  static const String withoutImage = "$IMAGE_PATH/without_image.png";
 
 }
 
