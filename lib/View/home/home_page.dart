@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:app_blog/View/common/logo.dart';
 import 'package:app_blog/View/inicio/inicio_page.dart';
 import 'package:app_blog/View/notificacao/notifica_page.dart';
@@ -9,11 +10,13 @@ import 'package:app_blog/View/search/search_page.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:app_blog/ViewModel/controller/auth_controller.dart';
 import 'package:app_blog/ViewModel/home/home_viewmodel.dart';
+import 'package:app_blog/ViewModel/internet_connection/connection_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:line_icons/line_icon.dart';
 import '../../Model/models/Frase.dart';
 import '../../Model/models/TipoAcessoDataBase.dart';
@@ -35,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   final AuthController _authController = AuthController();
   final ContaViewModel _contaViewModel = ContaViewModel();
   var scaffoldKey = GlobalKey<ScaffoldState>();
+  late final StreamSubscription<InternetConnectionStatus> listener;
   SnakeShape snakeShape = SnakeShape.circle;
   int _selectedItemPosition = 0;
   Frase frase = Frase();
@@ -59,7 +63,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Obx(
         (){
           return _authController.user.value == null ?
@@ -67,10 +78,10 @@ class _HomePageState extends State<HomePage> {
           Observer(
             builder: (_){
               if(_contaViewModel.dadosUsuario.isEmpty){
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorManager.marrom,
-                  ),
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(color: ColorManager.marrom,),
+                  )
                 );
               } else {
                 return _scaffold(urlProfilePic: _contaViewModel.dadosUsuario[0].profilePic);
@@ -81,7 +92,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _scaffold({String? urlProfilePic}){
+  Widget _scaffold({String? urlProfilePic, Function? withoutInternet}){
     return Scaffold(
       key: scaffoldKey,
       extendBodyBehindAppBar: true,
