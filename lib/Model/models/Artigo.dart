@@ -1,12 +1,10 @@
-import 'Usuario.dart';
-
 class Artigo{
   String? _id;
   String? _idAutor;
   String? _titulo;
   String? _subTitulo;
   dynamic _texto;
-  Usuario? _autor;
+  String? _autor;
   String? _img;
   String? _topico;
 
@@ -35,7 +33,11 @@ class Artigo{
     _img = value;
   }
 
-  Usuario get autor => _autor!;
+  String get autor => _autor!;
+
+  set autor(String value){
+    _autor = value;
+  }
 
   dynamic get texto => _texto;
 

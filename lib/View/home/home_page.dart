@@ -23,7 +23,9 @@ import '../resources/color_manager.dart';
 import 'drawer.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  int? indexPage;
+
+  HomePage({this.indexPage = 0});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -55,6 +57,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _selectedItemPosition = widget.indexPage!;
     _bind();
   }
 
@@ -62,24 +65,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     return Obx(
-        (){
-          return _authController.user.value == null ?
-          _scaffold():
-          Observer(
-            builder: (_){
-              if(_contaViewModel.dadosUsuario.isEmpty){
-                return const Scaffold(
-                  backgroundColor: ColorManager.branco,
-                  body: Center(
-                    child: CircularProgressIndicator(color: ColorManager.marrom,),
-                  )
-                );
-              } else {
-                return _scaffold(urlProfilePic: _contaViewModel.dadosUsuario[0].profilePic);
-              }
+      (){
+        return _authController.user.value == null ?
+        _scaffold():
+        Observer(
+          builder: (_){
+            if(_contaViewModel.dadosUsuario.isEmpty){
+              return const Scaffold(
+                backgroundColor: ColorManager.branco,
+                body: Center(
+                  child: CircularProgressIndicator(color: ColorManager.marrom,),
+                )
+              );
+            } else {
+              return _scaffold(urlProfilePic: _contaViewModel.dadosUsuario[0].profilePic);
             }
-          );
-        }
+          }
+        );
+      }
     );
   }
 

@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:app_blog/Model/data/collections_names.dart';
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
+import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
+import 'package:app_blog/Model/servicos/salvardados_service.dart';
 import 'package:app_blog/View/common/gerador_id.dart';
 import 'package:app_blog/View/resources/assets_manager.dart';
+import 'package:app_blog/ViewModel/artigo/artigo_viewmodel.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,25 +30,22 @@ class CriarArtigoPage extends StatefulWidget {
 class _CriarArtigoPageState extends State<CriarArtigoPage> {
 
   final FirebaseStorage storage = FirebaseStorage.instance;
-
   final _formKey1 = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
   final _formKey3 = GlobalKey<FormState>();
-
   final TextEditingController _tituloController = TextEditingController();
   final TextEditingController _subTituloController = TextEditingController();
   final TextEditingController _textoController = TextEditingController();
-
+  final ArtigoViewModel _artigoViewModel = ArtigoViewModel(SalvarDados());
   final PageController _pageController = PageController(
     initialPage: 0
   );
   int _pageChanged = 0;
-
   final ContaViewModel _viewModel = ContaViewModel();
   _bind(){
     _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
   }
-
+  final Artigo artigo = Artigo();
   bool uploading = false;
   bool loading = true;
   dynamic arquivo;
@@ -83,26 +83,6 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
     } on FirebaseException catch(e){
       throw Exception('Erro no upload: ${e.code}');
     }
-  }
-
-  _criarArtigo()async{
-    Artigo artigo = Artigo();
-    FirebaseFirestore db = FirebaseFirestore.instance;
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = await auth.currentUser;
-    String _idArtigo = GeradorId.gerarId();
-    db.collection(CollectionsNames.artigos).doc(_idArtigo).set(
-      {
-        'id':_idArtigo,
-        'idAutor':user!.uid,
-        'titulo':_tituloController.text,
-        'subTitulo':_subTituloController.text,
-        'texto':_textoController.text,
-        'autor':_viewModel.dadosUsuario[0].nome,
-        'img':arquivo,
-        'topico':''
-      }
-    );
   }
 
   @override
@@ -408,7 +388,19 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                 children: [
                   _button(toNext: false, text: 'Não'),
                   GestureDetector(
-                    onTap: _criarArtigo,
+                    onTap: (){
+                      artigo.titulo = _tituloController.text;
+                      artigo.subTitulo = _subTituloController.text;
+                      artigo.texto = _textoController.text;
+                      artigo.autor = _viewModel.dadosUsuario[0].nome;
+                      artigo.img = arquivo;
+                      artigo.topico = 'Esportes';
+                      dynamic res = _artigoViewModel.salvarDados(TipoSalvar.salvarArtigo, context,
+                        nomeAutor: _viewModel.dadosUsuario[0].nome,
+                        artigo: artigo
+                      );
+                      return res;
+                    },
                     child: Container(
                       width: AppSize.s140,
                       height: AppSize.s60,

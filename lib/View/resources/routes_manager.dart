@@ -44,7 +44,11 @@ sealed class RouteGenerator{
 
     switch(routeSettings.name){
       case Routes.initialRoute:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        if(args==null){
+          return MaterialPageRoute(builder: (_) => HomePage());
+        } else {
+          return MaterialPageRoute(builder: (_) => HomePage(indexPage: args,));
+        }
       case Routes.leituraPage:
         return MaterialPageRoute(builder: (_) => LeituraPage(args));
       case Routes.topicos:

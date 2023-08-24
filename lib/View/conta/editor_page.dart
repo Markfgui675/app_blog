@@ -27,7 +27,6 @@ class _EditorPageState extends State<EditorPage> {
   var formKey = GlobalKey<FormState>();
 
   final ContaViewModel _viewModel = ContaViewModel();
-  late File _image;
   final imagePicker = ImagePicker();
   bool uploading = false;
   bool loading = true;

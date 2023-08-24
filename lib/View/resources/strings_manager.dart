@@ -64,6 +64,7 @@ sealed class ErrorStrings{
   static const String dadosNaoAlterados = 'Não foi possível salvar as mudanças.';
 
   static const String naoFoiPossivelAcessarDado = 'Não foi possível acessar o dado.';
+  static const String naoFoiPossivelCriarArtigo = 'Não foi possível criar o artigo.';
 
 }
 
@@ -72,4 +73,5 @@ sealed class SuccessStrings{
   static const String login = 'Login feito com sucesso!';
   static const String contaCriada = 'Conta criada com sucesso!';
   static const String dadosAlterados= 'Dados alterados com sucesso!';
+  static const String artigoCriado = 'Artigo criado com sucesso!';
 }

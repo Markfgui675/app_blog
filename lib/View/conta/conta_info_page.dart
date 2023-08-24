@@ -213,8 +213,6 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
       )
     );
   }
-  
-  
 
   Widget _buttonEditar(){
     return GestureDetector(

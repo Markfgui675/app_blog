@@ -5,7 +5,10 @@ import 'package:app_blog/View/common/mensagens.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import '../../View/resources/routes_manager.dart';
+import '../models/Artigo.dart';
 import '../models/Usuario.dart';
 
 class SalvarDados implements DataBase{
@@ -19,6 +22,8 @@ class SalvarDados implements DataBase{
 
       case TipoSalvar.salvarDadosUsuario:
         return _salvarDadosUsuario(context, args: args);
+      case TipoSalvar.salvarArtigo:
+        return _salvarArtigo(context, args: args);
 
     }
 
@@ -45,6 +50,44 @@ class SalvarDados implements DataBase{
       _mensagens.state = false;
       return _mensagens.scaffoldMessege(context);
     }
+  }
+
+  _salvarArtigo(BuildContext context, {Artigo? args})async{
+    FirebaseFirestore dbArtigos = FirebaseFirestore.instance;
+    try{
+      dbArtigos.collection(CollectionsNames.artigos).doc(args!.id).set(
+        {
+          'id':args.id,
+          'idAutor':args.idAutor,
+          'titulo':args.titulo,
+          'subTitulo':args.subTitulo,
+          'texto':args.texto,
+          'autor':args.autor,
+          'img':args.img,
+          'topico':args.topico
+        }
+      ).then((value){
+        _adicionarArtigoAoUsuario(args.id);
+        Navigator.pushNamedAndRemoveUntil(context, Routes.initialRoute, (route) => false, arguments: 4);
+        _mensagens.state = true;
+        _mensagens.mensagemOk = SuccessStrings.artigoCriado;
+        return _mensagens.scaffoldMessege(context);
+      });
+    }on FirebaseException catch(e){
+      _mensagens.state = false;
+      _mensagens.mensagemError = ErrorStrings.naoFoiPossivelCriarArtigo;
+      return _mensagens.scaffoldMessege(context);
+    }
+  }
+
+  _adicionarArtigoAoUsuario(String idArtigo){
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    FirebaseFirestore dbUser = FirebaseFirestore.instance;
+    Map<String, dynamic> _dadoAtualizar = {
+      'artigos':[idArtigo]
+    };
+    dbUser.collection(CollectionsNames.usuarios).doc(user!.uid).update(_dadoAtualizar);
   }
   
 }
