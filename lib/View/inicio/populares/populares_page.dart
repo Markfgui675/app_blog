@@ -101,7 +101,7 @@ class _PopularesPageState extends State<PopularesPage> {
                         height: AppSize.s300,
                         width: double.infinity,
                         padding: const EdgeInsets.all(AppPadding.p20),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 bottomRight: Radius.circular(AppSize.s25),
                                 bottomLeft: Radius.circular(AppSize.s25)

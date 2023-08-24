@@ -34,10 +34,10 @@ class Mensagens{
       backgroundColor: color,
       duration: Duration(seconds: tempo),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20)
+        borderRadius: BorderRadius.circular(AppSize.s20)
       ),
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(AppSize.s20),
+      margin: const EdgeInsets.all(AppSize.s20),
       behavior: SnackBarBehavior.floating,
       showCloseIcon: true,
       closeIconColor: ColorManager.branco,
