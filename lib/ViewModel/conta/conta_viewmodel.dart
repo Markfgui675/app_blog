@@ -4,7 +4,7 @@ import 'package:app_blog/Model/servicos/acessardados_service.dart';
 import 'package:app_blog/Model/servicos/salvardados_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
-
+import '../../Model/models/Artigo.dart';
 import '../../Model/models/Usuario.dart';
 part 'conta_viewmodel.g.dart';
 
@@ -21,9 +21,17 @@ abstract class ContaViewModelMobx with Store{
   @observable
   List<Usuario> _infoUser = [];
 
+  @observable
+  List<Artigo> _artigos = [];
+
   @computed
   List<Usuario> get dadosUsuario{
     return _infoUser;
+  }
+
+  @computed
+  List<Artigo> get artigosUsuario{
+    return _artigos;
   }
 
   @action
@@ -41,6 +49,12 @@ abstract class ContaViewModelMobx with Store{
     _repositorySalvar.salvarDados(_tipoSalvar, context, args: _usuario);
     _tipoAcesso.tipo = TipoAcesso.acessarDadosUsuario;
     _infoUser = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
+  }
+
+  @action
+  acessarQuantidadeArtigos(String tipo, BuildContext context)async{
+    _tipoAcesso.tipo = tipo;
+    _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
   }
 
 

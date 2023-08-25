@@ -21,6 +21,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
 
   _bind() async {
     await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    await _viewModel.acessarQuantidadeArtigos(TipoAcesso.acessarQuantidadeArtigos, context);
   }
 
   @override
@@ -151,7 +152,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text(_viewModel.dadosUsuario[0].artigos.length.toString(),
+                                      Text('${_viewModel.artigosUsuario.length}',
                                         style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
                                       Text(AppStrings.artigos,
                                         style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
@@ -187,6 +188,9 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                       // Sobre
                       Container(
                         width: double.infinity,
+                        constraints: const BoxConstraints(
+                          minHeight: AppSize.s250
+                        ),
                         padding: const EdgeInsets.all(AppPadding.p20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

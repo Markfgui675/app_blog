@@ -5,6 +5,7 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import '../models/Artigo.dart';
 import '../models/Usuario.dart';
 import '../repository/acessardados.dart';
 
@@ -14,11 +15,12 @@ class AcessarDadosRepository implements AcessarDados{
   acessarDados(TipoAcessoDataBase tipoAcesso, BuildContext context) {
 
     switch(tipoAcesso.tipo){
-
       case TipoAcesso.acessarDadosUsuario:
         return _acessarDadosUsuario(context);
       case TipoAcesso.acessarDadosFrases:
         return _acessarDadosFrases(context);
+      case TipoAcesso.acessarQuantidadeArtigos:
+        return _acessarQuantidadeArquivos(context);
       default:
         return _error(context);
     }
@@ -42,7 +44,6 @@ class AcessarDadosRepository implements AcessarDados{
         _usuario.email = dados['email'];
         _usuario.sobre = dados['sobre'];
         _usuario.profilePic = dados['profilePic'];
-        _usuario.artigos = dados['artigos'];
         _usuario.seguindo = dados['seguindo'];
         _usuario.seguidores = dados['seguidores'];
         _infoUser.add(_usuario);
@@ -55,6 +56,30 @@ class AcessarDadosRepository implements AcessarDados{
         _mensagens.mensagemError = e.toString();
       }
       _mensagens.state = false;
+      return _mensagens.scaffoldMessege(context);
+    }
+  }
+
+  _acessarQuantidadeArquivos(BuildContext context)async{
+    final Mensagens _mensagens = Mensagens();
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseFirestore dbUsers= FirebaseFirestore.instance;
+    User? user = auth.currentUser;
+    List<Artigo> artigos = [];
+    Artigo _artigo = Artigo();
+    try{
+      await dbUsers.collection(CollectionsNames.artigos).where('idAutor', isEqualTo: user!.uid).get()
+          .then((querySnapshot){
+          for(var docSnapshot in querySnapshot.docs){
+            _artigo.titulo = docSnapshot.data()['titulo'];
+            print(_artigo.titulo);
+            artigos.add(_artigo);
+          }
+      });
+      return artigos;
+    }on FirebaseException catch(e){
+      _mensagens.state = false;
+      _mensagens.mensagemError = 'Error';
       return _mensagens.scaffoldMessege(context);
     }
   }

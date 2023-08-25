@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import '../../View/resources/routes_manager.dart';
 import '../models/Artigo.dart';
 import '../models/Usuario.dart';
@@ -33,7 +34,8 @@ class SalvarDados implements DataBase{
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = await auth.currentUser;
     FirebaseFirestore dbUser = FirebaseFirestore.instance;
-    Map<String, String> _dadosAtualizar = {
+    Map<String, String> _dadosAtualizar;
+    _dadosAtualizar = {
       'nome':args!.nome,
       'sobre':args.sobre,
       'profilePic':args.profilePic
@@ -67,7 +69,6 @@ class SalvarDados implements DataBase{
           'topico':args.topico
         }
       ).then((value){
-        _adicionarArtigoAoUsuario(args.id);
         Navigator.pushNamedAndRemoveUntil(context, Routes.initialRoute, (route) => false, arguments: 4);
         _mensagens.state = true;
         _mensagens.mensagemOk = SuccessStrings.artigoCriado;
@@ -78,16 +79,6 @@ class SalvarDados implements DataBase{
       _mensagens.mensagemError = ErrorStrings.naoFoiPossivelCriarArtigo;
       return _mensagens.scaffoldMessege(context);
     }
-  }
-
-  _adicionarArtigoAoUsuario(String idArtigo){
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-    FirebaseFirestore dbUser = FirebaseFirestore.instance;
-    Map<String, dynamic> _dadoAtualizar = {
-      'artigos':[idArtigo]
-    };
-    dbUser.collection(CollectionsNames.usuarios).doc(user!.uid).update(_dadoAtualizar);
   }
   
 }

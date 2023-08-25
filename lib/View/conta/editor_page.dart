@@ -100,6 +100,7 @@ class _EditorPageState extends State<EditorPage> {
   void initState() {
     super.initState();
     _bind();
+    print(arquivo);
   }
 
   @override
@@ -236,7 +237,7 @@ class _EditorPageState extends State<EditorPage> {
                                 TipoSalvar.salvarDadosUsuario, context,
                                 nome: _nome.text,
                                 sobre: _sobre.text,
-                                profilePic: arquivo
+                                profilePic: arquivo ?? _viewModel.dadosUsuario[0].profilePic
                               );
                               return res;
                             }

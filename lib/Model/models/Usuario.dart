@@ -6,7 +6,6 @@ class Usuario{
   String? _sobre;
   List<dynamic>? _seguidores;
   List<dynamic>? _seguindo;
-  List<dynamic>? _artigos;
   String? _profilePic;
 
 
@@ -38,12 +37,6 @@ class Usuario{
 
   set nome(String value) {
     _nome = value;
-  }
-
-  List<dynamic> get artigos => _artigos!;
-
-  set artigos(List<dynamic> value) {
-    _artigos = value;
   }
 
   List<dynamic> get seguindo => _seguindo!;

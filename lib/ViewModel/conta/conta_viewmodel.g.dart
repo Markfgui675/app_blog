@@ -16,6 +16,13 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
           Computed<List<Usuario>>(() => super.dadosUsuario,
               name: 'ContaViewModelMobx.dadosUsuario'))
       .value;
+  Computed<List<Artigo>>? _$artigosUsuarioComputed;
+
+  @override
+  List<Artigo> get artigosUsuario => (_$artigosUsuarioComputed ??=
+          Computed<List<Artigo>>(() => super.artigosUsuario,
+              name: 'ContaViewModelMobx.artigosUsuario'))
+      .value;
 
   late final _$_infoUserAtom =
       Atom(name: 'ContaViewModelMobx._infoUser', context: context);
@@ -30,6 +37,22 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
   set _infoUser(List<Usuario> value) {
     _$_infoUserAtom.reportWrite(value, super._infoUser, () {
       super._infoUser = value;
+    });
+  }
+
+  late final _$_artigosAtom =
+      Atom(name: 'ContaViewModelMobx._artigos', context: context);
+
+  @override
+  List<Artigo> get _artigos {
+    _$_artigosAtom.reportRead();
+    return super._artigos;
+  }
+
+  @override
+  set _artigos(List<Artigo> value) {
+    _$_artigosAtom.reportWrite(value, super._artigos, () {
+      super._artigos = value;
     });
   }
 
@@ -52,10 +75,21 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
         nome: nome, sobre: sobre, profilePic: profilePic));
   }
 
+  late final _$acessarQuantidadeArtigosAsyncAction = AsyncAction(
+      'ContaViewModelMobx.acessarQuantidadeArtigos',
+      context: context);
+
+  @override
+  Future acessarQuantidadeArtigos(String tipo, BuildContext context) {
+    return _$acessarQuantidadeArtigosAsyncAction
+        .run(() => super.acessarQuantidadeArtigos(tipo, context));
+  }
+
   @override
   String toString() {
     return '''
-dadosUsuario: ${dadosUsuario}
+dadosUsuario: ${dadosUsuario},
+artigosUsuario: ${artigosUsuario}
     ''';
   }
 }

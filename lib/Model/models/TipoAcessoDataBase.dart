@@ -9,4 +9,5 @@ class TipoAcessoDataBase{
 sealed class TipoAcesso{
   static const String acessarDadosUsuario = 'acessarDadosUsuario';
   static const String acessarDadosFrases = 'acessarDadosFrases';
+  static const String acessarQuantidadeArtigos = 'acessarQuantidadeArtigos';
 }
