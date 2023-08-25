@@ -38,6 +38,7 @@ class _PopularesPageState extends State<PopularesPage> {
     artigo1.titulo = 'titulo 1';
     artigo1.subTitulo = 'subitutulo 1';
     artigo1.texto = 'texto 1';
+    artigo1.autor = 'Autor 1';
     artigo1.img = AssetsManager.image;
     artigo1.topico = 'Esportes';
     for(int i = 0; i < 4; i++){

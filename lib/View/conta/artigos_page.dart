@@ -64,8 +64,11 @@ class _ArtigosPageState extends State<ArtigosPage> {
             );
           }else{
             return RefreshIndicator(
+              backgroundColor: ColorManager.marrom,
+              color: ColorManager.branco,
               onRefresh: ()=>_bind(),
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                   itemCount: _viewModel.artigosUsuario.length,
                   itemBuilder: (_,i){
                     Artigo artigo = _viewModel.artigosUsuario[i];
@@ -105,7 +108,8 @@ class _ArtigosPageState extends State<ArtigosPage> {
                       borderRadius: BorderRadius.circular(AppSize.s8),
                       color: Colors.black,
                       image: DecorationImage(
-                          image: NetworkImage(artigo.img)
+                        fit: BoxFit.cover,
+                        image: NetworkImage(artigo.img)
                       )
                   ),
                 )

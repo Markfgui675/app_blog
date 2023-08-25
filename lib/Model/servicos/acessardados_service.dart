@@ -73,6 +73,7 @@ class AcessarDadosRepository implements AcessarDados{
             Artigo _artigo = Artigo();
             _artigo.id = docSnapshot.data()['id'];
             _artigo.idAutor = docSnapshot.data()['idAutor'];
+            _artigo.autor = docSnapshot.data()['autor'];
             _artigo.titulo = docSnapshot.data()['titulo'];
             _artigo.subTitulo = docSnapshot.data()['subTitulo'];
             _artigo.texto = docSnapshot.data()['texto'];

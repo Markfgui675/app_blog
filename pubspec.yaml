@@ -15,7 +15,6 @@ dependencies:
   super_editor: ^0.2.6
   cupertino_icons: ^1.0.2
   google_fonts:
-  flutter_localization:
   flutter_snake_navigationbar: ^0.6.1
   advanced_icon: ^0.1.2
   line_icons: ^2.0.3
