@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../View/resources/routes_manager.dart';
 import '../models/Artigo.dart';
 import '../models/Usuario.dart';
@@ -56,6 +57,7 @@ class SalvarDados implements DataBase{
 
   _salvarArtigo(BuildContext context, {Artigo? args})async{
     FirebaseFirestore dbArtigos = FirebaseFirestore.instance;
+    args?.data = DateFormat("dd/MM/yyyy").format(DateTime.now());
     try{
       dbArtigos.collection(CollectionsNames.artigos).doc(args!.id).set(
         {
@@ -66,7 +68,8 @@ class SalvarDados implements DataBase{
           'texto':args.texto,
           'autor':args.autor,
           'img':args.img,
-          'topico':args.topico
+          'topico':args.topico,
+          'data':args.data
         }
       ).then((value){
         Navigator.pushNamedAndRemoveUntil(context, Routes.initialRoute, (route) => false, arguments: 4);

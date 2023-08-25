@@ -123,69 +123,78 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
         },
         children: [
           // titulo e subtitulo
-          Form(
-            key: _formKey1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: AppSize.s48),
-                Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
-                const SizedBox(height: AppSize.s48,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
-                  child: TextFormField(
-                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    maxLines: null,
-                    cursorColor: ColorManager.marrom,
-                    controller: _tituloController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: AppStrings.titulo
-                    ),
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return ErrorStrings.tituloVazio;
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(height: AppSize.s20,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
-                  child: TextFormField(
-                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    maxLines: null,
-                    cursorColor: ColorManager.marrom,
-                    controller: _subTituloController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: AppStrings.subTitulo
-                    ),
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return ErrorStrings.subtituloVazio;
-                      } else if(value.length < 10) {
-                        return ErrorStrings.subtituloCurto;
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(height: AppSize.s48),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Form(
+                key: _formKey1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _button(
-                      toNext: true,
-                      formKey: _formKey1
+                    const SizedBox(height: AppSize.s48),
+                    Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                    const SizedBox(height: AppSize.s48,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+                      child: TextFormField(
+                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(115),
+                        ],
+                        maxLines: null,
+                        cursorColor: ColorManager.marrom,
+                        controller: _tituloController,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: AppStrings.titulo
+                        ),
+                        validator: (value){
+                          if(value!.isEmpty){
+                            return ErrorStrings.tituloVazio;
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: AppSize.s20,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+                      child: TextFormField(
+                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        maxLines: null,
+                        cursorColor: ColorManager.marrom,
+                        controller: _subTituloController,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: AppStrings.subTitulo
+                        ),
+                        validator: (value){
+                          if(value!.isEmpty){
+                            return ErrorStrings.subtituloVazio;
+                          } else if(value.length < 10) {
+                            return ErrorStrings.subtituloCurto;
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: AppSize.s48),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        _button(
+                            toNext: true,
+                            formKey: _formKey1
+                        )
+                      ],
                     )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
           ),
 
@@ -200,7 +209,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                 const SizedBox(height: AppSize.s48),
                 Text(AppStrings.imagemPrincipalArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
                 const SizedBox(height: AppSize.s48,),
-                Text('Recomenda-se uma imagem de 1200x626 px', style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),),
+                Text(AppStrings.proporcaoImg, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),),
                 const SizedBox(height: AppSize.s10,),
                 Container(
                   margin: const EdgeInsets.only(right: AppMargin.m12, left: AppMargin.m12),
@@ -382,7 +391,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Confirma a publicação do artigo?', style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
+              Text(AppStrings.confirmacaoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

@@ -140,7 +140,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
 
                             // Artigos
                             GestureDetector(
-                              onTap: ()=>Navigator.pushNamed(context, Routes.artigosPage),
+                              onTap: ()=>_viewModel.artigosUsuario.isNotEmpty ? Navigator.pushNamed(context, Routes.artigosPage) : null,
                               child: Container(
                                 height: AppSize.s100,
                                 width: AppSize.s100,

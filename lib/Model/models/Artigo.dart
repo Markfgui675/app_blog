@@ -5,9 +5,16 @@ class Artigo{
   String? _subTitulo;
   dynamic _texto;
   String? _autor;
+  String? _data;
   String? _img;
   String? _topico;
 
+
+  String get data => _data!;
+
+  set data(String value) {
+    _data = value;
+  }
 
   String get id => _id!;
 

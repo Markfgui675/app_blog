@@ -18,6 +18,7 @@ sealed class AppStrings{
   static const String criarArtgio = 'Criar Artigo';
 
   static const String naoLogado = 'Você não está logado, entre ou cadastre-se no app.';
+  static const String confirmacaoArtigo = 'Confirma a publicação do artigo?';
   static const String jaTemConta = 'Já tem conta? ';
   static const String facaLogin = ' Faça o login';
   static const String aindaNaoTemConta = 'Ainda não tem uma conta? ';
@@ -39,6 +40,7 @@ sealed class AppStrings{
   static const String next = 'Próximo';
   static const String back = 'Anterior';
   static const String salvarMudancas = 'Salvar Mudanças';
+  static const String proporcaoImg = 'Recomenda-se uma imagem de 1200 x 626px';
 
   static const String antesCriarArtigo = 'Antes de criar o seu artigo, crie uma conta ou entre na sua.';
   static const String algoErradoArtigo = 'Se algo não estiver da forma que deseja, volte aos campos anteriores e os altere.';

@@ -66,13 +66,19 @@ class AcessarDadosRepository implements AcessarDados{
     FirebaseFirestore dbUsers= FirebaseFirestore.instance;
     User? user = auth.currentUser;
     List<Artigo> artigos = [];
-    Artigo _artigo = Artigo();
     try{
       await dbUsers.collection(CollectionsNames.artigos).where('idAutor', isEqualTo: user!.uid).get()
           .then((querySnapshot){
           for(var docSnapshot in querySnapshot.docs){
+            Artigo _artigo = Artigo();
+            _artigo.id = docSnapshot.data()['id'];
+            _artigo.idAutor = docSnapshot.data()['idAutor'];
             _artigo.titulo = docSnapshot.data()['titulo'];
-            print(_artigo.titulo);
+            _artigo.subTitulo = docSnapshot.data()['subTitulo'];
+            _artigo.texto = docSnapshot.data()['texto'];
+            _artigo.topico = docSnapshot.data()['topico'];
+            _artigo.img = docSnapshot.data()['img'];
+            _artigo.data = docSnapshot.data()['data'];
             artigos.add(_artigo);
           }
       });
