@@ -202,6 +202,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
           ),
 
 
+          // TODO: Colocar verificador de imagem antes do usuário ir para a próxima page
+          // TODO: Usar o ListForm<FormField> para fazer a respectiva verficação
           // imagem principal
           Form(
             key: _formKey2,
