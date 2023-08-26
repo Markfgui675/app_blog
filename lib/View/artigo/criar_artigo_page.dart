@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import '../../Model/models/Artigo.dart';
 import '../resources/color_manager.dart';
 import '../resources/strings_manager.dart';
@@ -41,9 +42,11 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
     initialPage: 0
   );
   int _pageChanged = 0;
+  String data = '';
   final ContaViewModel _viewModel = ContaViewModel();
   _bind(){
     _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    data = DateFormat("dd/MM/yyyy").format(DateTime.now());
   }
   final Artigo artigo = Artigo();
   bool uploading = false;
@@ -331,40 +334,46 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
 
                       // Pré-visualização de fato
                       Container(
+                        width: double.infinity,
+                        height: 280,
+                        margin: const EdgeInsets.only(right: AppMargin.m30, left: AppMargin.m30, bottom: AppMargin.m10),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSize.s18),
-                          border: Border.all(
-                              color: ColorManager.preto,
-                              width: 1.5
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(AppSize.s20),
+                        ),
+                        child: Container(
+                          child: arquivo == null ? Image.asset(AssetsManager.withoutImage) : SizedBox(
+                            width: double.infinity,
+                            height: 180,
+                            child: Image.network(arquivo, fit: BoxFit.cover, ),
                           ),
                         ),
-                        padding: const EdgeInsets.all(AppPadding.p5),
+                      ),
+
+                      Container(
                         width: double.infinity,
+                        margin: const EdgeInsets.only(right: AppMargin.m30, left: AppMargin.m30, bottom: AppMargin.m10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('Por ${_viewModel.dadosUsuario[0].nome}', style: getAlexandriaStyle(color: ColorManager.marrom),),
+                            Text(' - ${data}', style: getAlexandriaStyle(color: ColorManager.preto),),
+                          ],
+                        ),
+                      ),
+
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(right: AppMargin.m30, left: AppMargin.m30, bottom: AppMargin.m10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(AppSize.s18),
-                                color: Colors.black,
-                              ),
-                              height: 160,
-                              width: double.infinity,
-                              child: arquivo == null ? Image.asset(AssetsManager.withoutImage, fit: BoxFit.cover,) :
-                              SizedBox(
-                                width: double.infinity,
-                                height: 180,
-                                child: Image.network(arquivo, fit: BoxFit.cover, ),
-                              ),
-                            ),
-                            const SizedBox(height: AppSize.s18,),
-                            Text(_tituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s25), textAlign: TextAlign.start,),
-                            const SizedBox(height: AppSize.s18,),
-                            Text(_subTituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18), textAlign: TextAlign.start,),
-                            const SizedBox(height: AppSize.s18,),
-                            Text(_textoController.text, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s12), textAlign: TextAlign.start,),
-                            const SizedBox(height: AppSize.s20,),
-                            Text('Por ${_viewModel.dadosUsuario[0].nome}', style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s12), textAlign: TextAlign.start,),
+                            Text(_tituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                            const SizedBox(height: AppSize.s6,),
+                            Text(_subTituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s20),),
+                            const SizedBox(height: AppSize.s6,),
+                            Text(_textoController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),),
+
                           ],
                         ),
                       ),
