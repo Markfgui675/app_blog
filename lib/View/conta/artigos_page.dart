@@ -72,9 +72,29 @@ class _ArtigosPageState extends State<ArtigosPage> {
                   itemCount: _viewModel.artigosUsuario.length,
                   itemBuilder: (_,i){
                     Artigo artigo = _viewModel.artigosUsuario[i];
-                    return GestureDetector(
-                      onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
-                      child: _cardArtigo(artigo),
+                    return Dismissible(
+                      background: Container(
+                        color: ColorManager.vermelho,
+                        child: const Padding(
+                          padding: EdgeInsets.only(right: AppMargin.m16, left: AppMargin.m16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(Icons.delete, color: ColorManager.branco, size: AppSize.s40,),
+                              Icon(Icons.delete, color: ColorManager.branco, size: AppSize.s40,),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onDismissed: (DismissDirection direction){
+                        // TODO: mostra um showDialog antes de deletar, para confirmar tal
+                        print('excluir ${artigo.titulo}');
+                      },
+                      key: ValueKey<Artigo>(artigo),
+                      child: GestureDetector(
+                        onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
+                        child: _cardArtigo(artigo),
+                      )
                     );
                   }
               ),
