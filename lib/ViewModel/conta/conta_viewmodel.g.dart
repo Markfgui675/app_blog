@@ -85,6 +85,18 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
         .run(() => super.acessarQuantidadeArtigos(tipo, context));
   }
 
+  late final _$excluirArtigoAsyncAction =
+      AsyncAction('ContaViewModelMobx.excluirArtigo', context: context);
+
+  @override
+  Future excluirArtigo(
+      {required String collection,
+      required String idDoc,
+      required BuildContext context}) {
+    return _$excluirArtigoAsyncAction.run(() => super
+        .excluirArtigo(collection: collection, idDoc: idDoc, context: context));
+  }
+
   @override
   String toString() {
     return '''

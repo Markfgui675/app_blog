@@ -1,9 +1,8 @@
 import 'dart:io';
-import 'package:app_blog/Model/data/collections_names.dart';
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
 import 'package:app_blog/Model/servicos/salvardados_service.dart';
-import 'package:app_blog/View/common/gerador_id.dart';
+import 'package:app_blog/View/common/mensagens.dart';
 import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/ViewModel/artigo/artigo_viewmodel.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
@@ -29,6 +28,8 @@ class CriarArtigoPage extends StatefulWidget {
 }
 
 class _CriarArtigoPageState extends State<CriarArtigoPage> {
+
+  // TODO: desenvolver confirmação de saída da página de criação do usuário
 
   final FirebaseStorage storage = FirebaseStorage.instance;
   final _formKey1 = GlobalKey<FormState>();
@@ -202,8 +203,6 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
           ),
 
 
-          // TODO: Colocar verificador de imagem antes do usuário ir para a próxima page
-          // TODO: Usar o ListForm<FormField> para fazer a respectiva verficação
           // imagem principal
           Form(
             key: _formKey2,
@@ -409,17 +408,24 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                   _button(toNext: false, text: 'Não'),
                   GestureDetector(
                     onTap: (){
-                      artigo.titulo = _tituloController.text;
-                      artigo.subTitulo = _subTituloController.text;
-                      artigo.texto = _textoController.text;
-                      artigo.autor = _viewModel.dadosUsuario[0].nome;
-                      artigo.img = arquivo;
-                      artigo.topico = 'Esportes';
-                      dynamic res = _artigoViewModel.salvarDados(TipoSalvar.salvarArtigo, context,
-                        nomeAutor: _viewModel.dadosUsuario[0].nome,
-                        artigo: artigo
-                      );
-                      return res;
+                      if(arquivo==null){
+                        Mensagens _mensagem = Mensagens();
+                        _mensagem.state = false;
+                        _mensagem.mensagemError = 'Adicione uma imagem ao seu artigo';
+                        return _mensagem.scaffoldMessege(context);
+                      } else {
+                        artigo.titulo = _tituloController.text;
+                        artigo.subTitulo = _subTituloController.text;
+                        artigo.texto = _textoController.text;
+                        artigo.autor = _viewModel.dadosUsuario[0].nome;
+                        artigo.img = arquivo;
+                        artigo.topico = 'Esportes';
+                        dynamic res = _artigoViewModel.salvarDados(TipoSalvar.salvarArtigo, context,
+                          nomeAutor: _viewModel.dadosUsuario[0].nome,
+                          artigo: artigo
+                        );
+                        return res;
+                      }
                     },
                     child: Container(
                       width: AppSize.s140,
