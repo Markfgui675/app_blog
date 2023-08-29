@@ -19,5 +19,6 @@ sealed class AssetsManager{
 sealed class JsonManager{
 
   static const String writting = "$JSON_PATH/writting.json";
+  static const String excluir = "$JSON_PATH/excluir.json";
 
 }

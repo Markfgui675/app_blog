@@ -1,9 +1,11 @@
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
+import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lottie/lottie.dart';
 import '../../Model/models/Artigo.dart';
 import '../resources/color_manager.dart';
 import '../resources/routes_manager.dart';
@@ -73,22 +75,70 @@ class _ArtigosPageState extends State<ArtigosPage> {
                   itemBuilder: (_,i){
                     Artigo artigo = _viewModel.artigosUsuario[i];
                     return Dismissible(
+                      resizeDuration: const Duration(milliseconds: 800),
+                      onResize: (){
+                        _bind();
+                      },
+                      confirmDismiss: (DismissDirection direction){
+                        ConfirmDismissCallback confirmDismissCallback;
+                        return showDialog(
+                            context: context,
+                            builder: (context){
+                              return Dialog(
+                                insetAnimationCurve: Curves.bounceInOut,
+                                insetAnimationDuration: const Duration(seconds: 1),
+                                backgroundColor: ColorManager.branco,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(AppSize.s20),
+                                ),
+                                child: Container(
+                                  height: 150,
+                                  padding: const EdgeInsets.all(AppPadding.p12),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text('Tem certeza que quer excluir o artigo? Essa ação é irreversível.',
+                                        style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          _button(tituloBotao: 'Não', onPressed: (){
+                                            return Navigator.of(context).pop(false);
+                                          }),
+                                          _button(
+                                            tituloBotao: 'Sim',
+                                            onPressed: (){
+                                              print('deletar ${artigo.titulo}');
+                                              return Navigator.of(context).pop(true);
+                                            }
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                        );
+                      },
                       background: Container(
                         color: ColorManager.vermelho,
-                        child: const Padding(
-                          padding: EdgeInsets.only(right: AppMargin.m16, left: AppMargin.m16),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: AppMargin.m2, left: AppMargin.m2),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(Icons.delete, color: ColorManager.branco, size: AppSize.s40,),
-                              Icon(Icons.delete, color: ColorManager.branco, size: AppSize.s40,),
+                              Lottie.asset(JsonManager.excluir, width: 120),
+                              Lottie.asset(JsonManager.excluir, width: 120),
                             ],
                           ),
                         ),
                       ),
                       onDismissed: (DismissDirection direction){
                         // TODO: mostra um showDialog antes de deletar, para confirmar tal
-                        print('excluir ${artigo.titulo}');
+
                       },
                       key: ValueKey<Artigo>(artigo),
                       child: GestureDetector(
@@ -159,6 +209,24 @@ class _ArtigosPageState extends State<ArtigosPage> {
             ),
           ],
         )
+    );
+  }
+
+  Widget _button({required String tituloBotao, required VoidCallback onPressed}){
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 80,
+        height: 40,
+        padding: const EdgeInsets.all(AppPadding.p5),
+        decoration: BoxDecoration(
+            color: ColorManager.marrom,
+            borderRadius: BorderRadius.circular(AppSize.s10)
+        ),
+        child: Center(
+          child: Text(tituloBotao, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s12),),
+        ),
+      ),
     );
   }
 
