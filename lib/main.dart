@@ -11,3 +11,6 @@ void main() async {
   runApp(MyApp());
   DependencyInjection.init();
 }
+
+// TODO: pegar strings soltas e centralizá-las no string_manager
+// TODO: reutilizar alguns métodos e funções que aparecem com frequência no código, colocando-os na pasta common
