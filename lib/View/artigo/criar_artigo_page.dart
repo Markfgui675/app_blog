@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
-import 'package:app_blog/Model/servicos/salvardados_service.dart';
 import 'package:app_blog/View/common/mensagens.dart';
 import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/ViewModel/artigo/artigo_viewmodel.dart';
@@ -36,15 +35,16 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   final TextEditingController _tituloController = TextEditingController();
   final TextEditingController _subTituloController = TextEditingController();
   final TextEditingController _textoController = TextEditingController();
-  final ArtigoViewModel _artigoViewModel = ArtigoViewModel(SalvarDados());
+  final ArtigoViewModel _artigoViewModel = ArtigoViewModel();
   final PageController _pageController = PageController(
     initialPage: 0
   );
   int _pageChanged = 0;
   String data = '';
   final ContaViewModel _viewModel = ContaViewModel();
-  _bind(){
-    _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+  _bind()async{
+    await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    await _artigoViewModel.acessarTopicos(context);
     data = DateFormat("dd/MM/yyyy").format(DateTime.now());
   }
   final Artigo artigo = Artigo();

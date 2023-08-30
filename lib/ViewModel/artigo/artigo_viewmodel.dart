@@ -1,19 +1,33 @@
+import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
+import 'package:app_blog/Model/servicos/acessardados_service.dart';
+import 'package:app_blog/Model/servicos/salvardados_service.dart';
 import 'package:app_blog/View/common/gerador_id.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mobx/mobx.dart';
 import '../../Model/models/Artigo.dart';
-import '../../Model/repository/database.dart';
+part 'artigo_viewmodel.g.dart';
 
-class ArtigoViewModel{
+class ArtigoViewModel = ArtigoViewModelMobx with _$ArtigoViewModel;
 
-  late DataBase _dataBase;
-  final Artigo _artigo = Artigo();
+abstract class ArtigoViewModelMobx with Store{
+
   final TipoSalvarDataBase _tipoSalvar = TipoSalvarDataBase();
-  ArtigoViewModel(DataBase dataBase){
-    _dataBase = dataBase;
+  final TipoAcessoDataBase _tipoAcessar = TipoAcessoDataBase();
+  final AcessarDadosRepository _acessarDados = AcessarDadosRepository();
+  final SalvarDados _salvarDados = SalvarDados();
+  final Artigo _artigo = Artigo();
+
+  @observable
+  List<String> _topicos = [];
+
+  @computed
+  List<String> get topicos{
+    return _topicos;
   }
 
+  @action
   salvarDados(String tipo, BuildContext context, {required String nomeAutor, required Artigo artigo}){
     FirebaseAuth _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
@@ -26,7 +40,13 @@ class ArtigoViewModel{
     _artigo.autor = artigo.autor;
     _artigo.img = artigo.img;
     _artigo.topico = artigo.topico;
-    _dataBase.salvarDados(_tipoSalvar, context, args: _artigo);
+    _salvarDados.salvarDados(_tipoSalvar, context, args: _artigo);
+  }
+
+  @action
+  acessarTopicos(BuildContext context)async{
+    _tipoAcessar.tipo = TipoAcesso.acessarTopicos;
+    _topicos = await _acessarDados.acessarDados(_tipoAcessar, context);
   }
 
 }

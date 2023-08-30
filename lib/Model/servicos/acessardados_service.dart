@@ -21,6 +21,8 @@ class AcessarDadosRepository implements AcessarDados{
         return _acessarDadosFrases(context);
       case TipoAcesso.acessarQuantidadeArtigos:
         return _acessarQuantidadeArquivos(context);
+      case TipoAcesso.acessarTopicos:
+        return _acessarTopicos();
       default:
         return _error(context);
     }
@@ -92,6 +94,7 @@ class AcessarDadosRepository implements AcessarDados{
   }
 
   _acessarDadosFrases(BuildContext context)async{
+    // TODO: resolver problema do future<dynamic>
     final Mensagens _mensagens = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbFrases = FirebaseFirestore.instance;
@@ -109,6 +112,17 @@ class AcessarDadosRepository implements AcessarDados{
       print(_frases);
     });
     return 'Opa, ó qu aqui ó';
+  }
+
+  _acessarTopicos()async{
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    List<String> topicos = [];
+    await db.collection(CollectionsNames.topicos).get().then((querySnapshot){
+      for(var docSnapshot in querySnapshot.docs){
+        topicos.add(docSnapshot.data()['topico']);
+      }
+    });
+    return topicos;
   }
 
   _error(BuildContext context){
