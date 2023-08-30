@@ -53,6 +53,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   bool loading = true;
   dynamic arquivo;
 
+  final dropValueTopico = ValueNotifier('');
+
   Future<XFile?> getImage() async{
     final ImagePicker _picker = ImagePicker();
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -199,7 +201,14 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                               formKey: _formKey1
                           )
                         ],
-                      )
+                      ),
+                      /// TODO: terminar implmentação do filtro de tópico
+                      ///
+                      /// ATIVIDADES:
+                      /// - estilizar o filtro
+                      /// - colocar verificador de topico
+                      /// - retirar topico padrão lá no service
+                      _topicos()
                     ],
                   ),
                 ),
@@ -606,6 +615,35 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
         ),
         child: Center(
           child: Text(tituloBotao, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s12),),
+        ),
+      ),
+    );
+  }
+
+  Widget _topicos(){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+      child: Container(
+        padding: const EdgeInsets.all(AppSize.s10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s8),
+          color: ColorManager.branco
+        ),
+        child: ValueListenableBuilder(
+          valueListenable: dropValueTopico,
+          builder: (context, value, _){
+            return DropdownButtonFormField<String>(
+              items: _artigoViewModel.topicos.map(
+                  (opcao){
+                    return DropdownMenuItem(value: opcao, child: Text(opcao));
+                  }
+              ).toList(),
+              onChanged: (escolha){
+                dropValueTopico.value = escolha.toString();
+                print(dropValueTopico.value.toString());
+              }
+            );
+          },
         ),
       ),
     );
