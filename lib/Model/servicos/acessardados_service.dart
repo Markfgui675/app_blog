@@ -117,7 +117,7 @@ class AcessarDadosRepository implements AcessarDados{
   _acessarTopicos()async{
     FirebaseFirestore db = FirebaseFirestore.instance;
     List<String> topicos = [];
-    await db.collection(CollectionsNames.topicos).get().then((querySnapshot){
+    await db.collection(CollectionsNames.topicos).orderBy('topico', descending: false).get().then((querySnapshot){
       for(var docSnapshot in querySnapshot.docs){
         topicos.add(docSnapshot.data()['topico']);
       }

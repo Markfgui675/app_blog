@@ -81,6 +81,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
 
 
                       // Info Usuário
+                      // TODO: adicionar auto_sized_text para redimensionamento automático dos números de artigos, seguidores e seguindo
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(AppPadding.p5),

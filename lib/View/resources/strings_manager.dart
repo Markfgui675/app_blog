@@ -8,6 +8,7 @@ sealed class AppStrings{
   static const String conta = 'Conta';
   static const String populares = 'Populares';
   static const String topicos = 'Tópicos';
+  static const String topico = 'Tópico';
   static const String emAlta = 'Em Alta';
   static const String verMais = 'Ver Mais';
   static const String entrar = 'Entrar';
@@ -28,7 +29,7 @@ sealed class AppStrings{
   static const String senha = 'Senha';
   static const String titulo = 'Título';
   static const String subTitulo = 'Subtítulo';
-  static const String tituloDoArtigo = 'Título e Subtítulo do Artigo';
+  static const String tituloDoArtigo = 'Título, Subtítulo e Tópico do Artigo';
   static const String textoArtigo = 'Texto do Artigo';
   static const String texto = 'Texto';
   static const String esqueceuSenha = 'Esqueceu a Senha?';

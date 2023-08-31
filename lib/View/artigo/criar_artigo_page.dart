@@ -144,7 +144,10 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: AppSize.s48),
-                      Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                      Padding(
+                        padding: const EdgeInsets.only(right: AppPadding.p5, left: AppPadding.p5),
+                        child: Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
+                      ),
                       const SizedBox(height: AppSize.s48,),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
@@ -192,23 +195,18 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           },
                         ),
                       ),
+                      const SizedBox(height: AppSize.s20),
+                      _topicos(),
                       const SizedBox(height: AppSize.s48),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           _button(
-                              toNext: true,
-                              formKey: _formKey1
+                            toNext: true,
+                            formKey: _formKey1
                           )
                         ],
                       ),
-                      /// TODO: terminar implmentação do filtro de tópico
-                      ///
-                      /// ATIVIDADES:
-                      /// - estilizar o filtro
-                      /// - colocar verificador de topico
-                      /// - retirar topico padrão lá no service
-                      _topicos()
                     ],
                   ),
                 ),
@@ -421,10 +419,14 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                     _button(toNext: false, text: 'Não'),
                     GestureDetector(
                       onTap: (){
+                        Mensagens _mensagem = Mensagens();
                         if(arquivo==null){
-                          Mensagens _mensagem = Mensagens();
                           _mensagem.state = false;
                           _mensagem.mensagemError = 'Adicione uma imagem ao seu artigo';
+                          return _mensagem.scaffoldMessege(context);
+                        } else if(dropValueTopico.value == '') {
+                          _mensagem.state = false;
+                          _mensagem.mensagemError = 'Selecione um tópico para o seu artigo';
                           return _mensagem.scaffoldMessege(context);
                         } else {
                           artigo.titulo = _tituloController.text;
@@ -432,7 +434,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           artigo.texto = _textoController.text;
                           artigo.autor = _viewModel.dadosUsuario[0].nome;
                           artigo.img = arquivo;
-                          artigo.topico = 'Esportes';
+                          artigo.topico = dropValueTopico.value.toString();
                           dynamic res = _artigoViewModel.salvarDados(TipoSalvar.salvarArtigo, context,
                               nomeAutor: _viewModel.dadosUsuario[0].nome,
                               artigo: artigo
@@ -622,7 +624,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
 
   Widget _topicos(){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
+      padding: const EdgeInsets.symmetric(horizontal: AppSize.s18),
       child: Container(
         padding: const EdgeInsets.all(AppSize.s10),
         decoration: BoxDecoration(
@@ -633,6 +635,13 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
           valueListenable: dropValueTopico,
           builder: (context, value, _){
             return DropdownButtonFormField<String>(
+              icon: const Icon(Icons.keyboard_arrow_down_rounded),
+              iconSize: AppSize.s30,
+              borderRadius: BorderRadius.circular(AppSize.s20),
+              elevation: AppSize.s2.toInt(),
+              dropdownColor: ColorManager.branco,
+              hint: const Text(AppStrings.topico),
+              style: getAlexandriaStyle(color: ColorManager.preto),
               items: _artigoViewModel.topicos.map(
                   (opcao){
                     return DropdownMenuItem(value: opcao, child: Text(opcao));
