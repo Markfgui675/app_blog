@@ -2,6 +2,8 @@ sealed class AppStrings{
 
   static const String routeNotFound = 'Rota não encontrada';
   static const String appBlog = 'AppBlog';
+  static const String sim = 'Sim';
+  static const String nao = 'Não';
   static const String inicio= 'Inícios';
   static const String salvos = 'Salvos';
   static const String notificacoes = 'Notificações';
@@ -17,6 +19,7 @@ sealed class AppStrings{
   static const String seguindo = 'Seguindo';
   static const String artigos = 'Artigos';
   static const String criarArtgio = 'Criar Artigo';
+  static const String sairCriarArtigo = 'Tem certeza que quer sair da página? Você perderá todo o progresso.';
 
   static const String naoLogado = 'Você não está logado, entre ou cadastre-se no app.';
   static const String confirmacaoArtigo = 'Confirma a publicação do artigo?';
@@ -28,6 +31,7 @@ sealed class AppStrings{
   static const String email = 'Email';
   static const String senha = 'Senha';
   static const String titulo = 'Título';
+  static const String upload = 'Upload';
   static const String subTitulo = 'Subtítulo';
   static const String tituloDoArtigo = 'Título, Subtítulo e Tópico do Artigo';
   static const String textoArtigo = 'Texto do Artigo';
@@ -68,6 +72,8 @@ sealed class ErrorStrings{
 
   static const String naoFoiPossivelAcessarDado = 'Não foi possível acessar o dado.';
   static const String naoFoiPossivelCriarArtigo = 'Não foi possível criar o artigo.';
+  static const String imagemArtigo = 'Adicione uma imagem ao seu artigo!';
+  static const String topico = 'Selecione um tópico para o seu artigo!';
 
 }
 

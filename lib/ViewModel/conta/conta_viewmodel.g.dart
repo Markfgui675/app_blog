@@ -60,18 +60,17 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
       AsyncAction('ContaViewModelMobx.acessarDados', context: context);
 
   @override
-  Future acessarDados(String tipo, BuildContext context) {
-    return _$acessarDadosAsyncAction
-        .run(() => super.acessarDados(tipo, context));
+  Future acessarDados(BuildContext context) {
+    return _$acessarDadosAsyncAction.run(() => super.acessarDados(context));
   }
 
   late final _$salvarDadosAsyncAction =
       AsyncAction('ContaViewModelMobx.salvarDados', context: context);
 
   @override
-  Future salvarDados(String tipo, BuildContext context,
+  Future salvarDados(BuildContext context,
       {String? nome, dynamic sobre, dynamic profilePic}) {
-    return _$salvarDadosAsyncAction.run(() => super.salvarDados(tipo, context,
+    return _$salvarDadosAsyncAction.run(() => super.salvarDados(context,
         nome: nome, sobre: sobre, profilePic: profilePic));
   }
 
@@ -80,9 +79,9 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
       context: context);
 
   @override
-  Future acessarQuantidadeArtigos(String tipo, BuildContext context) {
+  Future acessarQuantidadeArtigos(BuildContext context) {
     return _$acessarQuantidadeArtigosAsyncAction
-        .run(() => super.acessarQuantidadeArtigos(tipo, context));
+        .run(() => super.acessarQuantidadeArtigos(context));
   }
 
   late final _$excluirArtigoAsyncAction =

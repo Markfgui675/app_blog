@@ -1,4 +1,3 @@
-import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../Model/models/TipoAcessoDataBase.dart';
 import '../resources/color_manager.dart';
 import '../resources/style_manager.dart';
 import '../resources/values_manager.dart';
@@ -33,7 +31,7 @@ class _EditorPageState extends State<EditorPage> {
   dynamic arquivo;
 
   _bind() async{
-    await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    await _viewModel.acessarDados(context);
     _nome.text = _viewModel.dadosUsuario[0].nome;
     _sobre.text = _viewModel.dadosUsuario[0].sobre;
   }
@@ -234,7 +232,7 @@ class _EditorPageState extends State<EditorPage> {
                           onTap: (){
                             if(formKey.currentState!.validate()){
                               dynamic res = _viewModel.salvarDados(
-                                TipoSalvar.salvarDadosUsuario, context,
+                                context,
                                 nome: _nome.text,
                                 sobre: _sobre.text,
                                 profilePic: arquivo ?? _viewModel.dadosUsuario[0].profilePic

@@ -5,7 +5,6 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:flutter/material.dart';
-import '../../Model/models/TipoAcessoDataBase.dart';
 import '../../ViewModel/conta/conta_viewmodel.dart';
 
 class ContaInfoPage extends StatefulWidget {
@@ -20,8 +19,8 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
   final ContaViewModel _viewModel = ContaViewModel();
 
   _bind() async {
-    await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
-    await _viewModel.acessarQuantidadeArtigos(TipoAcesso.acessarQuantidadeArtigos, context);
+    await _viewModel.acessarDados(context);
+    await _viewModel.acessarQuantidadeArtigos(context);
   }
 
   @override

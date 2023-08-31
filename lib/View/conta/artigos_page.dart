@@ -1,13 +1,10 @@
 import 'package:app_blog/Model/data/collections_names.dart';
-import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
-import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:lottie/lottie.dart';
 import '../../Model/models/Artigo.dart';
 import '../resources/color_manager.dart';
 import '../resources/routes_manager.dart';
@@ -26,7 +23,7 @@ class _ArtigosPageState extends State<ArtigosPage> {
   final ContaViewModel _viewModel = ContaViewModel();
 
   _bind()async{
-    await _viewModel.acessarQuantidadeArtigos(TipoAcesso.acessarQuantidadeArtigos, context);
+    await _viewModel.acessarQuantidadeArtigos(context);
   }
 
   @override
@@ -107,7 +104,7 @@ class _ArtigosPageState extends State<ArtigosPage> {
   Widget _cardArtigo(Artigo artigo){
     return Container(
         width: double.infinity,
-        height: 145,
+        height: AppSize.s145,
         padding: const EdgeInsets.all(AppPadding.p5),
         margin: const EdgeInsets.all(AppMargin.m18),
         decoration: BoxDecoration(
@@ -140,7 +137,7 @@ class _ArtigosPageState extends State<ArtigosPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      height: 100,
+                      height: AppSize.s100,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -173,7 +170,7 @@ class _ArtigosPageState extends State<ArtigosPage> {
               borderRadius: BorderRadius.circular(AppSize.s20),
             ),
             child: Container(
-              height: 150,
+              height: AppSize.s150,
               padding: const EdgeInsets.all(AppPadding.p12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -212,8 +209,8 @@ class _ArtigosPageState extends State<ArtigosPage> {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 80,
-        height: 40,
+        width: AppSize.s80,
+        height: AppSize.s40,
         padding: const EdgeInsets.all(AppPadding.p5),
         decoration: BoxDecoration(
             color: ColorManager.marrom,

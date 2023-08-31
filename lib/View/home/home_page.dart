@@ -50,8 +50,8 @@ class _HomePageState extends State<HomePage> {
   ];
 
   _bind()async{
-    await _viewModel.sortearFrase(TipoAcesso.acessarDadosFrases, context);
-    await _contaViewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    await _viewModel.sortearFrase(context);
+    await _contaViewModel.acessarDados(context);
   }
 
   @override

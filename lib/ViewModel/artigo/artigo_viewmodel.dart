@@ -28,10 +28,10 @@ abstract class ArtigoViewModelMobx with Store{
   }
 
   @action
-  salvarDados(String tipo, BuildContext context, {required String nomeAutor, required Artigo artigo}){
+  salvarDados(BuildContext context, {required String nomeAutor, required Artigo artigo}){
     FirebaseAuth _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
-    _tipoSalvar.tipo = tipo;
+    _tipoSalvar.tipo = TipoSalvar.salvarArtigo;
     _artigo.id = GeradorId.gerarId();
     _artigo.idAutor = user!.uid;
     _artigo.titulo = artigo.titulo;

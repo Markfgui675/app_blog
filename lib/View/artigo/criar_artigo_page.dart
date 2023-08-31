@@ -43,7 +43,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   String data = '';
   final ContaViewModel _viewModel = ContaViewModel();
   _bind()async{
-    await _viewModel.acessarDados(TipoAcesso.acessarDadosUsuario, context);
+    await _viewModel.acessarDados(context);
     await _artigoViewModel.acessarTopicos(context);
     data = DateFormat("dd/MM/yyyy").format(DateTime.now());
   }
@@ -229,7 +229,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                   Container(
                     margin: const EdgeInsets.only(right: AppMargin.m12, left: AppMargin.m12),
                     width: double.infinity,
-                    height: 180,
+                    height: AppSize.s180,
                     decoration: BoxDecoration(
                       border: Border.all(
                           color: ColorManager.preto,
@@ -242,7 +242,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                         :
                     SizedBox(
                       width: double.infinity,
-                      height: 180,
+                      height: AppSize.s180,
                       child: Image.network(arquivo, fit: BoxFit.cover, ),
                     ),
                   ),
@@ -260,7 +260,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: uploading ? [const CircularProgressIndicator(color: ColorManager.branco)]:[
-                          Text('Upload', style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                          Text(AppStrings.upload, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
                           const Icon(Icons.upload, color: ColorManager.branco,)
                         ],
                       ),
@@ -347,7 +347,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           // Pré-visualização de fato
                           Container(
                             width: double.infinity,
-                            height: 280,
+                            height: AppSize.s280,
                             margin: const EdgeInsets.only(right: AppMargin.m30, left: AppMargin.m30, bottom: AppMargin.m10),
                             decoration: BoxDecoration(
                               color: Colors.black,
@@ -356,7 +356,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                             child: Container(
                               child: arquivo == null ? Image.asset(AssetsManager.withoutImage) : SizedBox(
                                 width: double.infinity,
-                                height: 180,
+                                height: AppSize.s180,
                                 child: Image.network(arquivo, fit: BoxFit.cover, ),
                               ),
                             ),
@@ -416,17 +416,17 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _button(toNext: false, text: 'Não'),
+                    _button(toNext: false, text: AppStrings.nao),
                     GestureDetector(
                       onTap: (){
                         Mensagens _mensagem = Mensagens();
                         if(arquivo==null){
                           _mensagem.state = false;
-                          _mensagem.mensagemError = 'Adicione uma imagem ao seu artigo';
+                          _mensagem.mensagemError = ErrorStrings.imagemArtigo;
                           return _mensagem.scaffoldMessege(context);
                         } else if(dropValueTopico.value == '') {
                           _mensagem.state = false;
-                          _mensagem.mensagemError = 'Selecione um tópico para o seu artigo';
+                          _mensagem.mensagemError = ErrorStrings.topico;
                           return _mensagem.scaffoldMessege(context);
                         } else {
                           artigo.titulo = _tituloController.text;
@@ -435,7 +435,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           artigo.autor = _viewModel.dadosUsuario[0].nome;
                           artigo.img = arquivo;
                           artigo.topico = dropValueTopico.value.toString();
-                          dynamic res = _artigoViewModel.salvarDados(TipoSalvar.salvarArtigo, context,
+                          dynamic res = _artigoViewModel.salvarDados(context,
                               nomeAutor: _viewModel.dadosUsuario[0].nome,
                               artigo: artigo
                           );
@@ -453,7 +453,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text('Sim', style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                            Text(AppStrings.sim, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
                           ],
                         ),
                       ),
@@ -560,19 +560,19 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
               borderRadius: BorderRadius.circular(AppSize.s20),
             ),
             child: Container(
-              height: 150,
+              height: AppSize.s150,
               padding: const EdgeInsets.all(AppPadding.p12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Tem certeza que quer sair da página? Você perderá todo o progresso.',
+                  Text(AppStrings.sairCriarArtigo,
                     style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),
                     textAlign: TextAlign.center,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buttonDialog(tituloBotao: 'Não', onPressed: (){
+                      _buttonDialog(tituloBotao: AppStrings.nao, onPressed: (){
                         setState(() {
                           shouldPop = false;
                         });
@@ -580,7 +580,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                         Navigator.pop(context);
                       }),
                       _buttonDialog(
-                        tituloBotao: 'Sim',
+                        tituloBotao: AppStrings.sim,
                         onPressed: (){
                           if(leading){
                             Navigator.pop(context);
@@ -608,8 +608,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 80,
-        height: 40,
+        width: AppSize.s80,
+        height: AppSize.s40,
         padding: const EdgeInsets.all(AppPadding.p5),
         decoration: BoxDecoration(
             color: ColorManager.marrom,

@@ -37,14 +37,14 @@ abstract class ContaViewModelMobx with Store{
   }
 
   @action
-  acessarDados(String tipo, BuildContext context) async {
-    _tipoAcesso.tipo = tipo;
+  acessarDados(BuildContext context) async {
+    _tipoAcesso.tipo = TipoAcesso.acessarDadosUsuario;
     _infoUser = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
   }
 
   @action
-  salvarDados(String tipo, BuildContext context, {String? nome, sobre, profilePic}) async {
-    _tipoSalvar.tipo = tipo;
+  salvarDados(BuildContext context, {String? nome, sobre, profilePic}) async {
+    _tipoSalvar.tipo = TipoSalvar.salvarDadosUsuario;
     _usuario.nome = nome!;
     _usuario.sobre = sobre!;
     _usuario.profilePic = profilePic!;
@@ -54,8 +54,8 @@ abstract class ContaViewModelMobx with Store{
   }
 
   @action
-  acessarQuantidadeArtigos(String tipo, BuildContext context)async{
-    _tipoAcesso.tipo = tipo;
+  acessarQuantidadeArtigos(BuildContext context)async{
+    _tipoAcesso.tipo = TipoAcesso.acessarQuantidadeArtigos;
     _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
   }
 

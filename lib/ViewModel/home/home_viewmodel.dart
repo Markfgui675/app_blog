@@ -12,8 +12,8 @@ class HomeViewModel{
     _repository = repository;
   }
 
-  sortearFrase(String tipoAcesso, BuildContext context){
-    _tipoAcesso.tipo = tipoAcesso;
+  sortearFrase(BuildContext context){
+    _tipoAcesso.tipo = TipoAcesso.acessarDadosFrases;
     var _dado = _repository.acessarDados(_tipoAcesso, context);
     print('Frase aqui na viewmodel: '+_dado.toString());
   }
