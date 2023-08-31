@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import '../models/Artigo.dart';
+import '../models/Frase.dart';
 import '../models/Usuario.dart';
 import '../repository/acessardados.dart';
 
@@ -94,24 +95,20 @@ class AcessarDadosRepository implements AcessarDados{
   }
 
   _acessarDadosFrases(BuildContext context)async{
-    // TODO: resolver problema do future<dynamic>
     final Mensagens _mensagens = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbFrases = FirebaseFirestore.instance;
-    List<Map<String, String>> _frases = [];
+    List<Frase> _frases = [];
     final docRef = await dbFrases.collection(CollectionsNames.frases);
     await docRef.get().then((querySnapshot){
       for(var docSnapshot in querySnapshot.docs){
-        String frase = docSnapshot.data()['frase'];
-        String autor = docSnapshot.data()['autor'];
-        _frases.add({
-          'frase':frase,
-          'autor':autor
-        });
+        Frase _frase = Frase();
+        _frase.frase = docSnapshot.data()['frase'];
+        _frase.autor = docSnapshot.data()['autor'];
+        _frases.add(_frase);
       }
-      print(_frases);
     });
-    return 'Opa, ó qu aqui ó';
+    return _frases;
   }
 
   _acessarTopicos()async{

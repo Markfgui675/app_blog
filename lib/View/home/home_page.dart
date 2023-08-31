@@ -33,7 +33,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  final HomeViewModel _viewModel = HomeViewModel(AcessarDadosRepository());
+  final HomeViewModel _viewModel = HomeViewModel();
   final AuthController _authController = AuthController();
   final ContaViewModel _contaViewModel = ContaViewModel();
   var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(AppSize.s70))
         ),
-        child: DrawerWidget(),
+        child: DrawerWidget(frase: _viewModel.fraseSorteada),
       ),
       body: _pages[_selectedItemPosition],
       bottomNavigationBar: SnakeNavigationBar.color(
