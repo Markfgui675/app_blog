@@ -32,6 +32,10 @@ class _PopularesPageState extends State<PopularesPage> {
   Artigo artigo1 = Artigo();
   List<Artigo> artigos = [];
 
+  // TODO: implementar as artigos de cada tópico
+  // ideias:
+  //  - gerar automaticamente cada seção de tópico com base nos tópicos fonecidos pelo servidor.
+
   @override
   Widget build(BuildContext context) {
 
