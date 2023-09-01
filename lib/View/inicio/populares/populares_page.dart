@@ -56,18 +56,15 @@ class _PopularesPageState extends State<PopularesPage> {
       children: [
         _iniciais(),
         _populares(
-          titulo: AppStrings.emAlta,
-          lista: artigos,
+          artigos: artigos,
           topico: 'Em Alta'
         ),
         _populares(
-          titulo: 'Esportes',
-          lista: artigos,
+          artigos: artigos,
           topico: 'Esportes'
         ),
         _populares(
-          titulo: 'Tecnologia',
-          lista: artigos,
+          artigos: artigos,
           topico: 'Tecnologia'
         ),
       ],
@@ -140,7 +137,7 @@ class _PopularesPageState extends State<PopularesPage> {
     );
   }
   
-  Widget _populares({required String titulo, required List<dynamic> lista, required String topico}){
+  Widget _populares({required String topico, required List<Artigo> artigos}){
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: AppMargin.m55),
@@ -152,7 +149,7 @@ class _PopularesPageState extends State<PopularesPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(titulo, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
+                Text(topico, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
                 GestureDetector(
                   onTap: () => Navigator.pushNamed(context, Routes.topicosSelecionados, arguments: topico),
                   child: Text(AppStrings.verMais, style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s16),),
@@ -173,9 +170,9 @@ class _PopularesPageState extends State<PopularesPage> {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10
               ),
-              itemCount: lista.length,
+              itemCount: artigos.length,
               itemBuilder: (_, index){
-                Artigo artigo = lista[index];
+                Artigo artigo = artigos[index];
                 return GestureDetector(
                   onTap: () => Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
                   child: Container(
@@ -195,19 +192,19 @@ class _PopularesPageState extends State<PopularesPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                            flex: 3,
-                            child: Container(
-                              margin: const EdgeInsets.all(AppMargin.m6),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(AppSize.s20),
-                                image: DecorationImage(
-                                  image: AssetImage(artigo.img),
-                                  fit: BoxFit.cover
-                                )
-                              ),
-                            )
+                          flex: 3,
+                          child: Container(
+                            margin: const EdgeInsets.all(AppMargin.m6),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(AppSize.s20),
+                              image: DecorationImage(
+                                image: NetworkImage(artigo.img),
+                                fit: BoxFit.cover
+                              )
+                            ),
+                          )
                         ),
                         Expanded(
                           flex: 3,
@@ -218,9 +215,7 @@ class _PopularesPageState extends State<PopularesPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(artigo.titulo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s20),),
-                                Text(artigo.subTitulo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s10),),
-                                Text(artigo.topico, style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s16),),
+                                Text(artigo.titulo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),),
                               ],
                             ),
                           ),
