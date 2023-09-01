@@ -40,6 +40,7 @@ sealed class AppStrings{
   static const String editarPerfil = 'Editar Perfil';
   static const String sobre = 'Sobre';
   static const String camera = 'Câmera';
+  static const String pesquisar = 'Pesquisar';
   static const String galeria = 'Galeria';
   static const String settings = 'Configurações';
   static const String next = 'Próximo';

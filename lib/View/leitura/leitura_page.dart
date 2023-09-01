@@ -40,10 +40,10 @@ class LeituraPage extends StatelessWidget {
             
             Container(
               width: double.infinity,
-              height: 280,
+              height: AppSize.s280,
               margin: const EdgeInsets.only(right: AppMargin.m30, left: AppMargin.m30, bottom: AppMargin.m10),
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: ColorManager.preto,
                 borderRadius: BorderRadius.circular(AppSize.s20),
                 image: DecorationImage(
                   fit: BoxFit.cover,
@@ -73,7 +73,7 @@ class LeituraPage extends StatelessWidget {
                 children: [
                   Text(artigo.titulo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
                   const SizedBox(height: AppSize.s6,),
-                  Text(artigo.subTitulo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s20),),
+                  Text(artigo.subTitulo, style: getAliceStyle(color: ColorManager.marrom, fontSize: AppSize.s20),),
                   const SizedBox(height: AppSize.s20,),
                   Text(artigo.texto, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s16),)
                 ],

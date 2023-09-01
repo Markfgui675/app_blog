@@ -116,6 +116,9 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
               );
             }
           ),
+          actions: [
+            _progressStatus()
+          ],
           elevation: 0,
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: ColorManager.branco,
@@ -143,7 +146,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: AppSize.s48),
+                      const SizedBox(height: AppSize.s48,),
                       Padding(
                         padding: const EdgeInsets.only(right: AppPadding.p5, left: AppPadding.p5),
                         child: Text(AppStrings.tituloDoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
@@ -215,68 +218,83 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
 
 
             // imagem principal
-            Form(
-              key: _formKey2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: AppSize.s48),
-                  Text(AppStrings.imagemPrincipalArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
-                  const SizedBox(height: AppSize.s48,),
-                  Text(AppStrings.proporcaoImg, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),),
-                  const SizedBox(height: AppSize.s10,),
-                  Container(
-                    margin: const EdgeInsets.only(right: AppMargin.m12, left: AppMargin.m12),
-                    width: double.infinity,
-                    height: AppSize.s180,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: ColorManager.preto,
-                          width: 1.5
-                      ),
-                    ),
-                    child: uploading ? const Center(
-                      child: CircularProgressIndicator(color: ColorManager.marrom,),
-                    ) : arquivo == null ? Center(child: Image.asset(AssetsManager.withoutImage),)
-                        :
-                    SizedBox(
-                      width: double.infinity,
-                      height: AppSize.s180,
-                      child: Image.network(arquivo, fit: BoxFit.cover, ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSize.s10,),
-                  GestureDetector(
-                    onTap: pickAndUploadImage,
-                    child: Container(
-                      width: AppSize.s140,
-                      height: AppSize.s60,
-                      padding: const EdgeInsets.all(AppPadding.p16),
-                      decoration: BoxDecoration(
-                        color: ColorManager.marrom,
-                        borderRadius: BorderRadius.circular(AppSize.s10)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: uploading ? [const CircularProgressIndicator(color: ColorManager.branco)]:[
-                          Text(AppStrings.upload, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
-                          const Icon(Icons.upload, color: ColorManager.branco,)
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSize.s48),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Form(
+                  key: _formKey2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _button(toNext: false),
-                      _button(
-                        toNext: true,
+                      const SizedBox(height: AppSize.s20,),
+                      Padding(
+                        padding: const EdgeInsets.only(right: AppPadding.p5, left: AppPadding.p5),
+                        child: Text(AppStrings.imagemPrincipalArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                      ),
+                      const SizedBox(height: AppSize.s48,),
+                      Container(
+                        margin: const EdgeInsets.only(right: AppMargin.m12, left: AppMargin.m12),
+                        width: double.infinity,
+                        height: AppSize.s280,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s20),
+                          border: Border.all(
+                            color: ColorManager.preto,
+                            width: 1.5
+                          ),
+                        ),
+                        child: uploading ? const Center(
+                          child: CircularProgressIndicator(color: ColorManager.marrom,),
+                        ) : arquivo == null ? Center(child: Image.asset(AssetsManager.withoutImage),)
+                            :
+                        Container(
+                          width: double.infinity,
+                          height: AppSize.s280,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(AppSize.s20),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(arquivo)
+                            )
+                          ),
+                        )
+                      ),
+                      const SizedBox(height: AppSize.s10,),
+                      GestureDetector(
+                        onTap: pickAndUploadImage,
+                        child: Container(
+                          width: AppSize.s140,
+                          height: AppSize.s60,
+                          padding: const EdgeInsets.all(AppPadding.p16),
+                          decoration: BoxDecoration(
+                              color: ColorManager.marrom,
+                              borderRadius: BorderRadius.circular(AppSize.s10)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: uploading ? [const CircularProgressIndicator(color: ColorManager.branco)]:[
+                              Text(AppStrings.upload, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                              const Icon(Icons.upload, color: ColorManager.branco,)
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppSize.s48),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _button(toNext: false),
+                          _button(
+                            toNext: true,
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
 
@@ -292,8 +310,11 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: AppSize.s48),
-                        Text(AppStrings.textoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                        const SizedBox(height: AppSize.s20,),
+                        Padding(
+                          padding: const EdgeInsets.only(right: AppPadding.p5, left: AppPadding.p5),
+                          child: Text(AppStrings.textoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
+                        ),
                         const SizedBox(height: AppSize.s48,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: AppSize.s25),
@@ -340,24 +361,33 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                     builder: (_){
                       return Column(
                         children: [
-                          const SizedBox(height: AppSize.s48),
-                          Text(AppStrings.preView, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
+                          const SizedBox(height: AppSize.s20,),
+                          Padding(
+                            padding: const EdgeInsets.only(right: AppPadding.p5, left: AppPadding.p5),
+                            child: Text(AppStrings.preView, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
+                          ),
                           const SizedBox(height: AppSize.s48),
 
-                          // Pré-visualização de fato
+                          // Pré-visualização do artigo
                           Container(
                             width: double.infinity,
                             height: AppSize.s280,
                             margin: const EdgeInsets.only(right: AppMargin.m30, left: AppMargin.m30, bottom: AppMargin.m10),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: ColorManager.marrom,
                               borderRadius: BorderRadius.circular(AppSize.s20),
                             ),
-                            child: Container(
-                              child: arquivo == null ? Image.asset(AssetsManager.withoutImage) : SizedBox(
+                            child: SizedBox(
+                              child: arquivo == null ? Image.asset(AssetsManager.withoutImage) : Container(
                                 width: double.infinity,
                                 height: AppSize.s180,
-                                child: Image.network(arquivo, fit: BoxFit.cover, ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(AppSize.s20),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(arquivo)
+                                  )
+                                ),
                               ),
                             ),
                           ),
@@ -382,7 +412,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                               children: [
                                 Text(_tituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30),),
                                 const SizedBox(height: AppSize.s6,),
-                                Text(_subTituloController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s20),),
+                                Text(_subTituloController.text, style: getAliceStyle(color: ColorManager.marrom, fontSize: AppSize.s20),),
                                 const SizedBox(height: AppSize.s6,),
                                 Text(_textoController.text, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),),
 
@@ -412,7 +442,11 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(AppStrings.confirmacaoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
+                const SizedBox(height: AppSize.s20,),
+                Padding(
+                  padding: const EdgeInsets.only(right: AppPadding.p5, left: AppPadding.p5),
+                  child: Text(AppStrings.confirmacaoArtigo, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s30), textAlign: TextAlign.center,),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -655,6 +689,18 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _progressStatus(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: AppPadding.p20, bottom: AppPadding.p12),
+          child: Text('${_pageChanged+1} de 5', style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s16),),
+        )
+      ],
     );
   }
 
