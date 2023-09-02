@@ -697,7 +697,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: AppPadding.p20, bottom: AppPadding.p12),
+          padding: const EdgeInsets.only(right: AppPadding.p20),
           child: Text('${_pageChanged+1} de 5', style: getAlexandriaStyle(color: ColorManager.marrom, fontSize: AppSize.s16),),
         )
       ],
