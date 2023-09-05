@@ -103,17 +103,17 @@ class _ArtigosPageState extends State<ArtigosPage> {
 
   Widget _cardArtigo(Artigo artigo){
     return Container(
-        width: double.infinity,
-        height: AppSize.s145,
-        padding: const EdgeInsets.all(AppPadding.p5),
-        margin: const EdgeInsets.all(AppMargin.m18),
-        decoration: BoxDecoration(
-            color: ColorManager.branco,
-            borderRadius: BorderRadius.circular(AppSize.s20),
-            boxShadow: [
-              BoxShadow(color: ColorManager.cinza, offset: const Offset(0,0), blurRadius: AppSize.s8)
-            ]
-        ),
+      width: double.infinity,
+      height: AppSize.s145,
+      padding: const EdgeInsets.all(AppPadding.p5),
+      margin: const EdgeInsets.all(AppMargin.m18),
+      decoration: BoxDecoration(
+          color: ColorManager.branco,
+          borderRadius: BorderRadius.circular(AppSize.s20),
+          boxShadow: [
+            BoxShadow(color: ColorManager.cinza, offset: const Offset(0,0), blurRadius: AppSize.s8)
+          ]
+      ),
         child: Row(
           children: [
             Expanded(
