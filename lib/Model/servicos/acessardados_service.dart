@@ -5,6 +5,7 @@ import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:super_editor/super_editor.dart';
 import '../models/Artigo.dart';
 import '../models/Frase.dart';
 import '../models/Usuario.dart';
@@ -20,8 +21,10 @@ class AcessarDadosRepository implements AcessarDados{
         return _acessarDadosUsuario(context);
       case TipoAcesso.acessarDadosFrases:
         return _acessarDadosFrases(context);
-      case TipoAcesso.acessarQuantidadeArtigos:
-        return _acessarQuantidadeArquivos(context);
+      case TipoAcesso.acessarArtigosUsuario:
+        return _acessarArtigosUsuario(context);
+      case TipoAcesso.acessarArtigos:
+        return _acessarArtigos(context);
       case TipoAcesso.acessarTopicos:
         return _acessarTopicos();
       default:
@@ -63,7 +66,7 @@ class AcessarDadosRepository implements AcessarDados{
     }
   }
 
-  _acessarQuantidadeArquivos(BuildContext context)async{
+  _acessarArtigosUsuario(BuildContext context)async{
     final Mensagens _mensagens = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbUsers= FirebaseFirestore.instance;
@@ -90,6 +93,35 @@ class AcessarDadosRepository implements AcessarDados{
     }on FirebaseException catch(e){
       _mensagens.state = false;
       _mensagens.mensagemError = 'Error';
+      return _mensagens.scaffoldMessege(context);
+    }
+  }
+
+  _acessarArtigos(BuildContext context)async{
+    final Mensagens _mensagens = Mensagens();
+    FirebaseFirestore dbArtigos = FirebaseFirestore.instance;
+    List<Artigo> _artigos = [];
+    final docRef = await dbArtigos.collection(CollectionsNames.artigos);
+    try{
+      await docRef.get().then((querySnapshot){
+        for(var docSnapshot in querySnapshot.docs){
+          Artigo _artigo = Artigo();
+          _artigo.id = docSnapshot.data()['id'];
+          _artigo.idAutor = docSnapshot.data()['idAutor'];
+          _artigo.titulo = docSnapshot.data()['titulo'];
+          _artigo.subTitulo = docSnapshot.data()['subTitulo'];
+          _artigo.texto = docSnapshot.data()['texto'];
+          _artigo.autor = docSnapshot.data()['autor'];
+          _artigo.data = docSnapshot.data()['data'];
+          _artigo.img = docSnapshot.data()['img'];
+          _artigo.topico = docSnapshot.data()['topico'];
+          _artigos.add(_artigo);
+        }
+      });
+      return _artigos;
+    } on FirebaseException catch(e){
+      _mensagens.state = false;
+      _mensagens.mensagemError = ErrorStrings.naoFoiPossivelAcessarDado;
       return _mensagens.scaffoldMessege(context);
     }
   }

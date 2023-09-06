@@ -55,14 +55,14 @@ abstract class ContaViewModelMobx with Store{
 
   @action
   acessarQuantidadeArtigos(BuildContext context)async{
-    _tipoAcesso.tipo = TipoAcesso.acessarQuantidadeArtigos;
+    _tipoAcesso.tipo = TipoAcesso.acessarArtigosUsuario;
     _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
   }
 
   @action
   excluirArtigo({required String collection, required String idDoc, required BuildContext context})async{
     await _excluirDocRepository.excluirDoc(collection: collection, idDoc: idDoc, context: context);
-    _tipoAcesso.tipo = TipoAcesso.acessarQuantidadeArtigos;
+    _tipoAcesso.tipo = TipoAcesso.acessarArtigosUsuario;
     _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
   }
 

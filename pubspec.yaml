@@ -33,6 +33,7 @@ dependencies:
   connectivity_plus: ^4.0.2
   internet_connection_checker: ^1.0.0+1
   intl: ^0.18.1
+  exists_in: ^0.0.1
   flutter_slidable: ^3.0.0
 
 dev_dependencies:

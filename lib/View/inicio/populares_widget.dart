@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import '../../Model/models/Artigo.dart';
 import '../resources/color_manager.dart';
