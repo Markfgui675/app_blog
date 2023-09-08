@@ -23,7 +23,6 @@ class _EditorPageState extends State<EditorPage> {
   final TextEditingController _sobre = TextEditingController();
   final FirebaseStorage storage = FirebaseStorage.instance;
   var formKey = GlobalKey<FormState>();
-
   final ContaViewModel _viewModel = ContaViewModel();
   final imagePicker = ImagePicker();
   bool uploading = false;

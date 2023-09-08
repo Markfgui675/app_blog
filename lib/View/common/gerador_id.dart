@@ -1,6 +1,6 @@
 import 'dart:math';
 
-class GeradorId{
+sealed class GeradorId{
 
   static String gerarId(){
 

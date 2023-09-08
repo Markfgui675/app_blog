@@ -20,11 +20,17 @@ abstract class InicioViewModelMobx with Store{
   @observable
   List<Artigo> _emAlta = [];
 
+  @observable
+  List<Map<String, List<Artigo>>> _topicosArtigos = [];
+
   @computed
   List<Artigo> get artigosPopulares => _populares;
 
   @computed
   List<Artigo> get artigosEmAlta => _emAlta;
+
+  @computed
+  List<Map<String, List<Artigo>>> get topicosArtigos => _topicosArtigos;
 
   @action
   recuperarArtigosPopulares(BuildContext context)async{
@@ -57,7 +63,14 @@ abstract class InicioViewModelMobx with Store{
     if(artigos.length<=2){
       _emAlta = artigos;
     } else {
-      _emAlta = [...artigos].getRange(0,artigos.length~/2).toList();
+      List<Artigo> _artigos = [];
+      while(_artigos.length < artigos.length~/2){
+        var artigo = artigos[Random().nextInt(artigos.length)];
+        if(!existsIn(artigo, _artigos)){
+          _artigos.add(artigo);
+        }
+      }
+      _emAlta = _artigos;
     }
   }
 

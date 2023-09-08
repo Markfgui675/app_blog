@@ -1,12 +1,17 @@
 import 'package:app_blog/View/resources/color_manager.dart';
 import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
+import 'package:app_blog/ViewModel/inicio/inicio_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import '../../../Model/models/Artigo.dart';
+import '../../common/card_artigo.dart';
+import '../../resources/routes_manager.dart';
 
+// ignore: must_be_immutable
 class TopicosSelecionadosPage extends StatefulWidget {
   String topico;
-
   TopicosSelecionadosPage(this.topico, {super.key});
 
   @override
@@ -14,6 +19,19 @@ class TopicosSelecionadosPage extends StatefulWidget {
 }
 
 class _TopicosSelecionadosPageState extends State<TopicosSelecionadosPage> {
+
+  final InicioViewModel _viewModel = InicioViewModel();
+
+  _bind()async{
+    await _viewModel.recuperarArtigosEmAlta(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bind();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +54,34 @@ class _TopicosSelecionadosPageState extends State<TopicosSelecionadosPage> {
           statusBarIconBrightness: Brightness.dark,
         ),
       ),
-      body: Container(
-
+      body: Observer(
+        builder: (_){
+          if(_viewModel.artigosEmAlta.isEmpty){
+            return const Scaffold(
+              backgroundColor: ColorManager.branco,
+              body: Center(
+                child: CircularProgressIndicator(backgroundColor: ColorManager.marrom, color: ColorManager.branco,),
+              ),
+            );
+          }else{
+            return RefreshIndicator(
+              backgroundColor: ColorManager.marrom,
+              color: ColorManager.branco,
+              onRefresh: ()=>_bind(),
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: _viewModel.artigosEmAlta.length,
+                  itemBuilder: (_,i){
+                    Artigo artigo = _viewModel.artigosEmAlta[i];
+                    return GestureDetector(
+                      onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
+                      child: CardArtigo(artigo),
+                    );
+                  }
+              ),
+            );
+          }
+        },
       ),
     );
   }

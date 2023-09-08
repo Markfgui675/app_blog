@@ -44,6 +44,7 @@ class SalvarDados implements DataBase{
     try{
       dbUser.collection(CollectionsNames.usuarios).doc(user!.uid).update(_dadosAtualizar)
         .then((value){
+        Navigator.pushNamedAndRemoveUntil(context, Routes.initialRoute, (route) => false, arguments: 4);
         _mensagens.mensagemOk = SuccessStrings.dadosAlterados;
         _mensagens.state = true;
         return _mensagens.scaffoldMessege(context);
