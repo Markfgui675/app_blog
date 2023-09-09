@@ -50,7 +50,7 @@ sealed class RouteGenerator{
           return MaterialPageRoute(builder: (_) => HomePage(indexPage: args,));
         }
       case Routes.leituraPage:
-        return MaterialPageRoute(builder: (_) => LeituraPage(artigo: args,));
+        return MaterialPageRoute(builder: (_) => LeituraPage(args));
       case Routes.topicos:
         return MaterialPageRoute(builder: (_) => TopicosPage());
       case Routes.topicosSelecionados:

@@ -24,6 +24,8 @@ class SalvarDados implements DataBase{
 
       case TipoSalvar.salvarDadosUsuario:
         return _salvarDadosUsuario(context, args: args);
+      case TipoSalvar.criarArtigo:
+        return _criarArtigo(context, args: args);
       case TipoSalvar.salvarArtigo:
         return _salvarArtigo(context, args: args);
 
@@ -56,7 +58,7 @@ class SalvarDados implements DataBase{
     }
   }
 
-  _salvarArtigo(BuildContext context, {Artigo? args})async{
+  _criarArtigo(BuildContext context, {Artigo? args})async{
     FirebaseFirestore dbArtigos = FirebaseFirestore.instance;
     args?.data = DateFormat("dd/MM/yyyy").format(DateTime.now());
     try{
@@ -82,6 +84,36 @@ class SalvarDados implements DataBase{
       _mensagens.state = false;
       _mensagens.mensagemError = ErrorStrings.naoFoiPossivelCriarArtigo;
       return _mensagens.scaffoldMessege(context);
+    }
+  }
+
+  _salvarArtigo(BuildContext context, {Artigo? args})async{
+    Mensagens _mensagem = Mensagens();
+    FirebaseFirestore dbArtigos = FirebaseFirestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = await auth.currentUser;
+    try{
+      dbArtigos.collection(CollectionsNames.artigos_salvos).doc(user!.uid).collection(CollectionsNames.artigos_salvos_usuario).doc(args!.id).set(
+        {
+          'id':args.id,
+          'idAutor':args.idAutor,
+          'titulo':args.titulo,
+          'subTitulo':args.subTitulo,
+          'texto':args.texto,
+          'autor':args.autor,
+          'img':args.img,
+          'topico':args.topico,
+          'data':args.data
+        }
+      );
+    } catch(e){
+      _mensagem.state = false;
+      if(user?.uid==null){
+        _mensagem.mensagemError = ErrorStrings.crieContaParaSalvarArtigo;
+      } else {
+        _mensagem.mensagemError = ErrorStrings.naoFoiPossivelSalvarArtigo;
+      }
+      return _mensagem.scaffoldMessege(context);
     }
   }
   

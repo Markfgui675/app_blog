@@ -470,7 +470,6 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           artigo.img = arquivo;
                           artigo.topico = dropValueTopico.value.toString();
                           dynamic res = _artigoViewModel.salvarDados(context,
-                              nomeAutor: _viewModel.dadosUsuario[0].nome,
                               artigo: artigo
                           );
                           return res;

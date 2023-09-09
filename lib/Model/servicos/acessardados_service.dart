@@ -27,6 +27,8 @@ class AcessarDadosRepository implements AcessarDados{
         return _acessarArtigos(context);
       case TipoAcesso.acessarTopicos:
         return _acessarTopicos();
+      case TipoAcesso.acessarArtigosSalvos:
+        return _acessarArtigosSalvos(context);
       default:
         return _error(context);
     }
@@ -123,6 +125,37 @@ class AcessarDadosRepository implements AcessarDados{
       _mensagens.state = false;
       _mensagens.mensagemError = ErrorStrings.naoFoiPossivelAcessarDado;
       return _mensagens.scaffoldMessege(context);
+    }
+  }
+
+  _acessarArtigosSalvos(BuildContext context)async{
+    final Mensagens _mensagem = Mensagens();
+    FirebaseFirestore dbArtigos = FirebaseFirestore.instance;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    List<Artigo> _artigos = [];
+    final docRef = await dbArtigos.collection(CollectionsNames.artigos_salvos).doc(user!.uid).collection(CollectionsNames.artigos_salvos_usuario);
+    try{
+      await docRef.get().then((querySnapshot){
+        for(var docSnapshot in querySnapshot.docs){
+          Artigo _artigo = Artigo();
+          _artigo.id = docSnapshot.data()['id'];
+          _artigo.idAutor = docSnapshot.data()['idAutor'];
+          _artigo.titulo = docSnapshot.data()['titulo'];
+          _artigo.subTitulo = docSnapshot.data()['subTitulo'];
+          _artigo.texto = docSnapshot.data()['texto'];
+          _artigo.autor = docSnapshot.data()['autor'];
+          _artigo.data = docSnapshot.data()['data'];
+          _artigo.img = docSnapshot.data()['img'];
+          _artigo.topico = docSnapshot.data()['topico'];
+          _artigos.add(_artigo);
+        }
+      });
+      return _artigos;
+    } catch (e){
+      _mensagem.state = false;
+      _mensagem.mensagemError = ErrorStrings.naoFoiPossivelAcessarDado;
+      return _mensagem.scaffoldMessege(context);
     }
   }
 

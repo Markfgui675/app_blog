@@ -12,4 +12,5 @@ sealed class TipoAcesso{
   static const String acessarArtigosUsuario = 'acessarArtigosUsuario';
   static const String acessarTopicos = 'acessarTopicos';
   static const String acessarArtigos = 'acessarArtigos';
+  static const String acessarArtigosSalvos = 'acessarArtigosSalvos';
 }

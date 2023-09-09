@@ -45,12 +45,11 @@ mixin _$ArtigoViewModel on ArtigoViewModelMobx, Store {
       ActionController(name: 'ArtigoViewModelMobx', context: context);
 
   @override
-  dynamic salvarDados(BuildContext context,
-      {required String nomeAutor, required Artigo artigo}) {
+  dynamic salvarDados(BuildContext context, {required Artigo artigo}) {
     final _$actionInfo = _$ArtigoViewModelMobxActionController.startAction(
         name: 'ArtigoViewModelMobx.salvarDados');
     try {
-      return super.salvarDados(context, nomeAutor: nomeAutor, artigo: artigo);
+      return super.salvarDados(context, artigo: artigo);
     } finally {
       _$ArtigoViewModelMobxActionController.endAction(_$actionInfo);
     }

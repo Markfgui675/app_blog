@@ -36,6 +36,7 @@ sealed class AppStrings{
   static const String tituloDoArtigo = 'Título, Subtítulo e Tópico do Artigo';
   static const String textoArtigo = 'Texto do Artigo';
   static const String texto = 'Texto';
+  static const String artigosSalvos = 'Artigos Salvos';
   static const String esqueceuSenha = 'Esqueceu a Senha?';
   static const String editarPerfil = 'Editar Perfil';
   static const String sobre = 'Sobre';
@@ -52,6 +53,7 @@ sealed class AppStrings{
   static const String algoErradoArtigo = 'Se algo não estiver da forma que deseja, volte aos campos anteriores e os altere.';
   static const String imagemPrincipalArtigo = 'Imagem Principal do Artigo';
   static const String preView = 'Pré-visualização';
+  static const String excluirArtigo = 'Tem certeza que quer excluir o artigo? Essa ação é irreversível.';
 
 }
 
@@ -73,8 +75,10 @@ sealed class ErrorStrings{
 
   static const String naoFoiPossivelAcessarDado = 'Não foi possível acessar o dado.';
   static const String naoFoiPossivelCriarArtigo = 'Não foi possível criar o artigo.';
+  static const String naoFoiPossivelSalvarArtigo = 'Não foi possível salvar o artigo.';
   static const String imagemArtigo = 'Adicione uma imagem ao seu artigo!';
   static const String topico = 'Selecione um tópico para o seu artigo!';
+  static const String crieContaParaSalvarArtigo = 'Entre ou crie uma conta para salvar o artigo';
 
 }
 
