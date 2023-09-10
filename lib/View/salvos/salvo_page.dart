@@ -20,6 +20,7 @@ class SalvoPage extends StatefulWidget {
 class _SalvoPageState extends State<SalvoPage> {
 
   final SalvoViewModel _viewModel = SalvoViewModel();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _bind()async{
     await _viewModel.recuperarArtigosSalvos(context);
@@ -35,69 +36,60 @@ class _SalvoPageState extends State<SalvoPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
           backgroundColor: ColorManager.branco,
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: AppPadding.p10, bottom: AppPadding.p20),
-                  child: Center(
-                    child: Text(AppStrings.artigosSalvos, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
+          body: Observer(
+            builder: (_){
+              return RefreshIndicator(
+                backgroundColor: ColorManager.marrom,
+                color: ColorManager.branco,
+                onRefresh: () => _bind(),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(top: AppPadding.p10, bottom: AppPadding.p20),
+                        child: Center(
+                          child: Text(AppStrings.artigosSalvos, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height*0.7,
+                        child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: _viewModel.artigosSalvos.length,
+                            itemBuilder: (_,i){
+                              Artigo artigo = _viewModel.artigosSalvos[i];
+                              return Slidable(
+                                  key: ValueKey<Artigo>(artigo),
+                                  startActionPane: ActionPane(
+                                    motion: const DrawerMotion(),
+                                    dragDismissible: false,
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (_)=>_showDialog(artigo),
+                                        backgroundColor: ColorManager.vermelho,
+                                        icon: Icons.delete_outline_outlined,
+                                        label: AppStrings.removerArtgio,
+                                      )
+                                    ],
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
+                                    child: CardArtigo(artigo),
+                                  )
+                              );
+                            }
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height*0.68,
-                  child: Observer(
-                    builder: (_){
-                      if(_viewModel.artigosSalvos.isEmpty){
-                        return const Scaffold(
-                          backgroundColor: ColorManager.branco,
-                          body: Center(
-                            child: CircularProgressIndicator(backgroundColor: ColorManager.marrom, color: ColorManager.branco,),
-                          ),
-                        );
-                      }else{
-                        return RefreshIndicator(
-                          backgroundColor: ColorManager.marrom,
-                          color: ColorManager.branco,
-                          onRefresh: ()=>_bind(),
-                          child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: _viewModel.artigosSalvos.length,
-                              itemBuilder: (_,i){
-                                Artigo artigo = _viewModel.artigosSalvos[i];
-                                return Slidable(
-                                    key: ValueKey<Artigo>(artigo),
-                                    startActionPane: ActionPane(
-                                      motion: const DrawerMotion(),
-                                      dragDismissible: false,
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (_)=>_showDialog(artigo),
-                                          backgroundColor: ColorManager.vermelho,
-                                          icon: Icons.delete_outline_outlined,
-                                          label: 'Deletar Artigo',
-                                        )
-                                      ],
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
-                                      child: CardArtigo(artigo),
-                                    )
-                                );
-                              }
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                )
-
-              ],
-            ),
+              );
+            },
           )
       ),
     );
@@ -105,7 +97,7 @@ class _SalvoPageState extends State<SalvoPage> {
 
   _showDialog(Artigo artigo){
     showDialog(
-        context: context,
+        context: _scaffoldKey.currentContext!,
         builder: (context){
           return Dialog(
             insetAnimationCurve: Curves.bounceInOut,
@@ -132,8 +124,9 @@ class _SalvoPageState extends State<SalvoPage> {
                       }),
                       _button(
                           tituloBotao: 'Sim',
-                          onPressed: (){
-                            // TODO: criar método que retirar artigo dos salvos
+                          onPressed: ()async{
+                            _viewModel.retirarArtigoSalvo(context, artigo: artigo);
+                            await _bind();
                             Navigator.pop(context);
                           }
                       ),

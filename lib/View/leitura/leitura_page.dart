@@ -22,7 +22,7 @@ class _LeituraPageState extends State<LeituraPage> {
 
   _bind()async{
     await _viewModel.recuperarArtigosSalvos(context);
-    await _viewModel.aArtigoSalvo(context, widget.artigo);
+    _viewModel.aArtigoSalvo(context, widget.artigo);
   }
 
   @override
@@ -43,13 +43,19 @@ class _LeituraPageState extends State<LeituraPage> {
               Observer(
                 builder: (_){
                   return IconButton(
-                      onPressed: (){
-                        dynamic res = _viewModel.salvarArtigo(context, artigo: widget.artigo);
-                        return res;
-                      },
-                      icon: _viewModel.artigoEstaSalvo ?
-                      const Icon(Icons.bookmark_rounded, color: ColorManager.preto,) :
-                      const Icon(Icons.bookmark_border_rounded, color: ColorManager.preto,)
+                    onPressed: ()async{
+                      dynamic res;
+                      if(_viewModel.artigoEstaSalvo){
+                        res = await _viewModel.retirarArtigoSalvo(context, artigo: widget.artigo);
+                      } else {
+                        res = _viewModel.salvarArtigo(context, artigo: widget.artigo);
+                      }
+                      await _bind();
+                      return res;
+                    },
+                    icon: _viewModel.artigoEstaSalvo ?
+                    const Icon(Icons.bookmark_rounded, color: ColorManager.preto,) :
+                    const Icon(Icons.bookmark_border_rounded, color: ColorManager.preto,)
                   );
                 },
               )
@@ -57,8 +63,8 @@ class _LeituraPageState extends State<LeituraPage> {
             leading: Builder(
                 builder: (context){
                   return IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
                   );
                 }
             ),

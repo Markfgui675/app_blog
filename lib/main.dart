@@ -14,5 +14,4 @@ void main() async {
   DependencyInjection.init();
 }
 
-// TODO: reutilizar alguns métodos e funções que aparecem com frequência no código, colocando-os na pasta common
 // TODO: resolver questão de reinicialização instantânea das widgets principais (início, pesquisa, salvos, notificações, conta)

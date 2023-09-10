@@ -19,6 +19,7 @@ sealed class AppStrings{
   static const String seguindo = 'Seguindo';
   static const String artigos = 'Artigos';
   static const String criarArtgio = 'Criar Artigo';
+  static const String removerArtgio = 'Remover Artigo';
   static const String sairCriarArtigo = 'Tem certeza que quer sair da página? Você perderá todo o progresso.';
 
   static const String naoLogado = 'Você não está logado, entre ou cadastre-se no app.';
@@ -54,6 +55,8 @@ sealed class AppStrings{
   static const String imagemPrincipalArtigo = 'Imagem Principal do Artigo';
   static const String preView = 'Pré-visualização';
   static const String excluirArtigo = 'Tem certeza que quer excluir o artigo? Essa ação é irreversível.';
+  static const String artigoExcluido = 'Artigo excluído';
+  static const String artigoRemovidoDosSalvos = 'Artigo removido dos salvos';
 
 }
 
@@ -76,6 +79,8 @@ sealed class ErrorStrings{
   static const String naoFoiPossivelAcessarDado = 'Não foi possível acessar o dado.';
   static const String naoFoiPossivelCriarArtigo = 'Não foi possível criar o artigo.';
   static const String naoFoiPossivelSalvarArtigo = 'Não foi possível salvar o artigo.';
+  static const String naoFoiPossivelExcluirArtigo = 'Não foi possível excluir o artigo.';
+  static const String naoFoiPossivelRemoverArtigo = 'Não foi possível remover o artigo.';
   static const String imagemArtigo = 'Adicione uma imagem ao seu artigo!';
   static const String topico = 'Selecione um tópico para o seu artigo!';
   static const String crieContaParaSalvarArtigo = 'Entre ou crie uma conta para salvar o artigo';

@@ -8,3 +8,7 @@ abstract class DataBase{
 abstract class ExcluirDocDataBase{
   excluirDoc({required String collection, required String idDoc, required BuildContext context});
 }
+
+abstract class ExcluirArtigoSalvoDataBase{
+  excluirArtigoSalvo({required String idUsuario, required String idArtigo, required BuildContext context});
+}

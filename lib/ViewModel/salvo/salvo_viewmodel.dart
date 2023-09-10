@@ -1,7 +1,9 @@
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
 import 'package:app_blog/Model/servicos/acessardados_service.dart';
+import 'package:app_blog/Model/servicos/excluirartigosalvo_service.dart';
 import 'package:app_blog/Model/servicos/salvardados_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import '../../Model/models/Artigo.dart';
@@ -14,6 +16,7 @@ abstract class SalvoViewModelMobx with Store{
   final TipoSalvarDataBase _tipoSalvar = TipoSalvarDataBase();
   final TipoAcessoDataBase _tipoAcesso = TipoAcessoDataBase();
   final AcessarDadosRepository _acessarDados = AcessarDadosRepository();
+  final ExcluirArtigoSalvoRepository _excluirArtigoSalvo = ExcluirArtigoSalvoRepository();
   final SalvarDados _salvarDados = SalvarDados();
 
   @observable
@@ -36,7 +39,12 @@ abstract class SalvoViewModelMobx with Store{
 
   @action
   retirarArtigoSalvo(BuildContext context, {required Artigo artigo})async{
-    // TODO: fazer método de retirar artigo do salvos
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    await _excluirArtigoSalvo.excluirArtigoSalvo(idUsuario: user!.uid, idArtigo: artigo.id, context: context);
+    _artigoEstaSalvo = false;
+    _tipoAcesso.tipo = TipoAcesso.acessarArtigosSalvos;
+    _artigosSalvos = await _acessarDados.acessarDados(_tipoAcesso, context);
   }
 
   @action
@@ -55,7 +63,5 @@ abstract class SalvoViewModelMobx with Store{
     }
     print(_artigoEstaSalvo);
   }
-
-
 
 }
