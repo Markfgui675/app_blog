@@ -57,12 +57,32 @@ class _SalvoPageState extends State<SalvoPage> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: MediaQuery.of(context).size.height*0.7,
+                        padding: const EdgeInsets.all(AppPadding.p16),
+                        child: TextField(
+                          cursorColor: ColorManager.marrom,
+                          decoration: InputDecoration(
+                            hintText: AppStrings.pesquisar,
+                            hintStyle: getAlexandriaStyle(color: ColorManager.cinza),
+                            prefixIcon: const Icon(Icons.search_rounded, color:ColorManager.preto, size: AppSize.s30,),
+                          ),
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (palavra){
+                            print(palavra);
+                          },
+                          onChanged: _viewModel.setFilter,
+                          keyboardType: TextInputType.text,
+                          style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s16),
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height*0.60,
                         child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
-                            itemCount: _viewModel.artigosSalvos.length,
+                            itemCount: _viewModel.listFiltered.length,
                             itemBuilder: (_,i){
-                              Artigo artigo = _viewModel.artigosSalvos[i];
+                              Artigo artigo = _viewModel.listFiltered[i];
                               return Slidable(
                                   key: ValueKey<Artigo>(artigo),
                                   startActionPane: ActionPane(

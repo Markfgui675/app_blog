@@ -25,11 +25,26 @@ abstract class SalvoViewModelMobx with Store{
   @observable
   bool _artigoEstaSalvo = false;
 
+  @observable
+  String filter = '';
+
   @computed
   List<Artigo> get artigosSalvos => _artigosSalvos;
 
   @computed
   bool get artigoEstaSalvo => _artigoEstaSalvo;
+
+  @computed
+  List<Artigo> get listFiltered{
+    if(filter == '' || filter.isEmpty){
+      return _artigosSalvos;
+    } else {
+      return _artigosSalvos.where((artigo) => artigo.titulo.toLowerCase().contains(filter.toLowerCase())).toList();
+    }
+  }
+
+  @action
+  setFilter(String value) => filter = value;
 
   @action
   recuperarArtigosSalvos(BuildContext context)async{
