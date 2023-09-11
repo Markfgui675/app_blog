@@ -2,6 +2,7 @@ import 'package:app_blog/View/resources/assets_manager.dart';
 import 'package:app_blog/View/resources/color_manager.dart';
 import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
+import 'package:app_blog/ViewModel/inicio/inicio_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../resources/routes_manager.dart';
@@ -19,6 +20,19 @@ class TopicosPage extends StatefulWidget {
 //  - gerar automaticamente cada seção de tópico com base nos tópicos fonecidos pelo servidor.
 
 class _TopicosPageState extends State<TopicosPage> {
+
+  final InicioViewModel _viewModel = InicioViewModel();
+
+  _bind()async{
+    await _viewModel.recuperarArtigosTopico(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bind();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(

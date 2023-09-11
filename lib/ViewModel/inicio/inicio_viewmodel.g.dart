@@ -23,14 +23,6 @@ mixin _$InicioViewModel on InicioViewModelMobx, Store {
           Computed<List<Artigo>>(() => super.artigosEmAlta,
               name: 'InicioViewModelMobx.artigosEmAlta'))
       .value;
-  Computed<List<Map<String, List<Artigo>>>>? _$topicosArtigosComputed;
-
-  @override
-  List<Map<String, List<Artigo>>> get topicosArtigos =>
-      (_$topicosArtigosComputed ??= Computed<List<Map<String, List<Artigo>>>>(
-              () => super.topicosArtigos,
-              name: 'InicioViewModelMobx.topicosArtigos'))
-          .value;
 
   late final _$_popularesAtom =
       Atom(name: 'InicioViewModelMobx._populares', context: context);
@@ -64,19 +56,19 @@ mixin _$InicioViewModel on InicioViewModelMobx, Store {
     });
   }
 
-  late final _$_topicosArtigosAtom =
-      Atom(name: 'InicioViewModelMobx._topicosArtigos', context: context);
+  late final _$_artigosPorTopicosAtom =
+      Atom(name: 'InicioViewModelMobx._artigosPorTopicos', context: context);
 
   @override
-  List<Map<String, List<Artigo>>> get _topicosArtigos {
-    _$_topicosArtigosAtom.reportRead();
-    return super._topicosArtigos;
+  List<List<Artigo>> get _artigosPorTopicos {
+    _$_artigosPorTopicosAtom.reportRead();
+    return super._artigosPorTopicos;
   }
 
   @override
-  set _topicosArtigos(List<Map<String, List<Artigo>>> value) {
-    _$_topicosArtigosAtom.reportWrite(value, super._topicosArtigos, () {
-      super._topicosArtigos = value;
+  set _artigosPorTopicos(List<List<Artigo>> value) {
+    _$_artigosPorTopicosAtom.reportWrite(value, super._artigosPorTopicos, () {
+      super._artigosPorTopicos = value;
     });
   }
 
@@ -100,12 +92,31 @@ mixin _$InicioViewModel on InicioViewModelMobx, Store {
         .run(() => super.recuperarArtigosEmAlta(context));
   }
 
+  late final _$recuperarArtigosTopicoAsyncAction = AsyncAction(
+      'InicioViewModelMobx.recuperarArtigosTopico',
+      context: context);
+
+  @override
+  Future recuperarArtigosTopico(BuildContext context) {
+    return _$recuperarArtigosTopicoAsyncAction
+        .run(() => super.recuperarArtigosTopico(context));
+  }
+
+  late final _$recuperarArtigoPorTopicoEspecificoAsyncAction = AsyncAction(
+      'InicioViewModelMobx.recuperarArtigoPorTopicoEspecifico',
+      context: context);
+
+  @override
+  Future recuperarArtigoPorTopicoEspecifico(BuildContext context) {
+    return _$recuperarArtigoPorTopicoEspecificoAsyncAction
+        .run(() => super.recuperarArtigoPorTopicoEspecifico(context));
+  }
+
   @override
   String toString() {
     return '''
 artigosPopulares: ${artigosPopulares},
-artigosEmAlta: ${artigosEmAlta},
-topicosArtigos: ${topicosArtigos}
+artigosEmAlta: ${artigosEmAlta}
     ''';
   }
 }

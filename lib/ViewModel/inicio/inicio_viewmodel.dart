@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/servicos/acessardados_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 import '../../Model/models/Artigo.dart';
 import 'package:exists_in/exists_in.dart';
@@ -21,16 +22,13 @@ abstract class InicioViewModelMobx with Store{
   List<Artigo> _emAlta = [];
 
   @observable
-  List<Map<String, List<Artigo>>> _topicosArtigos = [];
+  List<List<Artigo>> _artigosPorTopicos = [];
 
   @computed
   List<Artigo> get artigosPopulares => _populares;
 
   @computed
   List<Artigo> get artigosEmAlta => _emAlta;
-
-  @computed
-  List<Map<String, List<Artigo>>> get topicosArtigos => _topicosArtigos;
 
   @action
   recuperarArtigosPopulares(BuildContext context)async{
@@ -73,5 +71,61 @@ abstract class InicioViewModelMobx with Store{
       _emAlta = _artigos;
     }
   }
+
+  @action
+  recuperarArtigosTopico(BuildContext context)async{
+    List<Artigo> artigos = [];
+    List<String> topicosExistentes = [];
+    _tipoAcesso.tipo = TipoAcesso.acessarArtigos;
+    artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
+    for(int i = 0; i < artigos.length; i++){
+      if(!existsIn(artigos[i].topico, topicosExistentes)){
+        topicosExistentes.add(artigos[i].topico);
+      }
+    }
+    print('Tópicos existentes: $topicosExistentes');
+    _artigosPorTopicos.clear();
+    for(int t = 0; t < topicosExistentes.length; t++){
+      if(_artigosPorTopicos.isEmpty){
+        _artigosPorTopicos.add([artigos[t]]);
+      } else {
+        print(_artigosPorTopicos[t-1][0].topico);
+        print(topicosExistentes[t]);
+        if(t == 1){
+          print('T = 1 -----------------');
+          if(topicosExistentes[t] == _artigosPorTopicos[t-1][0].topico){
+            print('Tópico já existe na lista');
+            print('=========');
+            _artigosPorTopicos[t].add(artigos[t]);
+          } else {
+            print('Tópico ainda não existe na lista');
+            print('=========');
+            _artigosPorTopicos.add([artigos[t]]);
+          }
+          print('T = 1 ------------------');
+        } else {
+          for(int o = 0; o < t; o++){
+            if(topicosExistentes[t] == _artigosPorTopicos[o][0].topico){
+              print('Tópico já existe na lista');
+              print('=========');
+              _artigosPorTopicos[t].add(artigos[t]);
+            } else {
+              print('Tópico ainda não existe na lista');
+              print('=========');
+              _artigosPorTopicos.add([artigos[t]]);
+            }
+          }
+        }
+      }
+    }
+    print(_artigosPorTopicos);
+  }
+
+  @action
+  recuperarArtigoPorTopicoEspecifico(BuildContext context)async{
+
+  }
+
+
 
 }

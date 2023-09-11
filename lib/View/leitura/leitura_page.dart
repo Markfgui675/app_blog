@@ -31,8 +31,6 @@ class _LeituraPageState extends State<LeituraPage> {
     _bind();
   }
 
-  // TODO:  adicionar barra de pesquisa
-
   @override
   Widget build(BuildContext context){
     return Observer(

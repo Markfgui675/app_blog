@@ -33,6 +33,8 @@ class _ArtigosPageState extends State<ArtigosPage> {
     _bind();
   }
 
+  // TODO:  adicionar barra de pesquisa
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

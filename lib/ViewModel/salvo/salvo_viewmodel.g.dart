@@ -23,6 +23,13 @@ mixin _$SalvoViewModel on SalvoViewModelMobx, Store {
       (_$artigoEstaSalvoComputed ??= Computed<bool>(() => super.artigoEstaSalvo,
               name: 'SalvoViewModelMobx.artigoEstaSalvo'))
           .value;
+  Computed<List<Artigo>>? _$listFilteredComputed;
+
+  @override
+  List<Artigo> get listFiltered => (_$listFilteredComputed ??=
+          Computed<List<Artigo>>(() => super.listFiltered,
+              name: 'SalvoViewModelMobx.listFiltered'))
+      .value;
 
   late final _$_artigosSalvosAtom =
       Atom(name: 'SalvoViewModelMobx._artigosSalvos', context: context);
@@ -56,6 +63,22 @@ mixin _$SalvoViewModel on SalvoViewModelMobx, Store {
     });
   }
 
+  late final _$filterAtom =
+      Atom(name: 'SalvoViewModelMobx.filter', context: context);
+
+  @override
+  String get filter {
+    _$filterAtom.reportRead();
+    return super.filter;
+  }
+
+  @override
+  set filter(String value) {
+    _$filterAtom.reportWrite(value, super.filter, () {
+      super.filter = value;
+    });
+  }
+
   late final _$recuperarArtigosSalvosAsyncAction = AsyncAction(
       'SalvoViewModelMobx.recuperarArtigosSalvos',
       context: context);
@@ -77,6 +100,17 @@ mixin _$SalvoViewModel on SalvoViewModelMobx, Store {
 
   late final _$SalvoViewModelMobxActionController =
       ActionController(name: 'SalvoViewModelMobx', context: context);
+
+  @override
+  dynamic setFilter(String value) {
+    final _$actionInfo = _$SalvoViewModelMobxActionController.startAction(
+        name: 'SalvoViewModelMobx.setFilter');
+    try {
+      return super.setFilter(value);
+    } finally {
+      _$SalvoViewModelMobxActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic salvarArtigo(BuildContext context, {required Artigo artigo}) {
@@ -103,8 +137,10 @@ mixin _$SalvoViewModel on SalvoViewModelMobx, Store {
   @override
   String toString() {
     return '''
+filter: ${filter},
 artigosSalvos: ${artigosSalvos},
-artigoEstaSalvo: ${artigoEstaSalvo}
+artigoEstaSalvo: ${artigoEstaSalvo},
+listFiltered: ${listFiltered}
     ''';
   }
 }
