@@ -23,6 +23,13 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
           Computed<List<Artigo>>(() => super.artigosUsuario,
               name: 'ContaViewModelMobx.artigosUsuario'))
       .value;
+  Computed<List<Artigo>>? _$listFilteredComputed;
+
+  @override
+  List<Artigo> get listFiltered => (_$listFilteredComputed ??=
+          Computed<List<Artigo>>(() => super.listFiltered,
+              name: 'ContaViewModelMobx.listFiltered'))
+      .value;
 
   late final _$_infoUserAtom =
       Atom(name: 'ContaViewModelMobx._infoUser', context: context);
@@ -53,6 +60,22 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
   set _artigos(List<Artigo> value) {
     _$_artigosAtom.reportWrite(value, super._artigos, () {
       super._artigos = value;
+    });
+  }
+
+  late final _$filterAtom =
+      Atom(name: 'ContaViewModelMobx.filter', context: context);
+
+  @override
+  String get filter {
+    _$filterAtom.reportRead();
+    return super.filter;
+  }
+
+  @override
+  set filter(String value) {
+    _$filterAtom.reportWrite(value, super.filter, () {
+      super.filter = value;
     });
   }
 
@@ -96,11 +119,27 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
         .excluirArtigo(collection: collection, idDoc: idDoc, context: context));
   }
 
+  late final _$ContaViewModelMobxActionController =
+      ActionController(name: 'ContaViewModelMobx', context: context);
+
+  @override
+  dynamic setFilter(String value) {
+    final _$actionInfo = _$ContaViewModelMobxActionController.startAction(
+        name: 'ContaViewModelMobx.setFilter');
+    try {
+      return super.setFilter(value);
+    } finally {
+      _$ContaViewModelMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+filter: ${filter},
 dadosUsuario: ${dadosUsuario},
-artigosUsuario: ${artigosUsuario}
+artigosUsuario: ${artigosUsuario},
+listFiltered: ${listFiltered}
     ''';
   }
 }

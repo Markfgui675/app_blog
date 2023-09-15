@@ -39,7 +39,8 @@ abstract class SalvoViewModelMobx with Store{
     if(filter == '' || filter.isEmpty){
       return _artigosSalvos;
     } else {
-      return _artigosSalvos.where((artigo) => artigo.titulo.toLowerCase().contains(filter.toLowerCase())).toList();
+      return _artigosSalvos.where((artigo) =>
+          artigo.titulo.toLowerCase().contains(filter.toLowerCase())).toList();
     }
   }
 
@@ -76,7 +77,6 @@ abstract class SalvoViewModelMobx with Store{
         break;
       }
     }
-    print(_artigoEstaSalvo);
   }
 
 }

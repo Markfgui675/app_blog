@@ -26,6 +26,9 @@ abstract class ContaViewModelMobx with Store{
   @observable
   List<Artigo> _artigos = [];
 
+  @observable
+  String filter = '';
+
   @computed
   List<Usuario> get dadosUsuario{
     return _infoUser;
@@ -34,6 +37,16 @@ abstract class ContaViewModelMobx with Store{
   @computed
   List<Artigo> get artigosUsuario{
     return _artigos;
+  }
+
+  @computed
+  List<Artigo> get listFiltered{
+    if(filter == ''|| filter.isEmpty){
+      return _artigos;
+    } else {
+      return _artigos.where((artigo) =>
+          artigo.titulo.toLowerCase().contains(filter.toLowerCase())).toList();
+    }
   }
 
   @action
@@ -65,6 +78,9 @@ abstract class ContaViewModelMobx with Store{
     _tipoAcesso.tipo = TipoAcesso.acessarArtigosUsuario;
     _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
   }
+
+  @action
+  setFilter(String value) => filter = value;
 
 
 }

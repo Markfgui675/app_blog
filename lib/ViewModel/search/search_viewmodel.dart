@@ -24,11 +24,37 @@ abstract class SearchViewModelMobx with Store{
   @observable
   List<String> _topicos = [];
 
+  @observable
+  String filter = '';
+
+  @observable
+  String filterTopic = '';
+
   @computed
   List<Artigo> get artigos => _artigos;
 
   @computed
   List<String> get topicos => _topicos;
+
+  @computed
+  List<Artigo> get listFiltered{
+    if(filter == '' || filter.isEmpty){
+      return _artigos;
+    } else {
+      return _artigos.where((artigo) =>
+        artigo.titulo.toLowerCase().contains(filter.toLowerCase())).toList();
+    }
+  }
+
+  @computed
+  List<String> get listTopicFiltered{
+    if(filterTopic == '' || filterTopic.isEmpty){
+      return _topicos;
+    } else {
+      return _topicos.where((topico) =>
+        topico.toLowerCase().contains(filterTopic.toLowerCase())).toList();
+    }
+  }
 
   @action
   recuperarDados(BuildContext context)async{
@@ -41,5 +67,11 @@ abstract class SearchViewModelMobx with Store{
     _tipoAcesso.tipo = TipoAcesso.acessarTopicos;
     _topicos = await _acessarDados.acessarDados(_tipoAcesso, context);
   }
+
+  @action
+  setFilter(String value) => filter = value;
+
+  @action
+  setTopicFilter(String value) => filterTopic = value;
 
 }

@@ -23,6 +23,20 @@ mixin _$SearchViewModel on SearchViewModelMobx, Store {
       (_$topicosComputed ??= Computed<List<String>>(() => super.topicos,
               name: 'SearchViewModelMobx.topicos'))
           .value;
+  Computed<List<Artigo>>? _$listFilteredComputed;
+
+  @override
+  List<Artigo> get listFiltered => (_$listFilteredComputed ??=
+          Computed<List<Artigo>>(() => super.listFiltered,
+              name: 'SearchViewModelMobx.listFiltered'))
+      .value;
+  Computed<List<String>>? _$listTopicFilteredComputed;
+
+  @override
+  List<String> get listTopicFiltered => (_$listTopicFilteredComputed ??=
+          Computed<List<String>>(() => super.listTopicFiltered,
+              name: 'SearchViewModelMobx.listTopicFiltered'))
+      .value;
 
   late final _$_artigosAtom =
       Atom(name: 'SearchViewModelMobx._artigos', context: context);
@@ -56,6 +70,38 @@ mixin _$SearchViewModel on SearchViewModelMobx, Store {
     });
   }
 
+  late final _$filterAtom =
+      Atom(name: 'SearchViewModelMobx.filter', context: context);
+
+  @override
+  String get filter {
+    _$filterAtom.reportRead();
+    return super.filter;
+  }
+
+  @override
+  set filter(String value) {
+    _$filterAtom.reportWrite(value, super.filter, () {
+      super.filter = value;
+    });
+  }
+
+  late final _$filterTopicAtom =
+      Atom(name: 'SearchViewModelMobx.filterTopic', context: context);
+
+  @override
+  String get filterTopic {
+    _$filterTopicAtom.reportRead();
+    return super.filterTopic;
+  }
+
+  @override
+  set filterTopic(String value) {
+    _$filterTopicAtom.reportWrite(value, super.filterTopic, () {
+      super.filterTopic = value;
+    });
+  }
+
   late final _$recuperarDadosAsyncAction =
       AsyncAction('SearchViewModelMobx.recuperarDados', context: context);
 
@@ -73,11 +119,40 @@ mixin _$SearchViewModel on SearchViewModelMobx, Store {
         .run(() => super.recuperarTopicos(context));
   }
 
+  late final _$SearchViewModelMobxActionController =
+      ActionController(name: 'SearchViewModelMobx', context: context);
+
+  @override
+  dynamic setFilter(String value) {
+    final _$actionInfo = _$SearchViewModelMobxActionController.startAction(
+        name: 'SearchViewModelMobx.setFilter');
+    try {
+      return super.setFilter(value);
+    } finally {
+      _$SearchViewModelMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setTopicFilter(String value) {
+    final _$actionInfo = _$SearchViewModelMobxActionController.startAction(
+        name: 'SearchViewModelMobx.setTopicFilter');
+    try {
+      return super.setTopicFilter(value);
+    } finally {
+      _$SearchViewModelMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+filter: ${filter},
+filterTopic: ${filterTopic},
 artigos: ${artigos},
-topicos: ${topicos}
+topicos: ${topicos},
+listFiltered: ${listFiltered},
+listTopicFiltered: ${listTopicFiltered}
     ''';
   }
 }

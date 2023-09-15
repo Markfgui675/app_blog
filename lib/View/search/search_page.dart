@@ -19,7 +19,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   
   final SearchViewModel _viewModel = SearchViewModel();
-  final TextEditingController _pesquisa = TextEditingController();
 
   _bind()async{
     await _viewModel.recuperarDados(context);
@@ -59,25 +58,14 @@ class _SearchPageState extends State<SearchPage> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(AppPadding.p16),
                         child: TextField(
+                          onChanged: _viewModel.setFilter,
                           cursorColor: ColorManager.marrom,
                           decoration: InputDecoration(
                               hintText: AppStrings.pesquisar,
                               hintStyle: getAlexandriaStyle(color: ColorManager.cinza),
                               prefixIcon: const Icon(Icons.search_rounded, color:ColorManager.preto, size: AppSize.s30,),
-                              suffixIcon: IconButton(
-                                onPressed: (){
-                                  setState(() {
-                                    _pesquisa.text = '';
-                                  });
-                                },
-                                icon: const Icon(Icons.highlight_remove_rounded, color: ColorManager.marrom, size: AppSize.s25,),
-                              )
                           ),
                           textInputAction: TextInputAction.search,
-                          onSubmitted: (palavra){
-                            print(palavra);
-                          },
-                          controller: _pesquisa,
                           keyboardType: TextInputType.text,
                           style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s16),
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
@@ -122,9 +110,9 @@ class _SearchPageState extends State<SearchPage> {
                         height: MediaQuery.of(context).size.height*0.58,
                         child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
-                            itemCount: _viewModel.artigos.length,
+                            itemCount: _viewModel.listFiltered.length,
                             itemBuilder: (_,i){
-                              Artigo artigo = _viewModel.artigos[i];
+                              Artigo artigo = _viewModel.listFiltered[i];
                               return GestureDetector(
                                 onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
                                 child: CardArtigo(artigo),
@@ -200,6 +188,11 @@ class _SearchPageState extends State<SearchPage> {
         );
       }
     );
+  }
+
+  Widget _topico(){
+    // TODO: implementar pesquisa dos tópicos
+    return Container();
   }
 
 }

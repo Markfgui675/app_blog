@@ -33,8 +33,6 @@ class _ArtigosPageState extends State<ArtigosPage> {
     _bind();
   }
 
-  // TODO:  adicionar barra de pesquisa
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,31 +69,60 @@ class _ArtigosPageState extends State<ArtigosPage> {
               backgroundColor: ColorManager.marrom,
               color: ColorManager.branco,
               onRefresh: ()=>_bind(),
-              child: ListView.builder(
+              child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                  itemCount: _viewModel.artigosUsuario.length,
-                  itemBuilder: (_,i){
-                    Artigo artigo = _viewModel.artigosUsuario[i];
-                    return Slidable(
-                      key: ValueKey<Artigo>(artigo),
-                      startActionPane: ActionPane(
-                        motion: const DrawerMotion(),
-                        dragDismissible: false,
-                        children: [
-                          SlidableAction(
-                            onPressed: (_)=>_showDialog(artigo),
-                            backgroundColor: ColorManager.vermelho,
-                            icon: Icons.delete_outline_outlined,
-                            label: 'Deletar Artigo',
-                          )
-                        ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppPadding.p16),
+                      child: TextField(
+                        cursorColor: ColorManager.marrom,
+                        decoration: InputDecoration(
+                          hintText: AppStrings.pesquisar,
+                          hintStyle: getAlexandriaStyle(color: ColorManager.cinza),
+                          prefixIcon: const Icon(Icons.search_rounded, color:ColorManager.preto, size: AppSize.s30,),
+                        ),
+                        textInputAction: TextInputAction.search,
+                        onChanged: _viewModel.setFilter,
+                        keyboardType: TextInputType.text,
+                        style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s16),
+                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       ),
-                      child: GestureDetector(
-                        onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
-                        child: CardArtigo(artigo),
-                      )
-                    );
-                  }
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height*0.8,
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: _viewModel.listFiltered.length,
+                        itemBuilder: (_,i){
+                          Artigo artigo = _viewModel.listFiltered[i];
+                          return Slidable(
+                            key: ValueKey<Artigo>(artigo),
+                            startActionPane: ActionPane(
+                              motion: const DrawerMotion(),
+                              dragDismissible: false,
+                              children: [
+                                SlidableAction(
+                                  onPressed: (_)=>_showDialog(artigo),
+                                  backgroundColor: ColorManager.vermelho,
+                                  icon: Icons.delete_outline_outlined,
+                                  label: 'Deletar Artigo',
+                                )
+                              ],
+                            ),
+                            child: GestureDetector(
+                              onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
+                              child: CardArtigo(artigo),
+                            )
+                          );
+                        }
+                      ),
+                    )
+                  ],
+                ),
               ),
             );
           }
