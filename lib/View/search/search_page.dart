@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../Model/models/Artigo.dart';
 import '../common/card_artigo.dart';
+import '../common/search_box.dart';
 import '../resources/routes_manager.dart';
 
 class SearchPage extends StatefulWidget {
@@ -35,6 +36,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: ColorManager.branco,
         body: Observer(
           builder: (_){
@@ -54,31 +56,16 @@ class _SearchPageState extends State<SearchPage> {
                     children: [
 
                       // Barra de pesquisa
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(AppPadding.p16),
-                        child: TextField(
-                          onChanged: _viewModel.setFilter,
-                          cursorColor: ColorManager.marrom,
-                          decoration: InputDecoration(
-                              hintText: AppStrings.pesquisar,
-                              hintStyle: getAlexandriaStyle(color: ColorManager.cinza),
-                              prefixIcon: const Icon(Icons.search_rounded, color:ColorManager.preto, size: AppSize.s30,),
-                          ),
-                          textInputAction: TextInputAction.search,
-                          keyboardType: TextInputType.text,
-                          style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s16),
-                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                        ),
-                      ),
+                      SearchBox(_viewModel.setFilter),
 
                       // opções de filtros
                       Container(
                         width: double.infinity,
                         height: AppSize.s80,
                         padding: const EdgeInsets.only(top: AppPadding.p5, bottom: AppPadding.p5, left: AppPadding.p20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
                           children: [
                             GestureDetector(
                               onTap: () => _modal(),
@@ -95,11 +82,37 @@ class _SearchPageState extends State<SearchPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     const Icon(Icons.filter_list_rounded, color: ColorManager.preto,),
+                                    _viewModel.artigosFiltradosPorTopico ?
+                                    Text(_viewModel.topicoSelecionado, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),) :
                                     Text(AppStrings.filtrar, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),)
                                   ],
                                 ),
                               ),
-                            )
+                            ),
+                            const SizedBox(width: AppSize.s10,),
+                            _viewModel.artigosFiltradosPorTopico ? GestureDetector(
+                              onTap: (){
+                                _viewModel.limparFiltro();
+                              },
+                              child: Container(
+                                width: AppSize.s150,
+                                height: AppSize.s60,
+                                decoration: BoxDecoration(
+                                    color: ColorManager.marrom,
+                                    borderRadius: BorderRadius.circular(AppSize.s20),
+                                    border: Border.all(
+                                      color: ColorManager.branco,
+                                    )
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const Icon(Icons.cancel_rounded, color: ColorManager.branco,),
+                                    Text('Limpar Filtro', style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
+                                  ],
+                                ),
+                              ),
+                            ) : Container()
                           ],
                         ),
                       ),
@@ -141,7 +154,6 @@ class _SearchPageState extends State<SearchPage> {
       ),
       backgroundColor: ColorManager.cinza,
       context: context,
-      showDragHandle: true,
       builder: (context){
         return Container(
           decoration: const BoxDecoration(
@@ -153,31 +165,25 @@ class _SearchPageState extends State<SearchPage> {
           ),
           height: AppSize.s580,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: double.infinity,
-                height: 50,
+              Padding(
                 padding: const EdgeInsets.all(AppPadding.p10),
-                color: ColorManager.cinza,
-                child: Center(
-                  child: Text('Filtrar por Tópicos', style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s18),
-                    textAlign: TextAlign.center,),
-                ),
+                child: Text('Filtrar por Tópicos', style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s20),
+                  textAlign: TextAlign.center,),
               ),
+              SearchBox(_viewModel.setTopicFilter),
               Observer(
                 builder: (_){
                   return Container(
-                    height: 370,
+                    constraints: const BoxConstraints(
+                      maxHeight: 347
+                    ),
                     color: ColorManager.branco,
                     child: ListView.builder(
-                      itemCount: _viewModel.topicos.length,
                       physics: const BouncingScrollPhysics(),
-                      itemBuilder: (_,i){
-                        return GestureDetector(
-                          onTap: (){},
-                          child: Text(_viewModel.topicos[i], style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),),
-                        );
+                      itemCount: _viewModel.listTopicFiltered.length,
+                      itemBuilder: (_, i){
+                        return _topico(_viewModel.listTopicFiltered[i]);
                       },
                     ),
                   );
@@ -190,9 +196,18 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _topico(){
-    // TODO: implementar pesquisa dos tópicos
-    return Container();
+  Widget _topico(String topico){
+    return GestureDetector(
+      onTap: (){
+        _viewModel.setBoolTopico(topico);
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(AppPadding.p12),
+        margin: const EdgeInsets.only(left: AppMargin.m6),
+        child: Text(topico, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),)
+      ),
+    );
   }
 
 }

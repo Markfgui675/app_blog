@@ -37,6 +37,20 @@ mixin _$SearchViewModel on SearchViewModelMobx, Store {
           Computed<List<String>>(() => super.listTopicFiltered,
               name: 'SearchViewModelMobx.listTopicFiltered'))
       .value;
+  Computed<bool>? _$artigosFiltradosPorTopicoComputed;
+
+  @override
+  bool get artigosFiltradosPorTopico => (_$artigosFiltradosPorTopicoComputed ??=
+          Computed<bool>(() => super.artigosFiltradosPorTopico,
+              name: 'SearchViewModelMobx.artigosFiltradosPorTopico'))
+      .value;
+  Computed<String>? _$topicoSelecionadoComputed;
+
+  @override
+  String get topicoSelecionado => (_$topicoSelecionadoComputed ??=
+          Computed<String>(() => super.topicoSelecionado,
+              name: 'SearchViewModelMobx.topicoSelecionado'))
+      .value;
 
   late final _$_artigosAtom =
       Atom(name: 'SearchViewModelMobx._artigos', context: context);
@@ -102,6 +116,39 @@ mixin _$SearchViewModel on SearchViewModelMobx, Store {
     });
   }
 
+  late final _$_artigosFiltradosPorTopicoAtom = Atom(
+      name: 'SearchViewModelMobx._artigosFiltradosPorTopico', context: context);
+
+  @override
+  bool get _artigosFiltradosPorTopico {
+    _$_artigosFiltradosPorTopicoAtom.reportRead();
+    return super._artigosFiltradosPorTopico;
+  }
+
+  @override
+  set _artigosFiltradosPorTopico(bool value) {
+    _$_artigosFiltradosPorTopicoAtom
+        .reportWrite(value, super._artigosFiltradosPorTopico, () {
+      super._artigosFiltradosPorTopico = value;
+    });
+  }
+
+  late final _$_topicoSelecionadoAtom =
+      Atom(name: 'SearchViewModelMobx._topicoSelecionado', context: context);
+
+  @override
+  String get _topicoSelecionado {
+    _$_topicoSelecionadoAtom.reportRead();
+    return super._topicoSelecionado;
+  }
+
+  @override
+  set _topicoSelecionado(String value) {
+    _$_topicoSelecionadoAtom.reportWrite(value, super._topicoSelecionado, () {
+      super._topicoSelecionado = value;
+    });
+  }
+
   late final _$recuperarDadosAsyncAction =
       AsyncAction('SearchViewModelMobx.recuperarDados', context: context);
 
@@ -145,6 +192,28 @@ mixin _$SearchViewModel on SearchViewModelMobx, Store {
   }
 
   @override
+  dynamic setBoolTopico(String topico) {
+    final _$actionInfo = _$SearchViewModelMobxActionController.startAction(
+        name: 'SearchViewModelMobx.setBoolTopico');
+    try {
+      return super.setBoolTopico(topico);
+    } finally {
+      _$SearchViewModelMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic limparFiltro() {
+    final _$actionInfo = _$SearchViewModelMobxActionController.startAction(
+        name: 'SearchViewModelMobx.limparFiltro');
+    try {
+      return super.limparFiltro();
+    } finally {
+      _$SearchViewModelMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 filter: ${filter},
@@ -152,7 +221,9 @@ filterTopic: ${filterTopic},
 artigos: ${artigos},
 topicos: ${topicos},
 listFiltered: ${listFiltered},
-listTopicFiltered: ${listTopicFiltered}
+listTopicFiltered: ${listTopicFiltered},
+artigosFiltradosPorTopico: ${artigosFiltradosPorTopico},
+topicoSelecionado: ${topicoSelecionado}
     ''';
   }
 }

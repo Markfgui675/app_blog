@@ -30,6 +30,12 @@ abstract class SearchViewModelMobx with Store{
   @observable
   String filterTopic = '';
 
+  @observable
+  bool _artigosFiltradosPorTopico = false;
+
+  @observable
+  String _topicoSelecionado = '';
+
   @computed
   List<Artigo> get artigos => _artigos;
 
@@ -38,6 +44,12 @@ abstract class SearchViewModelMobx with Store{
 
   @computed
   List<Artigo> get listFiltered{
+
+    if(_topicoSelecionado != '' || _topicoSelecionado.isNotEmpty){
+      return _artigos.where((artigo) =>
+        artigo.topico.contains(_topicoSelecionado)).toList();
+    }
+
     if(filter == '' || filter.isEmpty){
       return _artigos;
     } else {
@@ -52,9 +64,15 @@ abstract class SearchViewModelMobx with Store{
       return _topicos;
     } else {
       return _topicos.where((topico) =>
-        topico.toLowerCase().contains(filterTopic.toLowerCase())).toList();
+          topico.toLowerCase().contains(filterTopic.toLowerCase())).toList();
     }
   }
+
+  @computed
+  bool get artigosFiltradosPorTopico => _artigosFiltradosPorTopico;
+
+  @computed
+  String get topicoSelecionado => _topicoSelecionado;
 
   @action
   recuperarDados(BuildContext context)async{
@@ -73,5 +91,22 @@ abstract class SearchViewModelMobx with Store{
 
   @action
   setTopicFilter(String value) => filterTopic = value;
+
+  @action
+  setBoolTopico(String topico) {
+    if(_topicoSelecionado != topico){
+      _artigosFiltradosPorTopico = true;
+      _topicoSelecionado = topico;
+    } else if(_topicoSelecionado == topico){
+      _artigosFiltradosPorTopico = false;
+      _topicoSelecionado = '';
+    }
+  }
+
+  @action
+  limparFiltro(){
+    _artigosFiltradosPorTopico = false;
+    _topicoSelecionado = '';
+  }
 
 }

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../Model/models/Artigo.dart';
+import '../common/search_box.dart';
 import '../resources/color_manager.dart';
 import '../resources/routes_manager.dart';
 import '../resources/style_manager.dart';
@@ -74,23 +75,7 @@ class _ArtigosPageState extends State<ArtigosPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(AppPadding.p16),
-                      child: TextField(
-                        cursorColor: ColorManager.marrom,
-                        decoration: InputDecoration(
-                          hintText: AppStrings.pesquisar,
-                          hintStyle: getAlexandriaStyle(color: ColorManager.cinza),
-                          prefixIcon: const Icon(Icons.search_rounded, color:ColorManager.preto, size: AppSize.s30,),
-                        ),
-                        textInputAction: TextInputAction.search,
-                        onChanged: _viewModel.setFilter,
-                        keyboardType: TextInputType.text,
-                        style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s16),
-                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      ),
-                    ),
+                    SearchBox(_viewModel.setFilter),
                     SizedBox(
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height*0.8,

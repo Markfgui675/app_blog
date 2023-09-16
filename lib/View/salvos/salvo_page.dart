@@ -1,3 +1,4 @@
+import 'package:app_blog/View/common/search_box.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
@@ -55,27 +56,8 @@ class _SalvoPageState extends State<SalvoPage> {
                           child: Text(AppStrings.artigosSalvos, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
                         ),
                       ),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(AppPadding.p16),
-                        child: TextField(
-                          cursorColor: ColorManager.marrom,
-                          decoration: InputDecoration(
-                            hintText: AppStrings.pesquisar,
-                            hintStyle: getAlexandriaStyle(color: ColorManager.cinza),
-                            prefixIcon: const Icon(Icons.search_rounded, color:ColorManager.preto, size: AppSize.s30,),
-                          ),
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (palavra){
-                            print(palavra);
-                          },
-                          onChanged: _viewModel.setFilter,
-                          keyboardType: TextInputType.text,
-                          style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s16),
-                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                        ),
-                      ),
-                      Container(
+                      SearchBox(_viewModel.setFilter),
+                      SizedBox(
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height*0.60,
                         child: ListView.builder(
