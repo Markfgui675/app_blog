@@ -17,9 +17,7 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   final formKey = GlobalKey<FormState>();
-
   final TextEditingController _email = TextEditingController();
-
   final ForgotPasswordViewModel _viewModel = ForgotPasswordViewModel(ForgotPassword());
 
   @override
@@ -30,12 +28,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         title: Text('Recuperar Senha', style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),),
         backgroundColor: ColorManager.branco,
         leading: Builder(
-            builder: (context){
-              return IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
-              );
-            }
+          builder: (context){
+            return IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
+            );
+          }
         ),
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -65,8 +63,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     keyboardType: TextInputType.emailAddress,
                     controller: _email,
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: AppStrings.email,
+                      border: OutlineInputBorder(),
+                      labelText: AppStrings.email,
                     ),
                     validator: (value){
                       if(!value!.contains('@') || !value.contains('.com')){
@@ -81,24 +79,24 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
                 const SizedBox(height: AppSize.s20,),
                 GestureDetector(
-                    onTap: (){
-                      if(formKey.currentState!.validate()){
-                        var res = _viewModel.recuperarSenha(_email.text, context);
-                        return res;
-                      }
-                    },
-                    child: Container(
-                      width: AppSize.s330,
-                      height: AppSize.s60,
-                      padding: const EdgeInsets.all(AppPadding.p16),
-                      decoration: BoxDecoration(
-                          color: ColorManager.marrom,
-                          borderRadius: BorderRadius.circular(AppSize.s10)
-                      ),
-                      child: Center(
-                        child: Text('Enviar link', style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
-                      ),
-                    )
+                  onTap: (){
+                    if(formKey.currentState!.validate()){
+                      var res = _viewModel.recuperarSenha(_email.text, context);
+                      return res;
+                    }
+                  },
+                  child: Container(
+                    width: AppSize.s330,
+                    height: AppSize.s60,
+                    padding: const EdgeInsets.all(AppPadding.p16),
+                    decoration: BoxDecoration(
+                        color: ColorManager.marrom,
+                        borderRadius: BorderRadius.circular(AppSize.s10)
+                    ),
+                    child: Center(
+                      child: Text('Enviar link', style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
+                    ),
+                  )
                 )
               ],
             ),
