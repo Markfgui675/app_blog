@@ -11,6 +11,7 @@ import 'package:app_blog/View/login/forgotpassword/forgotpassword_page.dart';
 import 'package:app_blog/View/resources/strings_manager.dart';
 import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
+import 'package:app_blog/View/ver_usuario/ver_usuario_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../conta/editor_page.dart';
@@ -33,6 +34,7 @@ sealed class Routes{
   static const String settings = 'configuracoes';
   static const String criarArtigoPage = 'criarArtigoPage';
   static const String verify = 'verify';
+  static const String verUsuarioPage = 'verUsuarioPage';
 
 }
 
@@ -73,6 +75,8 @@ sealed class RouteGenerator{
         return MaterialPageRoute(builder: (_) => CriarArtigoPage());
       case Routes.verify:
         return MaterialPageRoute(builder: (_) => VerifyPage());
+      case Routes.verUsuarioPage:
+        return MaterialPageRoute(builder: (_) => VerUsuarioPage(args));
       default:
         return unDefinedRoute();
     }

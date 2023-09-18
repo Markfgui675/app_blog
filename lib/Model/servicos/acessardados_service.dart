@@ -14,15 +14,15 @@ import '../repository/acessardados.dart';
 class AcessarDadosRepository implements AcessarDados{
 
   @override
-  acessarDados(TipoAcessoDataBase tipoAcesso, BuildContext context) {
+  acessarDados(TipoAcessoDataBase tipoAcesso, BuildContext context, {dynamic args}) {
 
     switch(tipoAcesso.tipo){
       case TipoAcesso.acessarDadosUsuario:
-        return _acessarDadosUsuario(context);
+        return _acessarDadosUsuario(context, args);
       case TipoAcesso.acessarDadosFrases:
         return _acessarDadosFrases(context);
       case TipoAcesso.acessarArtigosUsuario:
-        return _acessarArtigosUsuario(context);
+        return _acessarArtigosUsuario(context, args);
       case TipoAcesso.acessarArtigos:
         return _acessarArtigos(context);
       case TipoAcesso.acessarTopicos:
@@ -35,13 +35,11 @@ class AcessarDadosRepository implements AcessarDados{
 
   }
 
-  _acessarDadosUsuario(BuildContext context) async {
+  _acessarDadosUsuario(BuildContext context, String idUsuario) async {
     final Mensagens _mensagens = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbUsers = FirebaseFirestore.instance;
-    User? user = await auth.currentUser;
-    String _idUsuario = user!.uid;
-    final docRef = await dbUsers.collection(CollectionsNames.usuarios).doc(_idUsuario);
+    final docRef = await dbUsers.collection(CollectionsNames.usuarios).doc(idUsuario);
     List<Usuario> _infoUser = [];
     try{
       await docRef.get().then((DocumentSnapshot doc){
@@ -68,14 +66,13 @@ class AcessarDadosRepository implements AcessarDados{
     }
   }
 
-  _acessarArtigosUsuario(BuildContext context)async{
+  _acessarArtigosUsuario(BuildContext context, String idUsuario)async{
     final Mensagens _mensagens = Mensagens();
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbUsers= FirebaseFirestore.instance;
-    User? user = auth.currentUser;
     List<Artigo> artigos = [];
     try{
-      await dbUsers.collection(CollectionsNames.artigos).where('idAutor', isEqualTo: user!.uid).get()
+      await dbUsers.collection(CollectionsNames.artigos).where('idAutor', isEqualTo: idUsuario).get()
           .then((querySnapshot){
           for(var docSnapshot in querySnapshot.docs){
             Artigo _artigo = Artigo();

@@ -1,3 +1,4 @@
+import 'package:app_blog/View/resources/routes_manager.dart';
 import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:app_blog/ViewModel/salvo/salvo_viewmodel.dart';
@@ -103,7 +104,10 @@ class _LeituraPageState extends State<LeituraPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Por ${widget.artigo.autor}', style: getAlexandriaStyle(color: ColorManager.marrom),),
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(context, Routes.verUsuarioPage, arguments: widget.artigo.idAutor),
+                        child: Text('Por ${widget.artigo.autor}', style: getAlexandriaStyle(color: ColorManager.marrom),),
+                      ),
                       Text(' - ${widget.artigo.data}', style: getAlexandriaStyle(color: ColorManager.preto),),
                     ],
                   ),

@@ -15,6 +15,7 @@ sealed class AppStrings{
   static const String verMais = 'Ver Mais';
   static const String entrar = 'Entrar';
   static const String filtrar = 'Filtrar';
+  static const String seguir = 'Seguir';
   static const String criarConta = 'Criar Conta';
   static const String seguidores = 'Seguidores';
   static const String seguindo = 'Seguindo';

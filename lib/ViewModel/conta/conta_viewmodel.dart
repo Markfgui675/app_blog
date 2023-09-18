@@ -3,6 +3,7 @@ import 'package:app_blog/Model/models/TipoSalvarDataBase.dart';
 import 'package:app_blog/Model/servicos/acessardados_service.dart';
 import 'package:app_blog/Model/servicos/excluirdoc_service.dart';
 import 'package:app_blog/Model/servicos/salvardados_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import '../../Model/models/Artigo.dart';
@@ -30,14 +31,10 @@ abstract class ContaViewModelMobx with Store{
   String filter = '';
 
   @computed
-  List<Usuario> get dadosUsuario{
-    return _infoUser;
-  }
+  List<Usuario> get dadosUsuario => _infoUser;
 
   @computed
-  List<Artigo> get artigosUsuario{
-    return _artigos;
-  }
+  List<Artigo> get artigosUsuario => _artigos;
 
   @computed
   List<Artigo> get listFiltered{
@@ -52,7 +49,8 @@ abstract class ContaViewModelMobx with Store{
   @action
   acessarDados(BuildContext context) async {
     _tipoAcesso.tipo = TipoAcesso.acessarDadosUsuario;
-    _infoUser = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
+    User? user = FirebaseAuth.instance.currentUser;
+    _infoUser = await _repositoryAcessar.acessarDados(_tipoAcesso, context, args: user!.uid);
   }
 
   @action
@@ -69,7 +67,8 @@ abstract class ContaViewModelMobx with Store{
   @action
   acessarQuantidadeArtigos(BuildContext context)async{
     _tipoAcesso.tipo = TipoAcesso.acessarArtigosUsuario;
-    _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context);
+    User? user = FirebaseAuth.instance.currentUser;
+    _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context, args: user!.uid);
   }
 
   @action

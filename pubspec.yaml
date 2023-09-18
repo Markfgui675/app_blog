@@ -36,6 +36,7 @@ dependencies:
   intl: ^0.18.1
   exists_in: ^0.0.1
   flutter_slidable: ^3.0.0
+  firebase_messaging:
 
 dev_dependencies:
   flutter_test:
