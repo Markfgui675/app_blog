@@ -102,7 +102,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text(_viewModel.dadosUsuario[0].seguidores.length.toString(),
+                                      Text(0.toString(),
                                         style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
                                       Text(AppStrings.seguidores,
                                         style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
@@ -127,7 +127,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text(_viewModel.dadosUsuario[0].seguindo.length.toString(),
+                                      Text(0.toString(),
                                         style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
                                       Text(AppStrings.seguindo,
                                         style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
@@ -140,7 +140,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
 
                             // Artigos
                             GestureDetector(
-                              onTap: ()=>_viewModel.artigosUsuario.isNotEmpty ? Navigator.pushNamed(context, Routes.artigosPage) : null,
+                              onTap: ()=>_viewModel.artigosUsuario.isNotEmpty ? Navigator.pushNamed(context, Routes.artigosPage, arguments: _viewModel.dadosUsuario[0].idUsuario) : null,
                               child: Container(
                                 height: AppSize.s100,
                                 width: AppSize.s100,

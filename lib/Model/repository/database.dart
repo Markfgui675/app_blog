@@ -12,3 +12,7 @@ abstract class ExcluirDocDataBase{
 abstract class ExcluirArtigoSalvoDataBase{
   excluirArtigoSalvo({required String idUsuario, required String idArtigo, required BuildContext context});
 }
+
+abstract class Seguir{
+  seguir({required String idUsuarioSeguido, required String idUsuarioSeguindo});
+}

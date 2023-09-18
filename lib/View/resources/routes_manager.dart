@@ -68,7 +68,7 @@ sealed class RouteGenerator{
       case Routes.seguirSeguindoPage:
         return MaterialPageRoute(builder: (_) => SeguirSeguindoPage(title: args));
       case Routes.artigosPage:
-        return MaterialPageRoute(builder: (_) => ArtigosPage());
+        return MaterialPageRoute(builder: (_) => ArtigosPage(args));
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => SettingsPage());
       case Routes.criarArtigoPage:

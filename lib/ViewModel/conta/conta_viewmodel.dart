@@ -65,10 +65,14 @@ abstract class ContaViewModelMobx with Store{
   }
 
   @action
-  acessarQuantidadeArtigos(BuildContext context)async{
+  acessarQuantidadeArtigos(BuildContext context, {String? idUsuario})async{
     _tipoAcesso.tipo = TipoAcesso.acessarArtigosUsuario;
-    User? user = FirebaseAuth.instance.currentUser;
-    _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context, args: user!.uid);
+    if(idUsuario == null){
+      User? user = FirebaseAuth.instance.currentUser;
+      _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context, args: user!.uid);
+    } else {
+      _artigos = await _repositoryAcessar.acessarDados(_tipoAcesso, context, args: idUsuario);
+    }
   }
 
   @action
@@ -80,6 +84,5 @@ abstract class ContaViewModelMobx with Store{
 
   @action
   setFilter(String value) => filter = value;
-
 
 }

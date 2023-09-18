@@ -46,12 +46,11 @@ class AcessarDadosRepository implements AcessarDados{
         final dados = doc.data() as Map<String, dynamic>;
         _infoUser.clear();
         Usuario _usuario = Usuario();
+        _usuario.idUsuario = dados['id'];
         _usuario.nome = dados['nome'];
         _usuario.email = dados['email'];
         _usuario.sobre = dados['sobre'];
         _usuario.profilePic = dados['profilePic'];
-        _usuario.seguindo = dados['seguindo'];
-        _usuario.seguidores = dados['seguidores'];
         _infoUser.add(_usuario);
       });
       return _infoUser;
@@ -68,7 +67,6 @@ class AcessarDadosRepository implements AcessarDados{
 
   _acessarArtigosUsuario(BuildContext context, String idUsuario)async{
     final Mensagens _mensagens = Mensagens();
-    FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore dbUsers= FirebaseFirestore.instance;
     List<Artigo> artigos = [];
     try{

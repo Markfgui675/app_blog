@@ -102,9 +102,9 @@ mixin _$ContaViewModel on ContaViewModelMobx, Store {
       context: context);
 
   @override
-  Future acessarQuantidadeArtigos(BuildContext context) {
-    return _$acessarQuantidadeArtigosAsyncAction
-        .run(() => super.acessarQuantidadeArtigos(context));
+  Future acessarQuantidadeArtigos(BuildContext context, {String? idUsuario}) {
+    return _$acessarQuantidadeArtigosAsyncAction.run(
+        () => super.acessarQuantidadeArtigos(context, idUsuario: idUsuario));
   }
 
   late final _$excluirArtigoAsyncAction =

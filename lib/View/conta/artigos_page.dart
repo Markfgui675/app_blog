@@ -14,7 +14,8 @@ import '../resources/style_manager.dart';
 import '../resources/values_manager.dart';
 //ignore: must_be_immutable
 class ArtigosPage extends StatefulWidget {
-  ArtigosPage({super.key});
+  String idUsuario;
+  ArtigosPage(this.idUsuario, {super.key});
 
   @override
   State<ArtigosPage> createState() => _ArtigosPageState();
@@ -25,7 +26,8 @@ class _ArtigosPageState extends State<ArtigosPage> {
   final ContaViewModel _viewModel = ContaViewModel();
 
   _bind()async{
-    await _viewModel.acessarQuantidadeArtigos(context);
+    await _viewModel.acessarDados(context);
+    await _viewModel.acessarQuantidadeArtigos(context, idUsuario: widget.idUsuario);
   }
 
   @override
@@ -84,25 +86,32 @@ class _ArtigosPageState extends State<ArtigosPage> {
                         itemCount: _viewModel.listFiltered.length,
                         itemBuilder: (_,i){
                           Artigo artigo = _viewModel.listFiltered[i];
-                          return Slidable(
-                            key: ValueKey<Artigo>(artigo),
-                            startActionPane: ActionPane(
-                              motion: const DrawerMotion(),
-                              dragDismissible: false,
-                              children: [
-                                SlidableAction(
-                                  onPressed: (_)=>_showDialog(artigo),
-                                  backgroundColor: ColorManager.vermelho,
-                                  icon: Icons.delete_outline_outlined,
-                                  label: 'Deletar Artigo',
-                                )
-                              ],
-                            ),
-                            child: GestureDetector(
+                          if(widget.idUsuario==_viewModel.dadosUsuario[0].idUsuario){
+                            return Slidable(
+                              key: ValueKey<Artigo>(artigo),
+                              startActionPane: ActionPane(
+                                motion: const DrawerMotion(),
+                                dragDismissible: false,
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (_)=>_showDialog(artigo),
+                                    backgroundColor: ColorManager.vermelho,
+                                    icon: Icons.delete_outline_outlined,
+                                    label: 'Deletar Artigo',
+                                  )
+                                ],
+                              ),
+                              child: GestureDetector(
+                                onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
+                                child: CardArtigo(artigo),
+                              )
+                            );
+                          } else {
+                            return GestureDetector(
                               onTap: ()=>Navigator.pushNamed(context, Routes.leituraPage, arguments: artigo),
                               child: CardArtigo(artigo),
-                            )
-                          );
+                            );
+                          }
                         }
                       ),
                     )
@@ -150,6 +159,7 @@ class _ArtigosPageState extends State<ArtigosPage> {
                               collection: CollectionsNames.artigos,
                               idDoc: artigo.id, context: context);
                             Navigator.pop(context);
+                            _bind();
                             return res;
                           }
                       ),

@@ -4,8 +4,6 @@ class Usuario{
   String? _email;
   String? _senha;
   String? _sobre;
-  List<dynamic>? _seguidores;
-  List<dynamic>? _seguindo;
   String? _profilePic;
 
 
@@ -37,18 +35,6 @@ class Usuario{
 
   set nome(String value) {
     _nome = value;
-  }
-
-  List<dynamic> get seguindo => _seguindo!;
-
-  set seguindo(List<dynamic> value) {
-    _seguindo = value;
-  }
-
-  List<dynamic> get seguidores => _seguidores!;
-
-  set seguidores(List<dynamic> value) {
-    _seguidores = value;
   }
 
   String get senha => _senha!;

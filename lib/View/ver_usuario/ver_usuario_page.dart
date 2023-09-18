@@ -124,7 +124,7 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text(_viewModel.infoUser[0].seguidores.length.toString(),
+                                      Text(0.toString(),
                                         style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
                                       Text(AppStrings.seguidores,
                                         style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
@@ -149,7 +149,7 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text(_viewModel.infoUser[0].seguindo.length.toString(),
+                                      Text(0.toString(),
                                         style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s30),),
                                       Text(AppStrings.seguindo,
                                         style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),)
@@ -162,13 +162,13 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
 
                             // Artigos
                             GestureDetector(
-                              onTap: ()=>_viewModel.artigos.isNotEmpty ? Navigator.pushNamed(context, Routes.artigosPage) : null,
+                              onTap: ()=>_viewModel.artigos.isNotEmpty ? Navigator.pushNamed(context, Routes.artigosPage, arguments: widget.idUsuario) : null,
                               child: Container(
                                 height: AppSize.s100,
                                 width: AppSize.s100,
                                 decoration: BoxDecoration(
-                                    color: ColorManager.marrom,
-                                    borderRadius: BorderRadius.circular(AppSize.s20)
+                                  color: ColorManager.marrom,
+                                  borderRadius: BorderRadius.circular(AppSize.s20)
                                 ),
                                 child: Center(
                                   child: Column(
@@ -187,8 +187,6 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
                         ),
                       ),
 
-
-                      // Botão editar e configurações
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(AppPadding.p5),
@@ -201,12 +199,11 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
                         ),
                       ),
 
-
                       // Sobre
                       Container(
                         width: double.infinity,
                         constraints: const BoxConstraints(
-                            minHeight: AppSize.s250
+                            minHeight: AppSize.s350
                         ),
                         padding: const EdgeInsets.all(AppPadding.p20),
                         child: Column(
@@ -240,7 +237,7 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
       onTap: (){},
       child: Container(
         decoration: BoxDecoration(
-            color: ColorManager.cinza,
+            color: ColorManager.branco,
             borderRadius: BorderRadius.circular(AppSize.s20)
         ),
         padding: const EdgeInsets.all(AppPadding.p1),
@@ -248,7 +245,7 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
           width: AppSize.s150,
           height: AppSize.s45,
           decoration: BoxDecoration(
-              color: ColorManager.branco,
+              color: ColorManager.preto,
               borderRadius: BorderRadius.circular(AppSize.s20)
           ),
           child: Center(
@@ -256,7 +253,7 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(AppStrings.seguir, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),),
+                  Text(AppStrings.seguir, style: getAliceStyle(color: ColorManager.branco, fontSize: AppSize.s16),),
                 ],
               )
           ),

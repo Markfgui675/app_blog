@@ -20,11 +20,17 @@ abstract class VerUsuarioViewModelMobx with Store{
   @observable
   List<Artigo> _artigos = [];
 
+  @observable
+  bool _seguido = false;
+
   @computed
   List<Usuario> get infoUser => _infoUser;
 
   @computed
   List<Artigo> get artigos => _artigos;
+
+  @computed
+  bool get seguido => _seguido;
 
   @action
   recuperarInfoUsuario(BuildContext context, String idUsuario)async{
@@ -36,6 +42,11 @@ abstract class VerUsuarioViewModelMobx with Store{
   recuperarArtigos(BuildContext context, String idUsuario)async{
     _tipoAcesso.tipo = TipoAcesso.acessarArtigosUsuario;
     _artigos = await _acessarDados.acessarDados(_tipoAcesso, context, args: idUsuario);
+  }
+
+  @action
+  seguir({required String idUsuarioSeguido, required String idUsuarioSeguindo}){
+
   }
 
 }

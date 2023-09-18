@@ -23,6 +23,12 @@ mixin _$VerUsuarioViewModel on VerUsuarioViewModelMobx, Store {
       (_$artigosComputed ??= Computed<List<Artigo>>(() => super.artigos,
               name: 'VerUsuarioViewModelMobx.artigos'))
           .value;
+  Computed<bool>? _$seguidoComputed;
+
+  @override
+  bool get seguido => (_$seguidoComputed ??= Computed<bool>(() => super.seguido,
+          name: 'VerUsuarioViewModelMobx.seguido'))
+      .value;
 
   late final _$_infoUserAtom =
       Atom(name: 'VerUsuarioViewModelMobx._infoUser', context: context);
@@ -56,6 +62,22 @@ mixin _$VerUsuarioViewModel on VerUsuarioViewModelMobx, Store {
     });
   }
 
+  late final _$_seguidoAtom =
+      Atom(name: 'VerUsuarioViewModelMobx._seguido', context: context);
+
+  @override
+  bool get _seguido {
+    _$_seguidoAtom.reportRead();
+    return super._seguido;
+  }
+
+  @override
+  set _seguido(bool value) {
+    _$_seguidoAtom.reportWrite(value, super._seguido, () {
+      super._seguido = value;
+    });
+  }
+
   late final _$recuperarInfoUsuarioAsyncAction = AsyncAction(
       'VerUsuarioViewModelMobx.recuperarInfoUsuario',
       context: context);
@@ -75,11 +97,29 @@ mixin _$VerUsuarioViewModel on VerUsuarioViewModelMobx, Store {
         .run(() => super.recuperarArtigos(context, idUsuario));
   }
 
+  late final _$VerUsuarioViewModelMobxActionController =
+      ActionController(name: 'VerUsuarioViewModelMobx', context: context);
+
+  @override
+  dynamic seguir(
+      {required String idUsuarioSeguido, required String idUsuarioSeguindo}) {
+    final _$actionInfo = _$VerUsuarioViewModelMobxActionController.startAction(
+        name: 'VerUsuarioViewModelMobx.seguir');
+    try {
+      return super.seguir(
+          idUsuarioSeguido: idUsuarioSeguido,
+          idUsuarioSeguindo: idUsuarioSeguindo);
+    } finally {
+      _$VerUsuarioViewModelMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 infoUser: ${infoUser},
-artigos: ${artigos}
+artigos: ${artigos},
+seguido: ${seguido}
     ''';
   }
 }
