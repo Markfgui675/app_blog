@@ -1,5 +1,6 @@
 import 'package:app_blog/Model/models/TipoAcessoDataBase.dart';
 import 'package:app_blog/Model/servicos/acessardados_service.dart';
+import 'package:app_blog/Model/servicos/seguir_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
@@ -13,6 +14,7 @@ abstract class VerUsuarioViewModelMobx with Store{
 
   final TipoAcessoDataBase _tipoAcesso = TipoAcessoDataBase();
   final AcessarDadosRepository _acessarDados = AcessarDadosRepository();
+  final SeguirRepository _seguirRepository = SeguirRepository();
 
   @observable
   List<Usuario> _infoUser = [];
@@ -45,8 +47,8 @@ abstract class VerUsuarioViewModelMobx with Store{
   }
 
   @action
-  seguir({required String idUsuarioSeguido, required String idUsuarioSeguindo}){
-
+  seguir({required String idUsuario, required String idUsuarioSeguido, required BuildContext context}){
+    _seguirRepository.seguir(idUsuario: idUsuario, idUsuarioSeguido: idUsuarioSeguido, context: context);
   }
 
 }

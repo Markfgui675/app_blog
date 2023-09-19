@@ -102,13 +102,16 @@ mixin _$VerUsuarioViewModel on VerUsuarioViewModelMobx, Store {
 
   @override
   dynamic seguir(
-      {required String idUsuarioSeguido, required String idUsuarioSeguindo}) {
+      {required String idUsuario,
+      required String idUsuarioSeguido,
+      required BuildContext context}) {
     final _$actionInfo = _$VerUsuarioViewModelMobxActionController.startAction(
         name: 'VerUsuarioViewModelMobx.seguir');
     try {
       return super.seguir(
+          idUsuario: idUsuario,
           idUsuarioSeguido: idUsuarioSeguido,
-          idUsuarioSeguindo: idUsuarioSeguindo);
+          context: context);
     } finally {
       _$VerUsuarioViewModelMobxActionController.endAction(_$actionInfo);
     }

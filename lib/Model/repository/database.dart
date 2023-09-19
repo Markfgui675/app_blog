@@ -14,5 +14,9 @@ abstract class ExcluirArtigoSalvoDataBase{
 }
 
 abstract class Seguir{
-  seguir({required String idUsuarioSeguido, required String idUsuarioSeguindo});
+  seguir({required String idUsuario, required String idUsuarioSeguido, required BuildContext context});
+}
+
+abstract class DeixarSeguir{
+  deixarSeguir({required String idUsuario, required String idUsuarioSeguido, required BuildContext context});
 }

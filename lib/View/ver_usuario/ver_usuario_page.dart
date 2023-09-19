@@ -1,4 +1,6 @@
+import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:app_blog/ViewModel/ver_usuario/ver_usuario_viewmodel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -22,8 +24,10 @@ class VerUsuarioPage extends StatefulWidget {
 class _VerUsuarioPageState extends State<VerUsuarioPage> {
 
   final VerUsuarioViewModel _viewModel = VerUsuarioViewModel();
+  final ContaViewModel _contaViewModel = ContaViewModel();
 
   _bind()async{
+    await _contaViewModel.acessarDados(context);
     await _viewModel.recuperarInfoUsuario(context, widget.idUsuario);
     await _viewModel.recuperarArtigos(context, widget.idUsuario);
   }
@@ -234,7 +238,9 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
 
   Widget _buttonSeguir(){
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        _viewModel.seguir(idUsuario: _contaViewModel.dadosUsuario[0].idUsuario, idUsuarioSeguido: widget.idUsuario, context: context);
+      },
       child: Container(
         decoration: BoxDecoration(
             color: ColorManager.branco,
