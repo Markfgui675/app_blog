@@ -23,9 +23,7 @@ abstract class ArtigoViewModelMobx with Store{
   List<String> _topicos = [];
 
   @computed
-  List<String> get topicos{
-    return _topicos;
-  }
+  List<String> get topicos => _topicos;
 
   @action
   salvarDados(BuildContext context, {required Artigo artigo}){

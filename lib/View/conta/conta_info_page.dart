@@ -6,6 +6,7 @@ import 'package:app_blog/View/resources/style_manager.dart';
 import 'package:app_blog/View/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import '../../ViewModel/conta/conta_viewmodel.dart';
+import '../common/buttonEditar.dart';
 
 class ContaInfoPage extends StatefulWidget {
   const ContaInfoPage({super.key});
@@ -95,8 +96,8 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                                 height: AppSize.s100,
                                 width: AppSize.s100,
                                 decoration: BoxDecoration(
-                                    color: ColorManager.marrom,
-                                    borderRadius: BorderRadius.circular(AppSize.s20)
+                                  color: ColorManager.marrom,
+                                  borderRadius: BorderRadius.circular(AppSize.s20)
                                 ),
                                 child: Center(
                                   child: Column(
@@ -120,8 +121,8 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                                 height: AppSize.s100,
                                 width: AppSize.s100,
                                 decoration: BoxDecoration(
-                                    color: ColorManager.marrom,
-                                    borderRadius: BorderRadius.circular(AppSize.s20)
+                                  color: ColorManager.marrom,
+                                  borderRadius: BorderRadius.circular(AppSize.s20)
                                 ),
                                 child: Center(
                                   child: Column(
@@ -174,7 +175,7 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buttonEditar(),
+                            const ButtonEditar(),
                             const SizedBox(width: AppSize.s8,),
                             IconButton(
                                 onPressed: () => Navigator.pushNamed(context, Routes.settings),
@@ -215,37 +216,6 @@ class _ContaInfoPageState extends State<ContaInfoPage> {
           },
         )
       )
-    );
-  }
-
-  Widget _buttonEditar(){
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, Routes.editorPage),
-      child: Container(
-        decoration: BoxDecoration(
-            color: ColorManager.cinza,
-            borderRadius: BorderRadius.circular(AppSize.s20)
-        ),
-        padding: const EdgeInsets.all(AppPadding.p1),
-        child: Container(
-          width: 150,
-          height: 45,
-          decoration: BoxDecoration(
-              color: ColorManager.branco,
-              borderRadius: BorderRadius.circular(AppSize.s20)
-          ),
-          child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(AppStrings.editarPerfil, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),),
-                  const Icon(Icons.edit, size: AppSize.s18,)
-                ],
-              )
-          ),
-        ),
-      ),
     );
   }
 

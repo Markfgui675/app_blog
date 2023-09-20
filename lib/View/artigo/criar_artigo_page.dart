@@ -52,6 +52,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
   bool uploading = false;
   bool loading = true;
   dynamic arquivo;
+  String topicoSelecionado = '';
 
   final dropValueTopico = ValueNotifier('');
 
@@ -199,7 +200,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                         ),
                       ),
                       const SizedBox(height: AppSize.s20),
-                      _topicos(),
+                      _topicoW(),
                       const SizedBox(height: AppSize.s48),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -458,7 +459,7 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           _mensagem.state = false;
                           _mensagem.mensagemError = ErrorStrings.imagemArtigo;
                           return _mensagem.scaffoldMessege(context);
-                        } else if(dropValueTopico.value == '') {
+                        } else if(topicoSelecionado == '') {
                           _mensagem.state = false;
                           _mensagem.mensagemError = ErrorStrings.topico;
                           return _mensagem.scaffoldMessege(context);
@@ -468,9 +469,9 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
                           artigo.texto = _textoController.text;
                           artigo.autor = _viewModel.dadosUsuario[0].nome;
                           artigo.img = arquivo;
-                          artigo.topico = dropValueTopico.value.toString();
+                          artigo.topico = topicoSelecionado;
                           dynamic res = _artigoViewModel.salvarDados(context,
-                              artigo: artigo
+                            artigo: artigo
                           );
                           return res;
                         }
@@ -645,8 +646,8 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
         height: AppSize.s40,
         padding: const EdgeInsets.all(AppPadding.p5),
         decoration: BoxDecoration(
-            color: ColorManager.marrom,
-            borderRadius: BorderRadius.circular(AppSize.s10)
+          color: ColorManager.marrom,
+          borderRadius: BorderRadius.circular(AppSize.s10)
         ),
         child: Center(
           child: Text(tituloBotao, style: getAlexandriaStyle(color: ColorManager.branco, fontSize: AppSize.s12),),
@@ -655,38 +656,96 @@ class _CriarArtigoPageState extends State<CriarArtigoPage> {
     );
   }
 
-  Widget _topicos(){
+  Widget _topicoW(){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSize.s18),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: GestureDetector(
+        onTap: () => _modal(),
+        child: Container(
+          padding: const EdgeInsets.all(AppPadding.p10),
+          width: double.infinity,
+          height: AppSize.s50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSize.s8),
+            color: ColorManager.branco,
+            border: Border.all(
+              color: ColorManager.marrom,
+            )
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(topicoSelecionado==''?AppStrings.topico:topicoSelecionado, style: getAlexandriaStyle(color: ColorManager.preto),),
+              const Icon(Icons.keyboard_arrow_down_rounded, color: ColorManager.marrom, size: AppSize.s30,)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future _modal(){
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(AppSize.s25),
+          topLeft: Radius.circular(AppSize.s25)
+        )
+      ),
+      context: context,
+      builder: (context){
+        return Container(
+          decoration: const BoxDecoration(
+            color: ColorManager.branco,
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(AppSize.s25),
+                topLeft: Radius.circular(AppSize.s25)
+            )
+          ),
+          height: AppSize.s580,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppPadding.p10),
+                child: Text('Tópicos', style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s20),
+                  textAlign: TextAlign.center,),
+              ),
+              Observer(
+                builder: (_){
+                  return Container(
+                    constraints: const BoxConstraints(
+                      maxHeight: AppSize.s400
+                    ),
+                    color: ColorManager.branco,
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: _artigoViewModel.topicos.length,
+                      itemBuilder: (_, i){
+                        return _topico(_artigoViewModel.topicos[i]);
+                      },
+                    ),
+                  );
+                },
+              )
+            ]
+          )
+        );
+      }
+    );
+  }
+
+  Widget _topico(String topico){
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          topicoSelecionado = topico;
+        });
+        Navigator.pop(context);
+      },
       child: Container(
-        padding: const EdgeInsets.all(AppSize.s10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s8),
-          color: ColorManager.branco
-        ),
-        child: ValueListenableBuilder(
-          valueListenable: dropValueTopico,
-          builder: (context, value, _){
-            return DropdownButtonFormField<String>(
-              icon: const Icon(Icons.keyboard_arrow_down_rounded),
-              iconSize: AppSize.s30,
-              borderRadius: BorderRadius.circular(AppSize.s20),
-              elevation: AppSize.s2.toInt(),
-              dropdownColor: ColorManager.branco,
-              hint: const Text(AppStrings.topico),
-              style: getAlexandriaStyle(color: ColorManager.preto),
-              items: _artigoViewModel.topicos.map(
-                  (opcao){
-                    return DropdownMenuItem(value: opcao, child: Text(opcao));
-                  }
-              ).toList(),
-              onChanged: (escolha){
-                dropValueTopico.value = escolha.toString();
-                print(dropValueTopico.value.toString());
-              }
-            );
-          },
-        ),
+        padding: const EdgeInsets.all(AppPadding.p12),
+        margin: const EdgeInsets.only(left: AppMargin.m6),
+        child: Text(topico, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),)
       ),
     );
   }

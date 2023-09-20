@@ -59,6 +59,7 @@ class _SearchPageState extends State<SearchPage> {
                       SearchBox(_viewModel.setFilter),
 
                       // opções de filtros
+                      // TODO: aplicar autoSizeText par ajustar o tamanho do texto do topico
                       Container(
                         width: double.infinity,
                         height: AppSize.s80,
@@ -152,7 +153,6 @@ class _SearchPageState extends State<SearchPage> {
           topLeft: Radius.circular(AppSize.s25)
         )
       ),
-      backgroundColor: ColorManager.cinza,
       context: context,
       builder: (context){
         return Container(
@@ -205,7 +205,7 @@ class _SearchPageState extends State<SearchPage> {
       child: Container(
         padding: const EdgeInsets.all(AppPadding.p12),
         margin: const EdgeInsets.only(left: AppMargin.m6),
-        child: Text(topico, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s16),)
+        child: Text(topico, style: getAliceStyle(color: ColorManager.preto, fontSize: AppSize.s18),)
       ),
     );
   }

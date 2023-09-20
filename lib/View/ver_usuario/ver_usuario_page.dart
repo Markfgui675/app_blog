@@ -1,11 +1,9 @@
 import 'package:app_blog/ViewModel/conta/conta_viewmodel.dart';
 import 'package:app_blog/ViewModel/ver_usuario/ver_usuario_viewmodel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-
-import '../../Model/models/Usuario.dart';
+import '../common/buttonEditar.dart';
 import '../resources/color_manager.dart';
 import '../resources/routes_manager.dart';
 import '../resources/strings_manager.dart';
@@ -44,14 +42,19 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
       child: Scaffold(
         backgroundColor: ColorManager.branco,
         appBar: AppBar(
+          title: Observer(
+            builder: (_){
+              return Text(_viewModel.infoUser[0].nome, style: getAlexandriaStyle(color: ColorManager.preto, fontSize: AppSize.s25),);
+            },
+          ),
           backgroundColor: ColorManager.branco,
           leading: Builder(
-              builder: (context){
-                return IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
-                );
-              }
+            builder: (context){
+              return IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back_ios_rounded, color: ColorManager.preto,)
+              );
+            }
           ),
           elevation: 0,
           systemOverlayStyle: const SystemUiOverlayStyle(
@@ -198,7 +201,7 @@ class _VerUsuarioPageState extends State<VerUsuarioPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buttonSeguir(),
+                            widget.idUsuario == _contaViewModel.dadosUsuario[0].idUsuario ? const ButtonEditar() : _buttonSeguir()
                           ],
                         ),
                       ),
